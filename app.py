@@ -991,39 +991,54 @@ const winner={winner_json};
 const el=document.getElementById("animal");
 const status=document.getElementById("status");
 
-let i=0;
 const sequence=[];
-sequence.push({json.dumps({"emoji": flash_start["emoji"], "name": flash_start["name"]})});
-for(let n=1;n<28;n++) {{
+sequence.push({json.dumps({"emoji": flash_start["emoji"], "name": flash_start["name"])});
+for(let n=1;n<28;n++){{
   sequence.push(animals[Math.floor(Math.random()*animals.length)]);
 }}
 sequence.push(winner,winner,winner);
 
-// The first frame is already visible in the HTML; continue immediately.
-el.textContent = sequence[0].emoji;
+let index=0;
+let lastFrame=performance.now();
+let finished=false;
 
-function next() {{
-  const item=sequence[i];
-  el.className="animal";
-  el.textContent=item.emoji;
-
-  if(i < 24) {{
-    status.textContent="Flashing...";
-  }} else if(i < sequence.length-1) {{
-    status.textContent="⏳ Slowing down...";
-  }} else {{
-    status.textContent="🎉 " + winner.name + " — WINNER!";
-    el.className="animal win";
-    // Final frame is the winner. Refresh the parent immediately so the
-    // main RESULT section shows the same winner at the same moment.}}
-
-  if(i < sequence.length-1) {{
-    i++;
-    const delay = i < 10 ? 55 : (i < 19 ? 80 : (i < 27 ? 130 : 240));
-    setTimeout(next,delay);
-  }}
+function frameDelay(n){{
+  if(n < 10) return 70;
+  if(n < 19) return 105;
+  if(n < 27) return 170;
+  return 280;
 }}
-next();
+
+function draw(now){{
+  if(finished) return;
+
+  if(now-lastFrame >= frameDelay(index)){{
+    const item=sequence[index];
+    el.textContent=item.emoji;
+    el.className="animal";
+
+    if(index < 19){{
+      status.textContent="🐾 Flashing...";
+    }} else if(index < sequence.length-1){{
+      status.textContent="⏳ Slowing down...";
+    }} else {{
+      el.textContent=winner.emoji;
+      el.className="animal win";
+      status.textContent="🎉 " + winner.name + " — WINNER!";
+      finished=true;
+      return;
+    }}
+
+    index++;
+    lastFrame=now;
+  }}
+
+  requestAnimationFrame(draw);
+}}
+
+el.textContent=sequence[0].emoji;
+status.textContent="🐾 Flashing...";
+requestAnimationFrame(draw);
 </script>
 </body>
 </html>
@@ -1132,7 +1147,7 @@ if start_round_pending:
     st.rerun()
 
 # Refresh once per second only while the betting timer is active.
-if st.session_state.bet_timer_active and st_autorefresh is not None:
+if st.session_state.bet_timer_active and not st.session_state.show_reveal and st_autorefresh is not None:
     st_autorefresh(interval=1000, key="kinginazoo_bet_timer")
 
 # Bet buttons — native Streamlit buttons keep the user on the same page.
