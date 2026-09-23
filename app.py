@@ -79,8 +79,18 @@ def load_history(limit=10):
     ]
 
 def save_winner(round_no, winner):
+    # Keep exactly 10 results in a cycle.
+    # When the 10th result is already present, the next completed round
+    # starts a fresh history cycle with that new winner as #1.
     with _db_lock:
         conn = _history_db()
+        count = conn.execute(
+            "SELECT COUNT(*) FROM winning_history"
+        ).fetchone()[0]
+
+        if count >= 10:
+            conn.execute("DELETE FROM winning_history")
+
         conn.execute(
             "INSERT OR REPLACE INTO winning_history (round, animal_id, name, emoji, category) VALUES (?, ?, ?, ?, ?)",
             (round_no, winner["id"], winner["name"], winner["emoji"], winner["category"]),
