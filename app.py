@@ -855,6 +855,317 @@ iframe[title="streamlit.components.v1.html"] {
 @media (hover: none) and (pointer: coarse) {
     .kz-bet:hover, .kz-animal:hover, div.stButton > button:hover { transform: none !important; }
 }
+
+/* =========================
+   FINAL REFERENCE LAYOUT
+   ========================= */
+
+/* Keep the game centered and prevent horizontal overflow. */
+.kz-page {
+    width: min(1240px, calc(100vw - 28px)) !important;
+    max-width: 1240px !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+}
+
+/* Dark clean stage behind the game; prevents the baked-in background logo
+   from visually colliding with the actual KINGINAZOO header. */
+.kz-page::before {
+    top: 70px !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 760px !important;
+    border-radius: 24px !important;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 38, 20, .93) 0%,
+            rgba(0, 43, 22, .90) 48%,
+            rgba(0, 38, 20, .72) 78%,
+            rgba(0, 38, 20, .25) 100%
+        ) !important;
+    z-index: 1 !important;
+}
+
+/* Header */
+.kz-brand {
+    height: 92px !important;
+    margin: 0 auto 6px !important;
+    position: relative !important;
+    z-index: 4 !important;
+}
+.kz-logo {
+    font-size: clamp(42px, 5vw, 70px) !important;
+    line-height: .95 !important;
+    letter-spacing: 1px !important;
+    white-space: nowrap !important;
+    text-shadow:
+        0 4px 0 #8d5b09,
+        0 0 18px rgba(255,216,77,.35),
+        0 5px 12px rgba(0,0,0,.85) !important;
+}
+.kz-tag {
+    font-size: 10px !important;
+    letter-spacing: 4px !important;
+    margin-top: 3px !important;
+}
+
+/* Round + coins */
+.kz-top {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+    margin-bottom: 10px !important;
+    position: relative !important;
+    z-index: 4 !important;
+}
+.kz-stat {
+    min-height: 84px !important;
+    box-sizing: border-box !important;
+    padding: 10px 18px !important;
+    border: 2px solid #f0ca39 !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, rgba(3,65,34,.90), rgba(1,38,20,.86)) !important;
+    box-shadow: 0 5px 0 rgba(0,0,0,.32), inset 0 0 20px rgba(255,216,77,.04) !important;
+}
+.kz-stat-label { font-size: 12px !important; }
+.kz-stat-value { font-size: clamp(28px, 3.2vw, 40px) !important; }
+
+/* Winner/result */
+.kz-arena {
+    min-height: 122px !important;
+    margin: 0 0 6px !important;
+    border: 2px solid #f0ca39 !important;
+    border-radius: 18px !important;
+    background: linear-gradient(180deg, rgba(2,55,29,.86), rgba(1,31,16,.84)) !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,.28) !important;
+}
+.kz-arena-round { font-size: 10px !important; }
+.kz-winner {
+    height: 62px !important;
+    font-size: clamp(52px, 6vw, 78px) !important;
+}
+.kz-status {
+    font-size: clamp(15px, 1.7vw, 20px) !important;
+}
+
+/* Timer */
+.kz-timer-wrap {
+    min-height: 22px !important;
+    margin: 2px 0 5px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+}
+
+/* History */
+.kz-history {
+    width: 100% !important;
+    margin: 4px 0 8px !important;
+    padding: 6px !important;
+    border: 2px solid rgba(255,216,77,.58) !important;
+    border-radius: 16px !important;
+    background: linear-gradient(180deg, rgba(3,61,32,.88), rgba(1,36,19,.78)) !important;
+    box-shadow: 0 5px 14px rgba(0,0,0,.25) !important;
+}
+.kz-history-title {
+    font-size: 16px !important;
+    margin: 0 0 6px !important;
+}
+.kz-history-list {
+    grid-template-columns: repeat(10, minmax(0,1fr)) !important;
+    gap: 5px !important;
+}
+.kz-history-chip {
+    min-height: 78px !important;
+    padding: 4px 2px !important;
+    border: 1px solid rgba(255,216,77,.62) !important;
+    border-radius: 10px !important;
+    background: linear-gradient(180deg,#0a542b,#06361e) !important;
+    position: relative !important;
+}
+.kz-history-chip .animal {
+    font-size: 38px !important;
+}
+.kz-history-chip .history-name {
+    display: block !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+.kz-history-chip .round {
+    font-size: 8px !important;
+    margin-top: 2px !important;
+}
+.kz-history-chip:first-child {
+    border: 2px solid #ffe45c !important;
+    box-shadow: 0 0 16px rgba(255,216,77,.28), inset 0 0 12px rgba(255,216,77,.08) !important;
+    transform: none !important;
+}
+.kz-history-chip:first-child .animal {
+    font-size: 42px !important;
+}
+.latest-badge {
+    display: block !important;
+    margin: 2px auto 0 !important;
+    width: fit-content !important;
+    padding: 2px 5px !important;
+    border-radius: 999px !important;
+    background: #ffd84d !important;
+    color: #18350e !important;
+    font-size: 7px !important;
+    font-weight: 1000 !important;
+    line-height: 1 !important;
+}
+
+/* Betting */
+.kz-section-title {
+    font-size: 18px !important;
+    margin: 8px 4px 6px !important;
+}
+.kz-bets {
+    gap: 12px !important;
+}
+.kz-bet {
+    min-height: 50px !important;
+    border-radius: 14px !important;
+    font-size: 17px !important;
+}
+
+/* Summary */
+.kz-summary {
+    margin: 7px 6px 9px !important;
+    font-size: 14px !important;
+}
+
+/* Animal cards */
+.kz-animals {
+    grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+    gap: 9px !important;
+}
+[class*="st-key-animal-card-"] div.stButton > button {
+    min-height: 126px !important;
+    border-radius: 14px !important;
+    padding: 5px !important;
+}
+[class*="st-key-animal-card-"] div.stButton > button::before {
+    font-size: clamp(64px, 6.5vw, 86px) !important;
+    line-height: .82 !important;
+}
+[class*="st-key-animal-card-"] div.stButton > button p {
+    font-size: 11px !important;
+}
+
+/* Start/Clear */
+.kz-actions {
+    gap: 10px !important;
+    margin-top: 9px !important;
+}
+.kz-action {
+    min-height: 48px !important;
+    border-radius: 14px !important;
+    font-size: 14px !important;
+}
+
+/* Footer */
+.kz-footer {
+    margin: 14px 0 8px !important;
+    padding: 8px 0 4px !important;
+}
+.kz-footer .powered-by {
+    font-size: clamp(26px, 3vw, 38px) !important;
+    text-align: center !important;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .block-container {
+        max-width: 100% !important;
+        padding: 4px 6px 12px !important;
+    }
+    .kz-page {
+        width: 100% !important;
+    }
+    .kz-page::before {
+        top: 52px !important;
+        height: 720px !important;
+        border-radius: 14px !important;
+    }
+    .kz-brand {
+        height: 64px !important;
+        margin-bottom: 3px !important;
+    }
+    .kz-logo {
+        font-size: clamp(34px, 10vw, 50px) !important;
+        letter-spacing: .5px !important;
+    }
+    .kz-tag {
+        font-size: 7px !important;
+        letter-spacing: 2px !important;
+    }
+    .kz-top {
+        gap: 6px !important;
+        margin-bottom: 6px !important;
+    }
+    .kz-stat {
+        min-height: 64px !important;
+        padding: 6px 8px !important;
+        border-radius: 12px !important;
+    }
+    .kz-stat-label { font-size: 7px !important; }
+    .kz-stat-value { font-size: 19px !important; }
+    .kz-arena {
+        min-height: 92px !important;
+        border-radius: 14px !important;
+        margin-bottom: 4px !important;
+    }
+    .kz-winner {
+        height: 44px !important;
+        font-size: 46px !important;
+    }
+    .kz-status { font-size: 11px !important; }
+    .kz-timer-wrap {
+        font-size: 10px !important;
+        margin: 2px 0 4px !important;
+    }
+    .kz-history {
+        padding: 4px !important;
+        margin: 3px 0 5px !important;
+        border-radius: 12px !important;
+    }
+    .kz-history-title { font-size: 11px !important; margin-bottom: 4px !important; }
+    .kz-history-list {
+        grid-template-columns: repeat(5, minmax(0,1fr)) !important;
+        gap: 3px !important;
+    }
+    .kz-history-chip {
+        min-height: 62px !important;
+        border-radius: 8px !important;
+    }
+    .kz-history-chip .animal { font-size: 29px !important; }
+    .kz-history-chip:first-child .animal { font-size: 32px !important; }
+    .kz-history-chip .history-name { font-size: 7px !important; }
+    .kz-history-chip .round { font-size: 6px !important; }
+    .latest-badge { font-size: 5px !important; padding: 1px 3px !important; }
+    .kz-section-title { font-size: 12px !important; margin: 5px 2px 4px !important; }
+    .kz-bets { gap: 5px !important; }
+    .kz-bet { min-height: 38px !important; border-radius: 10px !important; font-size: 12px !important; }
+    .kz-summary { font-size: 9px !important; margin: 4px 2px 5px !important; }
+    .kz-animals { grid-template-columns: repeat(2, minmax(0,1fr)) !important; gap: 5px !important; }
+    [class*="st-key-animal-card-"] div.stButton > button {
+        min-height: 104px !important;
+        border-radius: 11px !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button::before {
+        font-size: clamp(54px, 17vw, 72px) !important;
+    }
+    .kz-actions { gap: 5px !important; margin-top: 6px !important; }
+    .kz-action { min-height: 38px !important; font-size: 11px !important; }
+    .kz-footer { margin-top: 10px !important; }
+    .kz-footer .powered-by { font-size: 24px !important; }
+}
+
 </style>
 """
 
@@ -907,13 +1218,10 @@ if st.session_state.bet_timer_active and st.session_state.bet_timer_end:
 else:
     start_round_pending = False
 
-# Main arena
-
+# Main result area
 winner = st.session_state.winner
 is_flashing = bool(st.session_state.show_reveal and winner)
 
-# The result is rendered now but remains invisible during the drawing.
-# The CSS reveal is timed to the exact duration of the browser animation.
 display_round = (
     st.session_state.last_result_round
     if winner and st.session_state.last_result_round is not None
@@ -934,23 +1242,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown("""
-<style>
-/* Result stays hidden while the flashing iframe is running.
-   The animation reaches its final frame at roughly 3.2 seconds. */
-.kz-result-hidden-during-draw .kz-winner,
-.kz-result-hidden-during-draw .kz-status {
-    opacity: 0 !important;
-    animation: kzShowFinalResult 0.12s linear 3.05s forwards !important;
-}
-@keyframes kzShowFinalResult {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-</style>
-""", unsafe_allow_html=True)
-
-# Realtime betting countdown.
+# Compact realtime betting countdown.
 if st.session_state.bet_timer_active and timer_remaining > 0:
     timer_class = "kz-timer hot" if timer_remaining <= 3 else "kz-timer"
     st.markdown(
@@ -963,10 +1255,7 @@ elif not st.session_state.bet_timer_active and total_bet() == 0:
         unsafe_allow_html=True,
     )
 
-# Random category is chosen automatically when a round starts.
-# There is intentionally NO jackpot selector shown to the player.
-
-# Winning history — shown above the drawing so players can see recent results.
+# Last 10 completed winning results — always realtime and boxed.
 st.markdown('<div class="kz-history">', unsafe_allow_html=True)
 st.markdown('<div class="kz-history-title">🏆 LAST 10 WINNING RESULTS</div>', unsafe_allow_html=True)
 
@@ -975,12 +1264,15 @@ history_for_display = st.session_state.history[:10]
 for idx, item in enumerate(history_for_display):
     w = item["winner"]
     current_class = " kz-current-history" if is_flashing and idx == 0 else ""
+    latest_label = '<span class="latest-badge">LATEST</span>' if idx == 0 else ""
     chips.append(
-        f'<div class="kz-history-chip{current_class}"><span class="animal">{w["emoji"]}</span>'
-        f'<span>{w["name"]}</span><span class="round">#{item["round"]}</span></div>'
+        f'<div class="kz-history-chip{current_class}">'
+        f'<span class="animal">{w["emoji"]}</span>'
+        f'<span class="history-name">{w["name"]}</span>'
+        f'<span class="round">#{item["round"]}</span>'
+        f'{latest_label}</div>'
     )
 
-# Show ONLY real completed results. Never create fake "Waiting" history items.
 if chips:
     st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
 else:
@@ -988,14 +1280,18 @@ else:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-
+# Result is hidden while the browser-side animal flashing runs, then appears at the end.
 st.markdown("""
 <style>
-.kz-current-history {
+.kz-result-hidden-during-draw .kz-winner,
+.kz-result-hidden-during-draw .kz-status {
     opacity: 0 !important;
-    animation: kzShowHistory 0.12s linear 3.05s forwards !important;
+    animation: kzShowFinalResult .12s linear 3.05s forwards !important;
 }
-@keyframes kzShowHistory {
+.kz-current-history {
+    opacity: 1 !important;
+}
+@keyframes kzShowFinalResult {
     from { opacity: 0; }
     to { opacity: 1; }
 }
