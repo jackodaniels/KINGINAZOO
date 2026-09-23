@@ -1860,6 +1860,241 @@ will-change:transform,opacity;filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}
   }
 }
 
+
+/* ==========================================================
+   HARD MOBILE FIT — LAST OVERRIDE
+   The Streamlit page itself must become the phone width.
+   ========================================================== */
+@media screen and (max-width: 650px) {
+    html {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    [data-testid="stApp"],
+    [data-testid="stAppViewContainer"],
+    [data-testid="stAppViewContainer"] > .main,
+    [data-testid="stAppViewContainer"] .main,
+    [data-testid="stAppViewContainer"] .main > div,
+    [data-testid="stAppViewContainer"] section.main,
+    section[data-testid="stMain"],
+    section.main,
+    .main .block-container {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+
+    .main .block-container {
+        padding-top: 0 !important;
+        padding-bottom: 6px !important;
+    }
+
+    /* Kill any desktop-sized Streamlit flex basis. */
+    [data-testid="stHorizontalBlock"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 2px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        box-sizing: border-box !important;
+    }
+
+    [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+        min-width: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        flex: 1 1 0% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Four equal columns on a phone. */
+    [data-testid="stHorizontalBlock"]:has(.st-key-bet_1),
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey) {
+        width: 100% !important;
+    }
+
+    [data-testid="stHorizontalBlock"]:has(.st-key-bet_1) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-bet_10) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-bet_100) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-bet_1000) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_koala) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_panda) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_lion) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_fish) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_crab) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_jelly) > [data-testid="column"],
+    [data-testid="stHorizontalBlock"]:has(.st-key-animal_shell_pearl) > [data-testid="column"] {
+        flex: 1 1 0% !important;
+        width: 25% !important;
+        min-width: 0 !important;
+        max-width: 25% !important;
+    }
+
+    /* Remove Streamlit's internal width constraints from the cards. */
+    [data-testid="column"] > div,
+    [data-testid="column"] > div > div,
+    [data-testid="column"] .stButton,
+    [data-testid="column"] .stButton > button,
+    [data-testid="column"] [class*="st-key-animal-card-"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    [data-testid="column"] .stButton > button {
+        overflow: hidden !important;
+        white-space: normal !important;
+    }
+
+    /* Compact phone animal cards. */
+    [class*="st-key-animal-card-"] div.stButton > button {
+        height: 86px !important;
+        min-height: 86px !important;
+        max-height: 86px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 8px !important;
+    }
+
+    [class*="st-key-animal-card-"] div.stButton > button::before {
+        font-size: clamp(29px, 9vw, 43px) !important;
+        line-height: 1 !important;
+    }
+
+    [class*="st-key-animal-card-"] div.stButton > button::after {
+        top: 3px !important;
+        left: 3px !important;
+        font-size: 8px !important;
+        min-width: 21px !important;
+        height: 17px !important;
+        line-height: 17px !important;
+        padding: 0 3px !important;
+    }
+
+    [class*="st-key-animal-card-"] div.stButton > button p {
+        font-size: 5px !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Compact bet buttons. */
+    .st-key-bet_1 div.stButton > button,
+    .st-key-bet_10 div.stButton > button,
+    .st-key-bet_100 div.stButton > button,
+    .st-key-bet_1000 div.stButton > button {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        height: 35px !important;
+        min-height: 35px !important;
+        padding: 0 !important;
+        font-size: 8px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Header and main panels cannot exceed viewport. */
+    .kz-brand,
+    .kz-top,
+    .kz-arena,
+    .kz-history,
+    .kz-timer-wrap,
+    .kz-summary,
+    .kz-section-title,
+    .kz-footer {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .kz-logo {
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: clamp(26px, 8.8vw, 40px) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: clip !important;
+        text-align: center !important;
+    }
+
+    .kz-top {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 2px !important;
+    }
+
+    .kz-stat {
+        min-width: 0 !important;
+        padding: 3px 4px !important;
+    }
+
+    .kz-arena {
+        height: 78px !important;
+        min-height: 78px !important;
+    }
+
+    .kz-history-list {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 2px !important;
+    }
+
+    .kz-history-chip {
+        min-width: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .kz-footer .powered-by {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        font-size: clamp(13px, 4.3vw, 19px) !important;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    [class*="st-key-animal-card-"] div.stButton > button {
+        height: 78px !important;
+        min-height: 78px !important;
+        max-height: 78px !important;
+    }
+
+    [class*="st-key-animal-card-"] div.stButton > button::before {
+        font-size: 32px !important;
+    }
+
+    .kz-logo {
+        font-size: 25px !important;
+    }
+}
+
 </style>
 </head>
 <body>
