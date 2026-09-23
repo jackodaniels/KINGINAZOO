@@ -228,6 +228,49 @@ html, body, [data-testid="stAppViewContainer"],
     font-weight: 1000;
 }
 
+
+/* Compact last-five history inside the main yellow arena */
+.kz-arena-history {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    margin-top:5px;
+    min-height:24px;
+    padding:3px 8px;
+    border-radius:999px;
+    background:rgba(0,25,12,.45);
+    border:1px solid rgba(255,216,77,.35);
+    box-shadow:inset 0 0 10px rgba(0,0,0,.2);
+}
+.kz-arena-history-label {
+    color:#ffe87e;
+    font-size:9px;
+    font-weight:1000;
+    letter-spacing:1px;
+}
+.kz-arena-history-item {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#0a542b,#06361e);
+    border:1px solid rgba(255,216,77,.6);
+    font-size:17px;
+    line-height:1;
+}
+.kz-arena-history-empty {
+    color:#a9b28d;
+    font-size:9px;
+}
+@media (max-width:650px) {
+    .kz-arena-history { gap:5px; margin-top:3px; padding:2px 6px; min-height:20px; }
+    .kz-arena-history-label { font-size:7px; }
+    .kz-arena-history-item { width:21px; height:21px; font-size:14px; }
+}
+
 /* Section */
 .kz-section-title {
     position: relative;
@@ -746,6 +789,10 @@ st.markdown(
   <div class="kz-arena-round">KINGINAZOO • ROUND #{st.session_state.round}</div>
   <div class="kz-winner">{winner_emoji}</div>
   <div class="kz-status">{st.session_state.status}</div>
+  <div class="kz-arena-history">
+    <span class="kz-arena-history-label">LAST 5:</span>
+    {"".join(f'<span class="kz-arena-history-item" title="Round #{item["round"]}">{item["winner"]["emoji"]}</span>' for item in st.session_state.history[:5]) or '<span class="kz-arena-history-empty">No results yet</span>'}
+  </div>
 </div>
 """,
     unsafe_allow_html=True,
@@ -969,8 +1016,9 @@ with action_cols[1]:
         on_click=clear_bets,
     )
 
-# History
-st.markdown('<div class="kz-history">', unsafe_allow_html=True)
+# History is displayed inside the main arena above.
+# Keep the dedicated bottom history hidden to preserve the one-screen layout.
+st.markdown('<div class="kz-history" style="display:none !important;">', unsafe_allow_html=True)
 st.markdown('<div class="kz-history-title">🏆 LAST 5 WINNING RESULTS</div>', unsafe_allow_html=True)
 
 if not st.session_state.history:
