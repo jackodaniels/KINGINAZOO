@@ -18,7 +18,7 @@ except ImportError:
 
 @st.cache_data(show_spinner=False)
 def get_bg_data_uri():
-    bg_path = Path(__file__).resolve().parent / "assets" / "zoobg.png"
+    bg_path = Path(__file__).resolve().parent / "assets" / "zoobg.webp"
     data = base64.b64encode(bg_path.read_bytes()).decode("ascii")
     return "data:image/png;base64," + data
 
@@ -61,6 +61,7 @@ def _history_db():
     conn.commit()
     return conn
 
+@st.cache_data(ttl=1, show_spinner=False)
 def load_history(limit=10):
     with _db_lock:
         conn = _history_db()
@@ -86,6 +87,7 @@ def save_winner(round_no, winner):
         )
         conn.commit()
         conn.close()
+    load_history.clear()
 
 DEFAULTS = {
     "balance": 10_000,
@@ -790,6 +792,11 @@ iframe[title="streamlit.components.v1.html"] {
 .kz-arena, .kz-arena * { border-color: transparent !important; }
 .kz-arena { background: linear-gradient(180deg, rgba(6,61,32,.38), rgba(2,29,16,.22)) !important; }
 .kz-history { border: none !important; box-shadow: none !important; }
+
+/* Performance: keep touch interactions cheap on phones. */
+@media (hover: none) and (pointer: coarse) {
+    .kz-bet:hover, .kz-animal:hover, div.stButton > button:hover { transform: none !important; }
+}
 </style>
 """
 
@@ -1017,16 +1024,16 @@ def start_round():
     placed = dict(st.session_state.bets)
 
     # FAIR DRAW: one animal is selected independently of all bets.
-    # secrets.choice() uses the OS-backed cryptographic RNG. With 8 animals,
-    # every animal has exactly 1/8 probability on each round.
+    # secrets.randbelow(N) uses the OS-backed cryptographic RNG with uniform
+    # rejection sampling, so each of the 8 animals has exactly 1/8 probability.
     # Bets, stake size, payout multiplier, balance, and previous results
     # are NOT inputs to the draw. Repeated winners are valid random outcomes.
     # FAIR RANDOM DRAW:
-    # secrets.choice() uses Python's OS-backed SystemRandom source.
+    # secrets.randbelow() uses Python's OS-backed CSPRNG source.
     # Every one of the 8 animals has exactly the same 1/8 selection
     # probability. Bets, stake size, payout, balance, and history are
     # deliberately NOT used as inputs to the draw.
-    winner = secrets.choice(ANIMALS)
+    winner = ANIMALS[secrets.randbelow(len(ANIMALS))]
     category = winner["category"]
 
     st.session_state.balance -= stake
