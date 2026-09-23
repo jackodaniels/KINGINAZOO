@@ -200,12 +200,10 @@ html, body, [data-testid="stAppViewContainer"],
     background:
       radial-gradient(circle at 50% 20%, rgba(21,137,65,.20), transparent 45%),
       linear-gradient(180deg,rgba(6,61,32,.86),rgba(2,29,16,.90));
-    border: 3px solid var(--gold);
-    border-radius: 28px;
-    box-shadow:
-      0 0 25px rgba(255,214,67,.18),
-      inset 0 0 25px rgba(0,0,0,.3);
-    margin-bottom: 15px;
+    border: none !important;
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 10px;
 }
 .kz-arena-round {
     color: #d8cf93;
@@ -454,12 +452,12 @@ div.stButton > button:hover {
     position: relative;
     z-index: 3;
     margin: 8px 0 10px;
-    background: linear-gradient(180deg, rgba(3,58,32,.94), rgba(2,35,20,.96));
-    border: 2px solid var(--gold);
-    border-radius: 18px;
-    padding: 8px 10px 10px;
+    background: linear-gradient(180deg, rgba(3,58,32,.52), rgba(2,35,20,.38));
+    border: none !important;
+    border-radius: 12px;
+    padding: 6px 4px 8px;
     overflow: hidden;
-    box-shadow: 0 0 18px rgba(255,216,77,.12), inset 0 0 16px rgba(0,0,0,.25);
+    box-shadow: none;
 }
 .kz-history-title {
     color: #ffe87e;
@@ -686,6 +684,11 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-actions { margin-top: 3px; }
     .kz-action { min-height: 32px; }
 }
+
+/* Clean reference-style winner/drawing presentation */
+.kz-arena, .kz-arena * { border-color: transparent !important; }
+.kz-arena { background: linear-gradient(180deg, rgba(6,61,32,.38), rgba(2,29,16,.22)) !important; }
+.kz-history { border: none !important; box-shadow: none !important; }
 </style>
 """
 
