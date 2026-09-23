@@ -90,17 +90,15 @@ DEFAULTS = {
     "status": "Choose your bet and animals",
     "history": [],
     "show_reveal": False,
+    "last_result_round": None,
 }
 
 for key, value in DEFAULTS.items():
     if key not in st.session_state:
         st.session_state[key] = value
 
-# Reload the latest winning results on every Streamlit rerun so the history
-# updates immediately after a round and remains available across sessions.
-if not st.session_state.get("history_loaded", False):
-    st.session_state.history = load_history(10)
-    st.session_state.history_loaded = True
+# Reload the latest winning results on every rerun for realtime history.
+st.session_state.history = load_history(10)
 
 
 def fmt(value):
@@ -524,10 +522,11 @@ div.stButton > button:hover {
     display: grid;
     grid-template-columns: repeat(10, minmax(0, 1fr));
     gap: 6px;
+    width: 100%;
 }
 .kz-history-chip {
     min-width: 0;
-    min-height: 78px;
+    min-height: 82px;
     padding: 5px 3px;
     border-radius: 11px;
     background: linear-gradient(180deg,#0a542b,#06361e);
@@ -537,7 +536,9 @@ div.stButton > button:hover {
     font-size: 10px;
     font-weight: 900;
     overflow: hidden;
+    box-sizing: border-box;
 }
+.kz-history-chip.empty { opacity: .42; border-style: dashed; }
 .kz-history-chip .animal {
     display: block;
     font-size: 40px;
@@ -696,8 +697,8 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-history { display: block !important; margin: 6px 0 7px !important; padding: 6px 5px 7px !important; border-radius: 12px !important; }
     .kz-history-title { font-size: 11px !important; margin-bottom: 5px !important; }
     .kz-history-list { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 4px !important; }
-    .kz-history-chip { min-height: 52px !important; padding: 3px 1px !important; border-radius: 8px !important; font-size: 7px !important; }
-    .kz-history-chip .animal { font-size: 28px !important; }
+    .kz-history-chip { min-height: 58px !important; padding: 3px 1px !important; border-radius: 8px !important; font-size: 7px !important; }
+    .kz-history-chip .animal { font-size: 32px !important; }
     .kz-history-chip .round { font-size: 6px !important; margin-top: 1px !important; }
     .kz-footer { display: block !important; margin-top: 18px !important; padding: 8px 0 18px !important; font-size: 28px !important; }
     .kz-footer .powered-by { font-size: 28px !important; font-weight: 900 !important; letter-spacing: 1.5px !important; }
@@ -731,8 +732,8 @@ iframe[title="streamlit.components.v1.html"] {
     [class*="st-key-animal-card-"] div.stButton > button::before { font-size: 58px !important; }
     .kz-history { margin: 4px 0 5px !important; padding: 4px !important; }
     .kz-history-title { font-size: 9px !important; }
-    .kz-history-chip { min-height: 45px !important; }
-    .kz-history-chip .animal { font-size: 23px !important; }
+    .kz-history-chip { min-height: 50px !important; }
+    .kz-history-chip .animal { font-size: 28px !important; }
     .kz-actions { margin-top: 3px; }
     .kz-action { min-height: 32px; }
 }
@@ -779,11 +780,12 @@ st.markdown(
 # Main arena
 winner = st.session_state.winner
 winner_emoji = winner["emoji"] if winner else "❓"
+display_round = st.session_state.last_result_round if winner and st.session_state.last_result_round is not None else st.session_state.round
 
 st.markdown(
     f"""
 <div class="kz-arena">
-  <div class="kz-arena-round">KINGINAZOO • ROUND #{st.session_state.round}</div>
+  <div class="kz-arena-round">KINGINAZOO • ROUND #{display_round}</div>
   <div class="kz-winner">{winner_emoji}</div>
   <div class="kz-status">{st.session_state.status}</div>
 </div>
@@ -798,17 +800,16 @@ st.markdown(
 st.markdown('<div class="kz-history">', unsafe_allow_html=True)
 st.markdown('<div class="kz-history-title">🏆 LAST 10 WINNING RESULTS</div>', unsafe_allow_html=True)
 
-if not st.session_state.history:
-    st.markdown('<div style="color:#9e9f76;font-size:10px;text-align:center">No winning rounds yet.</div>', unsafe_allow_html=True)
-else:
-    chips = []
-    for item in st.session_state.history[:10]:
-        w = item["winner"]
-        chips.append(
-            f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
-            f'<span>{w["name"]}</span><span class="round">#{item["round"]}</span></div>'
-        )
-    st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
+chips = []
+for item in st.session_state.history[:10]:
+    w = item["winner"]
+    chips.append(
+        f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
+        f'<span>{w["name"]}</span><span class="round">#{item["round"]}</span></div>'
+    )
+for _ in range(10 - len(chips)):
+    chips.append('<div class="kz-history-chip empty"><span class="animal">—</span><span>Waiting</span><span class="round">No result</span></div>')
+st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -832,8 +833,8 @@ if st.session_state.show_reveal and st.session_state.winner:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
-.box{{margin-top:8px;background:#032715;border:3px solid #ffd84d;border-radius:22px;
-padding:7px;text-align:center;box-shadow:0 0 22px rgba(255,216,77,.18);box-sizing:border-box;height:150px;overflow:hidden}}
+.box{{margin-top:8px;background:#032715;border:0;border-radius:0;
+padding:7px;text-align:center;box-shadow:none;box-sizing:border-box;height:150px;overflow:hidden}}
 .label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
 .animal{{height:82px;display:flex;align-items:center;justify-content:center;font-size:68px;
 filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
@@ -950,12 +951,13 @@ def start_round():
 
     # Persist the result immediately. The next Streamlit rerun will read it
     # back, keeping LAST 10 WINNING RESULTS realtime.
-    save_winner(st.session_state.round, winner)
+    result_round = st.session_state.round
+    save_winner(result_round, winner)
 
     st.session_state.history.insert(
         0,
         {
-            "round": st.session_state.round,
+            "round": result_round,
             "winner": winner,
             "category": category,
             "stake": stake,
@@ -967,8 +969,9 @@ def start_round():
     st.session_state.history = st.session_state.history[:10]
     st.session_state.bets = {}
     st.session_state.winner = winner
+    st.session_state.last_result_round = result_round
     st.session_state.status = result
-    st.session_state.round += 1
+    st.session_state.round = result_round + 1
     st.session_state.show_reveal = True
 
 # Bet buttons — native Streamlit buttons keep the user on the same page.
