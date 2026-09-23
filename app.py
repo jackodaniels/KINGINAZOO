@@ -7,6 +7,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 from pathlib import Path
 import base64
+import sqlite3
+import threading
 
 @st.cache_data(show_spinner=False)
 def get_bg_data_uri():
@@ -35,6 +37,50 @@ ANIMALS = [
 ]
 BET_OPTIONS = [1, 10, 100, 1000]
 
+# Persistent winning history. SQLite keeps the latest results available across
+# Streamlit reruns/sessions while the deployed app storage is available.
+HISTORY_DB = Path(__file__).resolve().parent / "kinginazoo_history.db"
+_db_lock = threading.Lock()
+
+def _history_db():
+    conn = sqlite3.connect(HISTORY_DB, timeout=10, check_same_thread=False)
+    conn.execute("""CREATE TABLE IF NOT EXISTS winning_history (
+        round INTEGER PRIMARY KEY,
+        animal_id TEXT NOT NULL,
+        name TEXT NOT NULL,
+        emoji TEXT NOT NULL,
+        category TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )""")
+    conn.commit()
+    return conn
+
+def load_history(limit=10):
+    with _db_lock:
+        conn = _history_db()
+        rows = conn.execute(
+            "SELECT round, animal_id, name, emoji, category FROM winning_history ORDER BY round DESC LIMIT ?",
+            (limit,),
+        ).fetchall()
+        conn.close()
+    return [
+        {
+            "round": r[0],
+            "winner": {"id": r[1], "name": r[2], "emoji": r[3], "category": r[4]},
+        }
+        for r in rows
+    ]
+
+def save_winner(round_no, winner):
+    with _db_lock:
+        conn = _history_db()
+        conn.execute(
+            "INSERT OR REPLACE INTO winning_history (round, animal_id, name, emoji, category) VALUES (?, ?, ?, ?, ?)",
+            (round_no, winner["id"], winner["name"], winner["emoji"], winner["category"]),
+        )
+        conn.commit()
+        conn.close()
+
 DEFAULTS = {
     "balance": 10_000,
     "round": 531,
@@ -49,6 +95,12 @@ DEFAULTS = {
 for key, value in DEFAULTS.items():
     if key not in st.session_state:
         st.session_state[key] = value
+
+# Reload the latest winning results on every Streamlit rerun so the history
+# updates immediately after a round and remains available across sessions.
+if not st.session_state.get("history_loaded", False):
+    st.session_state.history = load_history(10)
+    st.session_state.history_loaded = True
 
 
 def fmt(value):
@@ -895,6 +947,10 @@ def start_round():
         result = f"🎉 {winner['name']} WON! +💎 {fmt(payout)}"
     else:
         result = f"{winner['name']} WON — no winning bet"
+
+    # Persist the result immediately. The next Streamlit rerun will read it
+    # back, keeping LAST 10 WINNING RESULTS realtime.
+    save_winner(st.session_state.round, winner)
 
     st.session_state.history.insert(
         0,
