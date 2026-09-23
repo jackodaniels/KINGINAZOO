@@ -992,7 +992,7 @@ const el=document.getElementById("animal");
 const status=document.getElementById("status");
 
 const sequence=[];
-sequence.push({json.dumps({"emoji": flash_start["emoji"], "name": flash_start["name"])});
+sequence.push({json.dumps({"emoji": flash_start["emoji"], "name": flash_start["name"]})});
 for(let n=1;n<28;n++){{
   sequence.push(animals[Math.floor(Math.random()*animals.length)]);
 }}
