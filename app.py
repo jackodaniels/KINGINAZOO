@@ -11,6 +11,20 @@ import sqlite3
 import threading
 import time
 
+
+st.markdown("""
+<style>
+#final-result {
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+#final-result.revealed {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 try:
     from streamlit_autorefresh import st_autorefresh
 except ImportError:
@@ -1168,3 +1182,14 @@ st.markdown(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+
+st.markdown("""
+<script>
+window.addEventListener("message", function(event) {
+    if (event.data && event.data.type === "KINGINAZOO_REVEAL_RESULT") {
+        const el = document.getElementById("final-result");
+        if (el) el.classList.add("revealed");
+    }
+});
+</script>
+""", unsafe_allow_html=True)
