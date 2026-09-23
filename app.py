@@ -191,15 +191,15 @@ html, body, [data-testid="stAppViewContainer"],
     z-index: 1;
     left: -2%;
     right: -2%;
-    top: 48px;
-    height: 365px;
+    top: 72px;
+    height: 465px;
     background:
         linear-gradient(
             180deg,
-            rgba(1, 38, 20, .96) 0%,
-            rgba(1, 38, 20, .92) 48%,
-            rgba(1, 38, 20, .72) 82%,
-            rgba(1, 38, 20, .18) 100%
+            rgba(1, 30, 16, .985) 0%,
+            rgba(1, 38, 20, .975) 65%,
+            rgba(1, 38, 20, .88) 88%,
+            rgba(1, 38, 20, .40) 100%
         );
     pointer-events: none;
 }
@@ -209,18 +209,18 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-brand {
     position: relative;
     z-index: 4;
-    height: clamp(58px, 6vw, 76px);
+    height: clamp(70px, 7vw, 88px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1px;
+    margin: 0 auto 4px;
     pointer-events: none;
 }
 .kz-logo {
     display: block !important;
     color: #ffe66b;
-    font-size: clamp(36px, 4.7vw, 60px);
+    font-size: clamp(38px, 5vw, 64px);
     line-height: .95;
     font-weight: 1000;
     letter-spacing: clamp(1px, .4vw, 5px);
@@ -259,14 +259,14 @@ html, body, [data-testid="stAppViewContainer"],
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 4px;
+    gap: 12px;
+    margin-bottom: 8px;
 }
 .kz-stat {
     background: linear-gradient(180deg, rgba(6,59,32,.88), rgba(2,41,20,.90));
     border: 2px solid var(--gold);
     border-radius: 16px;
-    padding: 5px 10px;
+    padding: 8px 14px;
     box-shadow:
       0 0 0 2px rgba(255,216,77,.08),
       0 7px 18px rgba(0,0,0,.35);
@@ -289,7 +289,7 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-arena {
     position: relative;
     z-index: 2;
-    min-height: 68px;
+    min-height: 112px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -297,10 +297,10 @@ html, body, [data-testid="stAppViewContainer"],
     background:
       radial-gradient(circle at 50% 20%, rgba(21,137,65,.20), transparent 45%),
       linear-gradient(180deg,rgba(6,61,32,.86),rgba(2,29,16,.90));
-    border: none !important;
-    border-radius: 0;
-    box-shadow: none;
-    margin-bottom: 1px;
+    border: 2px solid var(--gold) !important;
+    border-radius: 18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.28);
+    margin-bottom: 8px;
 }
 .kz-arena-round {
     color: #d8cf93;
@@ -309,7 +309,7 @@ html, body, [data-testid="stAppViewContainer"],
     letter-spacing: 2px;
 }
 .kz-winner {
-    height: 40px;
+    height: 58px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -331,7 +331,7 @@ html, body, [data-testid="stAppViewContainer"],
     font-size: 17px;
     font-weight: 1000;
     letter-spacing: 1px;
-    margin: 5px 2px 3px;
+    margin: 9px 4px 6px;
     text-shadow: 0 2px 4px #000;
 }
 
@@ -341,13 +341,13 @@ html, body, [data-testid="stAppViewContainer"],
     z-index: 2;
     display: grid;
     grid-template-columns: repeat(4,1fr);
-    gap: 7px;
+    gap: 12px;
 }
 .kz-bet {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 40px;
+    min-height: 46px;
     border: 2px solid #54a63b;
     border-radius: 18px;
     background: linear-gradient(180deg,#063b20,#022814);
@@ -375,7 +375,7 @@ html, body, [data-testid="stAppViewContainer"],
     color: #fff7ce;
     font-size: 15px;
     font-weight: 1000;
-    margin: 9px 5px;
+    margin: 8px 6px 10px;
 }
 
 /* Native Streamlit buttons are used for betting so taps never open a new page. */
@@ -437,10 +437,10 @@ div.stButton > button:hover {
     z-index: 2;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 11px;
+    gap: 10px;
 }
 .kz-animal {
-    min-height: 88px;
+    min-height: 132px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -451,7 +451,7 @@ div.stButton > button:hover {
       radial-gradient(circle at 50% 0%, rgba(28,117,55,.22), transparent 50%),
       linear-gradient(180deg,#063a20,#022716);
     border: 2px solid #f0ca39;
-    border-radius: 22px;
+    border-radius: 16px;
     box-shadow:
       0 6px 0 #01180c,
       inset 0 0 15px rgba(255,216,77,.06);
@@ -502,7 +502,7 @@ div.stButton > button:hover {
     color: #fff6b9;
     font-size: 11px;
     font-weight: 1000;
-    margin-top: 8px;
+    margin-top: 5px;
 }
 .kz-add {
     color: #b6c49d;
@@ -517,8 +517,8 @@ div.stButton > button:hover {
     z-index: 2;
     display: grid;
     grid-template-columns: 3fr 1fr;
-    gap: 10px;
-    margin-top: 8px;
+    gap: 12px;
+    margin-top: 10px;
 }
 .kz-action {
     min-height: 48px;
@@ -548,11 +548,11 @@ div.stButton > button:hover {
     display: block !important;
     position: relative;
     z-index: 3;
-    margin: 3px 0 4px;
+    margin: 6px 0 8px;
     background: linear-gradient(180deg, rgba(3,58,32,.52), rgba(2,35,20,.38));
     border: none !important;
     border-radius: 12px;
-    padding: 2px 2px 3px;
+    padding: 5px 4px 7px;
     overflow: hidden;
     box-shadow: none;
 }
@@ -562,7 +562,7 @@ div.stButton > button:hover {
     font-weight: 1000;
     letter-spacing: 1px;
     text-align: center;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
     text-shadow: 0 2px 4px #000;
 }
 .kz-history-list {
@@ -645,12 +645,12 @@ div.stButton > button:hover {
             rgba(1, 38, 20, .55) 100%
         );
     }
-    .kz-brand { height: 48px !important; }
+    .kz-brand { height: 56px !important; }
     .kz-logo { font-size: clamp(34px, 10vw, 48px) !important; }
-    .kz-top { gap: 4px !important; margin-bottom: 2px !important; }
+    .kz-top { gap: 5px !important; margin-bottom: 5px !important; }
     .kz-stat { padding: 4px 6px !important; }
-    .kz-arena { min-height: 58px !important; }
-    .kz-winner { height: 30px !important; font-size: 38px !important; }
+    .kz-arena { min-height: 88px !important; margin-bottom: 5px !important; }
+    .kz-winner { height: 44px !important; font-size: 44px !important; }
     .kz-history { margin: 2px 0 3px !important; padding: 2px !important; }
 }
 
@@ -765,24 +765,24 @@ iframe[title="streamlit.components.v1.html"] {
         max-width: 560px !important;
         padding: 3px 5px 12px !important;
     }
-    .kz-brand { height: 50px; margin-bottom: 0; }
+    .kz-brand { height: 56px; margin-bottom: 2px; }
     .kz-logo { font-size: clamp(34px, 10.5vw, 50px); letter-spacing: .5px; line-height: .9; }
     .kz-tag { font-size: 7px; letter-spacing: 1.8px; margin-top: 1px; }
-    .kz-top { gap: 4px; margin-bottom: 3px; }
+    .kz-top { gap: 5px; margin-bottom: 5px; }
     .kz-stat { padding: 5px 7px; border-radius: 10px; }
     .kz-stat-label { font-size: 7px; letter-spacing: 1px; }
     .kz-stat-value { font-size: 16px; }
-    .kz-arena { min-height: 72px; border-radius: 12px; margin-bottom: 3px; }
+    .kz-arena { min-height: 88px; border-radius: 14px; margin-bottom: 5px; }
     .kz-arena-round { font-size: 7px; letter-spacing: 1px; }
-    .kz-winner { height: 36px; font-size: 38px; }
+    .kz-winner { height: 44px; font-size: 44px; }
     .kz-status { font-size: 10px; }
     .kz-section-title { font-size: 11px; margin: 4px 1px 3px; letter-spacing: .5px; }
-    .kz-bets { gap: 3px; }
+    .kz-bets { gap: 5px; }
     .kz-bet { min-height: 33px; border-radius: 9px; font-size: 11px; border-width: 1.5px; }
     .kz-summary { font-size: 9px; margin: 4px 2px; }
-    .kz-animals { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+    .kz-animals { grid-template-columns: repeat(2, 1fr); gap: 6px; }
     [class*="st-key-animal-card-"] div.stButton > button {
-        min-height: 72px !important;
+        min-height: 96px !important;
         border-radius: 11px !important;
         border-width: 1.5px !important;
         padding: 3px 4px !important;
@@ -796,7 +796,7 @@ iframe[title="streamlit.components.v1.html"] {
         font-size: 9px !important;
         line-height: 1 !important;
     }
-    .kz-actions { gap: 4px; margin-top: 3px; }
+    .kz-actions { gap: 5px; margin-top: 6px; }
     .kz-action { min-height: 36px; font-size: 10px; border-radius: 10px; }
     div.stButton > button { min-height: 34px !important; font-size: 10px !important; }
     .kz-history { display: block !important; margin: 4px 0 5px !important; padding: 4px 4px 5px !important; border-radius: 10px !important; }
@@ -805,18 +805,21 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-history-chip { min-height: 58px !important; padding: 3px 1px !important; border-radius: 8px !important; font-size: 7px !important; }
     .kz-history-chip .animal { font-size: 32px !important; }
     .kz-history-chip .round { font-size: 6px !important; margin-top: 1px !important; }
-    .kz-footer { display: block !important; margin-top: 10px !important; padding: 8px 0 18px !important; font-size: 28px !important; }
-    .kz-footer .powered-by { font-size: 28px !important; font-weight: 900 !important; letter-spacing: 1.5px !important; }
+    .kz-footer { display: block !important; margin-top: 12px !important; padding: 8px 0 14px !important; font-size: 10px !important; }
+    .kz-footer .powered-by { font-size: 24px !important; font-weight: 1000 !important; letter-spacing: 1px !important; text-align: center !important; }
 }
 
 /* Final MARGAUX footer sizing */
 .kz-footer .powered-by {
-    display: inline-block !important;
-    font-size: 32px !important;
-    font-weight: 900 !important;
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin: 8px auto 2px !important;
+    font-size: clamp(24px, 3vw, 36px) !important;
+    font-weight: 1000 !important;
     letter-spacing: 2px !important;
     color: #FFD84D !important;
-    text-shadow: 0 2px 8px rgba(0,0,0,.9) !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,.95), 0 0 12px rgba(255,216,77,.28) !important;
 }
 @media (max-width: 650px) {
     .kz-footer .powered-by { font-size: 26px !important; letter-spacing: 1.2px !important; }
