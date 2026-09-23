@@ -884,7 +884,7 @@ st.markdown("""
 .kz-result-hidden-during-draw .kz-winner,
 .kz-result-hidden-during-draw .kz-status {
     opacity: 0 !important;
-    animation: kzShowFinalResult 0.12s linear 3.30s forwards !important;
+    animation: kzShowFinalResult 0.12s linear 3.05s forwards !important;
 }
 @keyframes kzShowFinalResult {
     from { opacity: 0; }
@@ -936,7 +936,7 @@ st.markdown("""
 <style>
 .kz-current-history {
     opacity: 0 !important;
-    animation: kzShowHistory 0.12s linear 3.30s forwards !important;
+    animation: kzShowHistory 0.12s linear 3.05s forwards !important;
 }
 @keyframes kzShowHistory {
     from { opacity: 0; }
@@ -969,6 +969,7 @@ body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
 .box{{margin-top:8px;background:#032715;border:0;border-radius:0;
 padding:7px;text-align:center;box-shadow:none;box-sizing:border-box;height:150px;overflow:hidden}}
 .label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
+.kz-live-indicator{{color:#7dffb2;font-size:9px;font-weight:900;letter-spacing:1px;margin-left:6px}}
 .animal{{height:82px;display:flex;align-items:center;justify-content:center;font-size:68px;
 filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
 .status{{color:#fff1a4;font-size:13px;font-weight:900;line-height:1.05}}
@@ -978,9 +979,9 @@ filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
 </head>
 <body>
 <div class="box">
- <div class="label">🎰 DRAWING • FLASHING</div>
- <div id="animal" class="animal">❓</div>
- <div id="status" class="status">Selecting...</div>
+ <div class="label">🎰 DRAWING • FLASHING <span class="kz-live-indicator">● LIVE</span></div>
+ <div id="animal" class="animal">🎰</div>
+ <div id="status" class="status">Flashing...</div>
 </div>
 <script>
 const animals={animals_json};
@@ -995,6 +996,10 @@ for(let n=0;n<28;n++) {{
 }}
 sequence.push(winner,winner,winner);
 
+// Start with a random animal immediately — never show "Selecting...".
+const first = sequence[0];
+el.textContent = first.emoji;
+
 function next() {{
   const item=sequence[i];
   el.className="animal";
@@ -1003,7 +1008,7 @@ function next() {{
   if(i < 24) {{
     status.textContent="Flashing...";
   }} else if(i < sequence.length-1) {{
-    status.textContent="Slowing down...";
+    status.textContent="⏳ Slowing down...";
   }} else {{
     status.textContent="🎉 " + winner.name + " — WINNER!";
     el.className="animal win";
