@@ -538,7 +538,14 @@ div.stButton > button:hover {
     overflow: hidden;
     box-sizing: border-box;
 }
-.kz-history-chip.empty { opacity: .42; border-style: dashed; }
+.kz-history-chip.empty { display:none !important; }
+.kz-history-empty {
+    text-align:center;
+    color:#b8bd91;
+    font-size:12px;
+    font-weight:800;
+    padding:8px;
+}
 .kz-history-chip .animal {
     display: block;
     font-size: 40px;
@@ -807,15 +814,19 @@ for item in st.session_state.history[:10]:
         f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
         f'<span>{w["name"]}</span><span class="round">#{item["round"]}</span></div>'
     )
-for _ in range(10 - len(chips)):
-    chips.append('<div class="kz-history-chip empty"><span class="animal">—</span><span>Waiting</span><span class="round">No result</span></div>')
-st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
+
+# Show ONLY real completed results. Never create fake "Waiting" history items.
+if chips:
+    st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
+else:
+    st.markdown('<div class="kz-history-empty">No completed rounds yet</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Flashing winner animation.
-# Winner is already selected server-side. The browser only reveals it through
-# a rapid random sequence that slows down before stopping.
+# The winner is already selected server-side by secrets.choice().
+# Browser Math.random() is used ONLY for the visual flashing sequence;
+# it cannot change the server-selected winner.
 if st.session_state.show_reveal and st.session_state.winner:
     winner = st.session_state.winner
     animals_json = json.dumps(
@@ -929,13 +940,17 @@ def start_round():
 
     placed = dict(st.session_state.bets)
 
-    # FAIR DRAW: select exactly one animal index independently of all bets.
-    # secrets.randbelow(n) uses the OS-backed cryptographic RNG and gives each
-    # index an equal probability. With 8 animals, each animal is 1/8 per round.
-    # Bets, stake size, payout multiplier, and previous results are NOT inputs
-    # to the draw. Repeated winners are therefore possible in true randomness.
-    winner_index = secrets.randbelow(len(ANIMALS))
-    winner = ANIMALS[winner_index]
+    # FAIR DRAW: one animal is selected independently of all bets.
+    # secrets.choice() uses the OS-backed cryptographic RNG. With 8 animals,
+    # every animal has exactly 1/8 probability on each round.
+    # Bets, stake size, payout multiplier, balance, and previous results
+    # are NOT inputs to the draw. Repeated winners are valid random outcomes.
+    # FAIR RANDOM DRAW:
+    # secrets.choice() uses Python's OS-backed SystemRandom source.
+    # Every one of the 8 animals has exactly the same 1/8 selection
+    # probability. Bets, stake size, payout, balance, and history are
+    # deliberately NOT used as inputs to the draw.
+    winner = secrets.choice(ANIMALS)
     category = winner["category"]
 
     st.session_state.balance -= stake
