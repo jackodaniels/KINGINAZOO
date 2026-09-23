@@ -1,7 +1,6 @@
 # KINGINAZOO v2 — embedded jungle background (no relative asset URL)
 # KINGINAZOO — generated jungle background is loaded from assets/zoobg.png
 import json
-import random
 import secrets
 import streamlit as st
 import streamlit.components.v1 as components
@@ -21,7 +20,7 @@ except ImportError:
 def get_bg_data_uri():
     bg_path = Path(__file__).resolve().parent / "assets" / "zoobg.webp"
     data = base64.b64encode(bg_path.read_bytes()).decode("ascii")
-    return "data:image/png;base64," + data
+    return "data:image/webp;base64," + data
 
 BG_DATA_URI = get_bg_data_uri()
 
@@ -49,6 +48,7 @@ BET_OPTIONS = [1, 10, 100, 1000]
 HISTORY_DB = Path(__file__).resolve().parent / "kinginazoo_history.db"
 _db_lock = threading.Lock()
 
+@st.cache_resource(show_spinner=False)
 def _history_db():
     conn = sqlite3.connect(HISTORY_DB, timeout=10, check_same_thread=False)
     conn.execute("""CREATE TABLE IF NOT EXISTS winning_history (
@@ -62,7 +62,7 @@ def _history_db():
     conn.commit()
     return conn
 
-@st.cache_data(ttl=1, show_spinner=False)
+@st.cache_data(ttl=2, show_spinner=False)
 def load_history(limit=10):
     with _db_lock:
         conn = _history_db()
@@ -70,7 +70,6 @@ def load_history(limit=10):
             "SELECT round, animal_id, name, emoji, category FROM winning_history ORDER BY round DESC LIMIT ?",
             (limit,),
         ).fetchall()
-        conn.close()
     return [
         {
             "round": r[0],
@@ -87,7 +86,6 @@ def save_winner(round_no, winner):
             (round_no, winner["id"], winner["name"], winner["emoji"], winner["category"]),
         )
         conn.commit()
-        conn.close()
     load_history.clear()
 
 DEFAULTS = {
@@ -172,13 +170,13 @@ html, body, [data-testid="stAppViewContainer"],
 .block-container {
     width: min(1180px, 100%) !important;
     max-width: 1180px !important;
-    padding: 18px 18px 38px !important;
+    padding: 8px 14px 20px !important;
     margin: auto !important;
 }
 
 .kz-page {
     position: relative;
-    max-width: 1120px;
+    max-width: 1080px;
     margin: auto;
     overflow: hidden;
 }
@@ -188,21 +186,21 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-brand {
     position: relative;
     z-index: 4;
-    height: clamp(58px, 7vw, 82px);
+    height: clamp(64px, 7vw, 88px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 5px;
+    margin: 0 auto 1px;
     pointer-events: none;
 }
 .kz-logo {
     display: block !important;
     color: #ffe66b;
-    font-size: clamp(30px, 4.4vw, 54px);
+    font-size: clamp(38px, 5vw, 64px);
     line-height: .95;
     font-weight: 1000;
-    letter-spacing: clamp(1px, .35vw, 4px);
+    letter-spacing: clamp(1px, .4vw, 5px);
     text-align: center;
     text-shadow: 0 3px 0 #5d3900, 0 0 12px rgba(255,216,77,.7), 0 5px 18px rgba(0,0,0,.85);
     white-space: nowrap;
@@ -213,8 +211,23 @@ html, body, [data-testid="stAppViewContainer"],
     font-size: clamp(8px, 1.2vw, 12px);
     font-weight: 1000;
     letter-spacing: clamp(2px, .55vw, 5px);
-    margin-top: 5px;
+    margin-top: 2px;
     text-shadow: 0 2px 5px #000;
+}
+
+
+/* High-contrast brand treatment */
+.kz-brand::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(760px, 92%);
+    height: 76%;
+    background: radial-gradient(ellipse, rgba(0,28,14,.62) 0%, rgba(0,28,14,.28) 52%, transparent 78%);
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Top stats */
@@ -223,14 +236,14 @@ html, body, [data-testid="stAppViewContainer"],
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 14px;
+    gap: 10px;
+    margin-bottom: 8px;
 }
 .kz-stat {
     background: linear-gradient(180deg, rgba(6,59,32,.88), rgba(2,41,20,.90));
     border: 2px solid var(--gold);
-    border-radius: 20px;
-    padding: 12px 18px;
+    border-radius: 16px;
+    padding: 8px 14px;
     box-shadow:
       0 0 0 2px rgba(255,216,77,.08),
       0 7px 18px rgba(0,0,0,.35);
@@ -253,7 +266,7 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-arena {
     position: relative;
     z-index: 2;
-    min-height: 135px;
+    min-height: 112px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -264,7 +277,7 @@ html, body, [data-testid="stAppViewContainer"],
     border: none !important;
     border-radius: 0;
     box-shadow: none;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 .kz-arena-round {
     color: #d8cf93;
@@ -273,11 +286,11 @@ html, body, [data-testid="stAppViewContainer"],
     letter-spacing: 2px;
 }
 .kz-winner {
-    height: 76px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(58px, 7vw, 82px);
+    font-size: clamp(58px, 7vw, 88px);
     line-height: 1;
     filter: drop-shadow(0 8px 7px rgba(0,0,0,.5));
 }
@@ -295,7 +308,7 @@ html, body, [data-testid="stAppViewContainer"],
     font-size: 17px;
     font-weight: 1000;
     letter-spacing: 1px;
-    margin: 13px 2px 8px;
+    margin: 8px 2px 5px;
     text-shadow: 0 2px 4px #000;
 }
 
@@ -305,13 +318,13 @@ html, body, [data-testid="stAppViewContainer"],
     z-index: 2;
     display: grid;
     grid-template-columns: repeat(4,1fr);
-    gap: 10px;
+    gap: 7px;
 }
 .kz-bet {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 46px;
+    min-height: 40px;
     border: 2px solid #54a63b;
     border-radius: 18px;
     background: linear-gradient(180deg,#063b20,#022814);
@@ -708,27 +721,26 @@ iframe[title="streamlit.components.v1.html"] {
     }
 .block-container {
         max-width: 560px !important;
-        padding: 9px 7px 24px !important;
+        padding: 3px 5px 12px !important;
     }
-    .block-container { padding: 4px 6px 6px !important; }
-    .kz-brand { height: 45px; margin-bottom: 2px; }
-    .kz-logo { font-size: clamp(30px, 9vw, 42px); letter-spacing: 1px; }
-    .kz-tag { font-size: 7px; letter-spacing: 2px; margin-top: 2px; }
-    .kz-top { gap: 5px; margin-bottom: 5px; }
-    .kz-stat { padding: 6px 8px; border-radius: 12px; }
+    .kz-brand { height: 50px; margin-bottom: 0; }
+    .kz-logo { font-size: clamp(34px, 10.5vw, 50px); letter-spacing: .5px; line-height: .9; }
+    .kz-tag { font-size: 7px; letter-spacing: 1.8px; margin-top: 1px; }
+    .kz-top { gap: 4px; margin-bottom: 3px; }
+    .kz-stat { padding: 5px 7px; border-radius: 10px; }
     .kz-stat-label { font-size: 7px; letter-spacing: 1px; }
     .kz-stat-value { font-size: 16px; }
-    .kz-arena { min-height: 78px; border-radius: 15px; margin-bottom: 5px; }
+    .kz-arena { min-height: 72px; border-radius: 12px; margin-bottom: 3px; }
     .kz-arena-round { font-size: 7px; letter-spacing: 1px; }
-    .kz-winner { height: 40px; font-size: 38px; }
+    .kz-winner { height: 36px; font-size: 38px; }
     .kz-status { font-size: 10px; }
-    .kz-section-title { font-size: 11px; margin: 5px 1px 4px; letter-spacing: .5px; }
-    .kz-bets { gap: 4px; }
-    .kz-bet { min-height: 35px; border-radius: 10px; font-size: 11px; border-width: 1.5px; }
+    .kz-section-title { font-size: 11px; margin: 4px 1px 3px; letter-spacing: .5px; }
+    .kz-bets { gap: 3px; }
+    .kz-bet { min-height: 33px; border-radius: 9px; font-size: 11px; border-width: 1.5px; }
     .kz-summary { font-size: 9px; margin: 4px 2px; }
-    .kz-animals { grid-template-columns: repeat(2, 1fr); gap: 5px; }
+    .kz-animals { grid-template-columns: repeat(2, 1fr); gap: 4px; }
     [class*="st-key-animal-card-"] div.stButton > button {
-        min-height: 78px !important;
+        min-height: 72px !important;
         border-radius: 11px !important;
         border-width: 1.5px !important;
         padding: 3px 4px !important;
@@ -742,16 +754,16 @@ iframe[title="streamlit.components.v1.html"] {
         font-size: 9px !important;
         line-height: 1 !important;
     }
-    .kz-actions { gap: 5px; margin-top: 4px; }
+    .kz-actions { gap: 4px; margin-top: 3px; }
     .kz-action { min-height: 36px; font-size: 10px; border-radius: 10px; }
     div.stButton > button { min-height: 34px !important; font-size: 10px !important; }
-    .kz-history { display: block !important; margin: 6px 0 7px !important; padding: 6px 5px 7px !important; border-radius: 12px !important; }
+    .kz-history { display: block !important; margin: 4px 0 5px !important; padding: 4px 4px 5px !important; border-radius: 10px !important; }
     .kz-history-title { font-size: 11px !important; margin-bottom: 5px !important; }
     .kz-history-list { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 4px !important; }
     .kz-history-chip { min-height: 58px !important; padding: 3px 1px !important; border-radius: 8px !important; font-size: 7px !important; }
     .kz-history-chip .animal { font-size: 32px !important; }
     .kz-history-chip .round { font-size: 6px !important; margin-top: 1px !important; }
-    .kz-footer { display: block !important; margin-top: 18px !important; padding: 8px 0 18px !important; font-size: 28px !important; }
+    .kz-footer { display: block !important; margin-top: 10px !important; padding: 8px 0 18px !important; font-size: 28px !important; }
     .kz-footer .powered-by { font-size: 28px !important; font-weight: 900 !important; letter-spacing: 1.5px !important; }
 }
 
@@ -972,7 +984,7 @@ body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
 padding:7px;text-align:center;box-shadow:none;box-sizing:border-box;height:150px;overflow:hidden}}
 .label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
 .kz-live-indicator{{color:#7dffb2;font-size:9px;font-weight:900;letter-spacing:1px;margin-left:6px}}
-.animal{{height:92px;display:flex;align-items:center;justify-content:center;font-size:82px;
+.animal{{height:92px;display:flex;align-items:center;justify-content:center;font-size:82px;will-change:transform,opacity;
 filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
 .status{{color:#fff1a4;font-size:13px;font-weight:900;line-height:1.05}}
 @keyframes winpop{{0%{{transform:scale(.75)}}60%{{transform:scale(1.18)}}100%{{transform:scale(1)}}}}
