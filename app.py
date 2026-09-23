@@ -3369,6 +3369,355 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown("""
+<style>
+/* ============================================================
+   FINAL MOBILE SPACING OVERRIDE
+   Titles are real vertical blocks with reserved height.
+   Nothing is allowed to occupy the same vertical space.
+   ============================================================ */
+
+@media only screen and (max-width:650px) {
+
+  /* Never let Streamlit introduce horizontal canvas width. */
+  html, body,
+  [data-testid="stAppViewContainer"],
+  [data-testid="stAppViewBlockContainer"],
+  [data-testid="stMain"],
+  [data-testid="stMainBlockContainer"],
+  .kz-page {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    overflow-x:hidden !important;
+    box-sizing:border-box !important;
+  }
+
+  .kz-page {
+    padding-left:3px !important;
+    padding-right:3px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+
+  /* Each major section is a normal vertical flow block. */
+  .st-key-bet-section,
+  .st-key-animal-section {
+    position:relative !important;
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+  }
+
+  /* Kill inherited zero-gap behavior only inside these sections. */
+  .st-key-bet-section > div,
+  .st-key-animal-section > div {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  /* ---------------- TITLES ----------------
+     Fixed physical height + explicit margins.
+     This creates a guaranteed gap between title and boxes.
+  */
+  .kz-mobile-title {
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    max-width:100% !important;
+    height:30px !important;
+    min-height:30px !important;
+    max-height:30px !important;
+    margin:8px auto 7px !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    text-align:center !important;
+    overflow:visible !important;
+    clear:both !important;
+    z-index:5 !important;
+  }
+
+  .kz-mobile-title span {
+    display:block !important;
+    width:100% !important;
+    height:22px !important;
+    line-height:22px !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    font-size:12px !important;
+    font-weight:1000 !important;
+    letter-spacing:.5px !important;
+    box-sizing:border-box !important;
+  }
+
+  /* Bet title gets extra separation from the history/timer above. */
+  .kz-title-bet {
+    margin-top:10px !important;
+    margin-bottom:7px !important;
+  }
+
+  /* Animal title gets extra separation from Total/Available. */
+  .kz-title-animal {
+    margin-top:8px !important;
+    margin-bottom:7px !important;
+  }
+
+  /* ---------------- BET BUTTONS ---------------- */
+  .st-key-mobile-bets {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-bets [data-testid="stHorizontalBlock"] {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:5px !important;
+    margin:0 auto 5px !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-bets [data-testid="column"] {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-bets button {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    height:38px !important;
+    min-height:38px !important;
+    max-height:38px !important;
+    margin:0 !important;
+    padding:0 4px !important;
+    box-sizing:border-box !important;
+    font-size:10px !important;
+    line-height:1 !important;
+    border-radius:9px !important;
+    white-space:nowrap !important;
+  }
+
+  /* ---------------- TOTAL / AVAILABLE ---------------- */
+  .kz-summary-centered {
+    width:100% !important;
+    max-width:100% !important;
+    height:20px !important;
+    min-height:20px !important;
+    max-height:20px !important;
+    margin:3px auto 0 !important;
+    padding:0 5px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+    white-space:nowrap !important;
+    font-size:8px !important;
+    line-height:20px !important;
+  }
+
+  /* ---------------- ANIMAL GRID ---------------- */
+  .st-key-mobile-animals {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-animals [data-testid="stHorizontalBlock"] {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:4px !important;
+    margin:0 auto 4px !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-animals [data-testid="column"] {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  [class*="st-key-animal-card-"] {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-animals button {
+    width:100% !important;
+    height:82px !important;
+    min-height:82px !important;
+    max-height:82px !important;
+    margin:0 !important;
+    padding:1px !important;
+    box-sizing:border-box !important;
+    border-radius:8px !important;
+    overflow:hidden !important;
+    font-size:8px !important;
+    line-height:10px !important;
+    white-space:normal !important;
+  }
+
+  .st-key-mobile-animals button p {
+    margin:0 !important;
+    padding:0 !important;
+    line-height:10px !important;
+    font-size:8px !important;
+    text-align:center !important;
+  }
+
+  /* ---------------- ACTIONS ---------------- */
+  .st-key-mobile-actions {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:6px auto 0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-actions [data-testid="stHorizontalBlock"] {
+    width:100% !important;
+    max-width:100% !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,3fr) minmax(0,1fr) !important;
+    gap:5px !important;
+    margin:0 auto !important;
+  }
+
+  .st-key-mobile-actions [data-testid="column"] {
+    min-width:0 !important;
+    max-width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+
+  .st-key-mobile-actions button {
+    width:100% !important;
+    height:38px !important;
+    min-height:38px !important;
+    max-height:38px !important;
+    margin:0 !important;
+    padding:0 3px !important;
+    font-size:9px !important;
+    line-height:1 !important;
+    border-radius:9px !important;
+    white-space:nowrap !important;
+  }
+
+  /* ---------------- FOOTER ---------------- */
+  .kz-footer {
+    width:100% !important;
+    max-width:100% !important;
+    height:48px !important;
+    min-height:48px !important;
+    margin:8px auto 0 !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    display:block !important;
+    width:100% !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    font-size:clamp(13px,4.5vw,19px) !important;
+    line-height:30px !important;
+    font-weight:1000 !important;
+    letter-spacing:.5px !important;
+    color:#FFD84D !important;
+    text-shadow:0 2px 6px #000,0 0 10px rgba(255,216,77,.55) !important;
+  }
+}
+
+@media only screen and (max-width:360px) {
+  .kz-mobile-title {
+    height:28px !important;
+    min-height:28px !important;
+    max-height:28px !important;
+    margin-top:7px !important;
+    margin-bottom:6px !important;
+  }
+
+  .kz-mobile-title span {
+    font-size:10px !important;
+    height:21px !important;
+    line-height:21px !important;
+  }
+
+  .st-key-mobile-bets button {
+    height:34px !important;
+    min-height:34px !important;
+  }
+
+  .st-key-mobile-animals button {
+    height:74px !important;
+    min-height:74px !important;
+  }
+
+  .kz-summary-centered {
+    height:18px !important;
+    min-height:18px !important;
+    line-height:18px !important;
+    font-size:7px !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    font-size:13px !important;
+  }
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown('<div class="kz-page">', unsafe_allow_html=True)
 
 # Brand
@@ -3774,7 +4123,7 @@ if st.session_state.bet_timer_active and not st.session_state.show_reveal and st
 
 with st.container(key="bet-section"):
     st.markdown(
-        '<div class="kz-mobile-title">💎 CHOOSE YOUR BET</div>',
+        '<div class="kz-mobile-title kz-title-bet"><span>💎 CHOOSE YOUR BET</span></div>',
         unsafe_allow_html=True,
     )
 
@@ -3819,7 +4168,7 @@ with st.container(key="bet-section"):
 
 with st.container(key="animal-section"):
     st.markdown(
-        '<div class="kz-mobile-title">🐾 TAP AN ANIMAL TO BET</div>',
+        '<div class="kz-mobile-title kz-title-animal"><span>🐾 TAP AN ANIMAL TO BET</span></div>',
         unsafe_allow_html=True,
     )
 
