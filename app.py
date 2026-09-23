@@ -113,16 +113,37 @@ html, body, [data-testid="stAppViewContainer"],
 }
 
 
-/* Brand / generated background contains the main KINGINAZOO logo */
+/* Brand — keep KINGINAZOO clearly readable above the background art */
 .kz-brand {
     position: relative;
-    z-index: 2;
-    height: clamp(72px, 9vw, 100px);
-    text-align: center;
-    margin: 0 auto 8px;
+    z-index: 4;
+    height: clamp(58px, 7vw, 82px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 5px;
+    pointer-events: none;
 }
-.kz-logo, .kz-tag {
-    display: none;
+.kz-logo {
+    display: block !important;
+    color: #ffe66b;
+    font-size: clamp(30px, 4.4vw, 54px);
+    line-height: .95;
+    font-weight: 1000;
+    letter-spacing: clamp(1px, .35vw, 4px);
+    text-align: center;
+    text-shadow: 0 3px 0 #5d3900, 0 0 12px rgba(255,216,77,.7), 0 5px 18px rgba(0,0,0,.85);
+    white-space: nowrap;
+}
+.kz-tag {
+    display: block !important;
+    color: #fff4b0;
+    font-size: clamp(8px, 1.2vw, 12px);
+    font-weight: 1000;
+    letter-spacing: clamp(2px, .55vw, 5px);
+    margin-top: 5px;
+    text-shadow: 0 2px 5px #000;
 }
 
 /* Top stats */
@@ -266,14 +287,43 @@ div.stButton > button {
     line-height: 1.08 !important;
     font-size: 15px !important;
 }
-/* The animal button starts with the emoji, so make that first glyph large like the original cards. */
-div.stButton > button p::first-letter {
-    font-size: 38px !important;
-    line-height: 1 !important;
-}
 div.stButton > button:hover {
     border-color: #ffe994 !important;
     transform: translateY(-1px);
+}
+
+/* Large animal icons: native buttons + per-animal pseudo-element. */
+[class*="st-key-animal-card-"] div.stButton > button {
+    min-height: 94px !important;
+    padding: 7px 6px 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1px !important;
+    overflow: hidden !important;
+}
+[class*="st-key-animal-card-"] div.stButton > button p {
+    margin: 0 !important;
+    white-space: pre-line !important;
+    font-size: 11px !important;
+    line-height: 1.08 !important;
+    font-weight: 1000 !important;
+}
+.st-key-animal-card-monkey div.stButton > button::before { content: "🐒"; }
+.st-key-animal-card-koala div.stButton > button::before { content: "🐨"; }
+.st-key-animal-card-panda div.stButton > button::before { content: "🐼"; }
+.st-key-animal-card-lion div.stButton > button::before { content: "🦁"; }
+.st-key-animal-card-fish div.stButton > button::before { content: "🐟"; }
+.st-key-animal-card-crab div.stButton > button::before { content: "🦀"; }
+.st-key-animal-card-jelly div.stButton > button::before { content: "🪼"; }
+.st-key-animal-card-turtle div.stButton > button::before { content: "🐢"; }
+[class*="st-key-animal-card-"] div.stButton > button::before {
+    display: block !important;
+    font-size: clamp(42px, 5vw, 62px) !important;
+    line-height: .85 !important;
+    margin-bottom: 3px !important;
+    filter: drop-shadow(0 5px 4px rgba(0,0,0,.5));
 }
 
 /* Animal grid */
@@ -436,7 +486,10 @@ iframe[title="streamlit.components.v1.html"] {
     width: 100% !important;
     border: 0 !important;
     background: transparent !important;
+    overflow: hidden !important;
 }
+[data-testid="stAppViewContainer"] > .main { overflow: hidden !important; }
+[data-testid="stVerticalBlock"] { gap: 0.15rem !important; }
 
 
 /* Jackpot selector */
@@ -514,28 +567,58 @@ iframe[title="streamlit.components.v1.html"] {
         max-width: 560px !important;
         padding: 9px 7px 24px !important;
     }
-    .kz-logo { font-size: 40px; }
-    .kz-tag { letter-spacing: 3px; }
-    .kz-top { gap: 7px; }
-    .kz-stat { padding: 9px 10px; border-radius: 15px; }
-    .kz-stat-label { font-size: 9px; }
-    .kz-stat-value { font-size: 19px; }
-    .kz-arena { min-height: 120px; border-radius: 18px; }
-    .kz-winner { height: 62px; font-size: 56px; }
-    .kz-bets { gap: 5px; }
-    .kz-bet { min-height: 49px; border-radius: 14px; font-size: 13px; }
-    .kz-summary { font-size: 11px; }
-    .kz-animals { gap: 6px; }
-    .kz-animal { min-height: 72px; border-radius: 13px; }
-    .kz-animal-emoji { font-size: 43px; }
-    .kz-animal-name { font-size: 11px; margin-top: 5px; }
-    .kz-multi { font-size: 10px; padding: 4px 8px; }
-    .kz-amount { font-size: 10px; width: 82%; padding: 4px; }
-    .kz-add { font-size: 8px; }
-    div.stButton > button { min-height: 40px !important; font-size: 11px !important; }
-    div.stButton > button p::first-letter { font-size: 27px !important; }
-    .kz-actions { gap: 6px; margin-top: 6px; }
-    .kz-action { min-height: 45px; font-size: 13px; border-radius: 13px; }
+    .block-container { padding: 4px 6px 6px !important; }
+    .kz-brand { height: 45px; margin-bottom: 2px; }
+    .kz-logo { font-size: clamp(27px, 8vw, 38px); letter-spacing: 1px; }
+    .kz-tag { font-size: 7px; letter-spacing: 2px; margin-top: 2px; }
+    .kz-top { gap: 5px; margin-bottom: 5px; }
+    .kz-stat { padding: 6px 8px; border-radius: 12px; }
+    .kz-stat-label { font-size: 7px; letter-spacing: 1px; }
+    .kz-stat-value { font-size: 16px; }
+    .kz-arena { min-height: 82px; border-radius: 15px; margin-bottom: 6px; }
+    .kz-arena-round { font-size: 7px; letter-spacing: 1px; }
+    .kz-winner { height: 40px; font-size: 38px; }
+    .kz-status { font-size: 10px; }
+    .kz-section-title { font-size: 11px; margin: 5px 1px 4px; letter-spacing: .5px; }
+    .kz-bets { gap: 4px; }
+    .kz-bet { min-height: 35px; border-radius: 10px; font-size: 11px; border-width: 1.5px; }
+    .kz-summary { font-size: 9px; margin: 4px 2px; }
+    .kz-animals { grid-template-columns: repeat(2, 1fr); gap: 5px; }
+    [class*="st-key-animal-card-"] div.stButton > button {
+        min-height: 61px !important;
+        border-radius: 11px !important;
+        border-width: 1.5px !important;
+        padding: 3px 4px !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button::before {
+        font-size: clamp(34px, 10vw, 44px) !important;
+        line-height: .78 !important;
+        margin-bottom: 2px !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button p {
+        font-size: 9px !important;
+        line-height: 1 !important;
+    }
+    .kz-actions { gap: 5px; margin-top: 5px; }
+    .kz-action { min-height: 37px; font-size: 10px; border-radius: 10px; }
+    div.stButton > button { min-height: 35px !important; font-size: 10px !important; }
+}
+
+/* Very short phone screens */
+@media (max-width: 650px) and (max-height: 700px) {
+    .kz-brand { height: 36px; }
+    .kz-logo { font-size: 26px; }
+    .kz-tag { display: none !important; }
+    .kz-stat { padding: 4px 7px; }
+    .kz-stat-value { font-size: 14px; }
+    .kz-arena { min-height: 68px; }
+    .kz-winner { height: 32px; font-size: 31px; }
+    .kz-section-title { margin: 3px 1px 2px; }
+    .kz-bet { min-height: 31px; }
+    [class*="st-key-animal-card-"] div.stButton > button { min-height: 53px !important; }
+    [class*="st-key-animal-card-"] div.stButton > button::before { font-size: 34px !important; }
+    .kz-actions { margin-top: 3px; }
+    .kz-action { min-height: 32px; }
 }
 </style>
 """,
@@ -548,7 +631,7 @@ st.markdown('<div class="kz-page">', unsafe_allow_html=True)
 st.markdown(
     """
 <div class="kz-brand">
-  <div class="kz-logo">👑 KINGINAZOO 🐾</div>
+  <div class="kz-logo">👑 KINGINAZOO</div>
   <div class="kz-tag">GUESS • BET • WIN</div>
 </div>
 """,
@@ -691,18 +774,18 @@ animal_cols = st.columns(4, gap="small")
 for index, animal in enumerate(ANIMALS):
     with animal_cols[index % 4]:
         amount = st.session_state.bets.get(animal["id"], 0)
-        label = (
-            f"{animal['emoji']}\n{animal['name']}  x{animal['multiplier']}\n"
-            f"💎 {fmt(amount)}\n"
-            f"TAP +💎 {fmt(st.session_state.selected_bet)}"
-        )
-        st.button(
-            label,
-            key=f"animal_{animal['id']}",
-            use_container_width=True,
-            on_click=add_animal_bet,
-            args=(animal["id"],),
-        )
+        with st.container(key=f"animal-card-{animal['id']}"):
+            label = (
+                f"{animal['name']} x{animal['multiplier']}\n"
+                f"💎 {fmt(amount)} • +💎 {fmt(st.session_state.selected_bet)}"
+            )
+            st.button(
+                label,
+                key=f"animal_{animal['id']}",
+                use_container_width=True,
+                on_click=add_animal_bet,
+                args=(animal["id"],),
+            )
 
 # Actions
 action_cols = st.columns([3, 1], gap="small")
