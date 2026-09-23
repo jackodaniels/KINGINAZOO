@@ -2435,6 +2435,193 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown("""
+<style>
+/* FINAL MOBILE SECTION-HEADER FIX
+   Titles must occupy their own centered row and never sit on top of a box. */
+@media only screen and (max-width: 650px) {
+
+  .kz-bet-title,
+  .kz-animal-title {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
+    margin: 5px 0 4px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    line-height: 22px !important;
+    font-size: 12px !important;
+    font-weight: 1000 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    z-index: 20 !important;
+    clear: both !important;
+  }
+
+  /* The element immediately after the title gets a real separation. */
+  .kz-bet-title + div,
+  .kz-animal-title + div {
+    position: relative !important;
+    clear: both !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    z-index: 5 !important;
+  }
+
+  /* Bet buttons: centered 2x2, with no title overlap. */
+  .st-key-mobile-bets {
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
+  }
+
+  .st-key-mobile-bets [data-testid="stHorizontalBlock"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    align-items: stretch !important;
+    justify-items: stretch !important;
+  }
+
+  .st-key-mobile-bets [data-testid="column"] {
+    min-width: 0 !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .st-key-mobile-bets div.stButton {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .st-key-mobile-bets div.stButton > button {
+    width: 100% !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 9px !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+  }
+
+  /* Summary is centered between the two sections and cannot overlap. */
+  .kz-summary {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    margin: 2px 0 3px !important;
+    padding: 0 3px !important;
+    box-sizing: border-box !important;
+    font-size: 9px !important;
+    line-height: 18px !important;
+    z-index: 10 !important;
+  }
+
+  /* Animal title gets a clean row before the 4x2 cards. */
+  .kz-animal-title {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .st-key-mobile-animals {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .st-key-mobile-animals [data-testid="stHorizontalBlock"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    align-items: stretch !important;
+    justify-items: stretch !important;
+  }
+
+  .st-key-mobile-animals [data-testid="column"] {
+    min-width: 0 !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .st-key-mobile-animals .stButton {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .st-key-mobile-animals button {
+    width: 100% !important;
+    height: 82px !important;
+    min-height: 82px !important;
+    max-height: 82px !important;
+    margin: 0 !important;
+    padding: 2px 1px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Extra-tight but still readable on 320px screens. */
+  .kz-page {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .kz-bet-title,
+  .kz-animal-title {
+    height: 20px !important;
+    min-height: 20px !important;
+    max-height: 20px !important;
+    margin: 4px 0 3px !important;
+    line-height: 20px !important;
+    font-size: 10px !important;
+  }
+
+  .st-key-mobile-bets [data-testid="stHorizontalBlock"] {
+    gap: 3px !important;
+  }
+
+  .st-key-mobile-bets div.stButton > button {
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    font-size: 9px !important;
+  }
+
+  .kz-summary {
+    height: 16px !important;
+    min-height: 16px !important;
+    line-height: 16px !important;
+    font-size: 8px !important;
+    margin: 1px 0 2px !important;
+  }
+
+  .st-key-mobile-animals [data-testid="stHorizontalBlock"] {
+    gap: 3px !important;
+  }
+
+  .st-key-mobile-animals button {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+  }
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown('<div class="kz-page">', unsafe_allow_html=True)
 
 # Brand
@@ -2832,7 +3019,7 @@ if st.session_state.bet_timer_active and not st.session_state.show_reveal and st
     st_autorefresh(interval=1000, key="kinginazoo_bet_timer")
 
 # Bet buttons — native Streamlit buttons keep the user on the same page.
-st.markdown('<div class="kz-section-title">💎 CHOOSE YOUR BET</div>', unsafe_allow_html=True)
+st.markdown('<div class="kz-section-title kz-bet-title">💎 CHOOSE YOUR BET</div>', unsafe_allow_html=True)
 with st.container(key="mobile-bets"):
     bet_cols = st.columns(4, gap="small")
     for col, amount in zip(bet_cols, BET_OPTIONS):
@@ -2857,7 +3044,7 @@ st.markdown(
 )
 
 # Animal cards — the entire visible button/card is clickable and adds the selected bet.
-st.markdown('<div class="kz-section-title">🐾 TAP AN ANIMAL TO BET</div>', unsafe_allow_html=True)
+st.markdown('<div class="kz-section-title kz-animal-title">🐾 TAP AN ANIMAL TO BET</div>', unsafe_allow_html=True)
 with st.container(key="mobile-animals"):
     animal_cols = st.columns(4, gap="small")
     for index, animal in enumerate(ANIMALS):
