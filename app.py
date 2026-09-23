@@ -1862,376 +1862,387 @@ will-change:transform,opacity;filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}
 
 
 /* ==========================================================
-   KINGINAZOO — TRUE PHONE-FIT UI
-   No horizontal scrolling. Everything is width:100% of viewport.
+   KINGINAZOO — TRUE PORTRAIT PHONE MODE
+   320–430px portrait. The desktop canvas is NEVER allowed
+   to determine the mobile width.
    ========================================================== */
 @media screen and (max-width: 650px) {
-    html, body {
-        width: 100vw !important;
-        max-width: 100vw !important;
-        min-width: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow-x: hidden !important;
-    }
 
-    [data-testid="stApp"],
-    [data-testid="stAppViewContainer"],
-    [data-testid="stAppViewContainer"] > .main,
-    section[data-testid="stMain"],
-    .main,
-    .main .block-container {
-        width: 100vw !important;
-        max-width: 100vw !important;
-        min-width: 0 !important;
-        margin: 0 !important;
-        padding-left: 2px !important;
-        padding-right: 2px !important;
-        overflow-x: hidden !important;
-    }
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
 
-    .main .block-container {
-        padding-top: 0 !important;
-        padding-bottom: 4px !important;
-    }
+  #root,
+  [data-testid="stApp"],
+  [data-testid="stAppViewContainer"],
+  [data-testid="stAppViewContainer"] > .main,
+  [data-testid="stMain"],
+  section[data-testid="stMain"],
+  .main,
+  .main > div,
+  .main .block-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
 
-    /* Prevent Streamlit's internal flex rows from forcing desktop width */
-    [data-testid="stHorizontalBlock"],
-    [data-testid="stHorizontalBlock"] > div,
-    [data-testid="column"] {
-        min-width: 0 !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-    }
+  .main .block-container {
+    padding-top: 0 !important;
+    padding-bottom: 3px !important;
+  }
 
-    [data-testid="stHorizontalBlock"] {
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        gap: 2px !important;
-        overflow: hidden !important;
-    }
+  /* Kill Streamlit's desktop column minimums/flex-basis. */
+  [data-testid="stHorizontalBlock"],
+  [data-testid="stHorizontalBlock"] > div,
+  [data-testid="stHorizontalBlock"] > [data-testid="column"],
+  [data-testid="column"] > div {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
 
-    [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
+  [data-testid="stHorizontalBlock"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 2px !important;
+    overflow: hidden !important;
+  }
 
-    /* ---------- LOGO ---------- */
-    .kz-brand {
-        width: 100% !important;
-        height: 44px !important;
-        min-height: 44px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-    }
+  [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-basis: 0 !important;
+    flex-grow: 1 !important;
+    flex-shrink: 1 !important;
+  }
 
-    .kz-logo {
-        width: 100% !important;
-        max-width: 100% !important;
-        font-size: clamp(22px, 8vw, 34px) !important;
-        line-height: 1 !important;
-        text-align: center !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-    }
+  /* Brand */
+  .kz-brand {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 43px !important;
+    min-height: 43px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
 
-    /* ---------- ROUND / COINS ---------- */
-    .kz-top {
-        width: 100% !important;
-        max-width: 100% !important;
-        display: grid !important;
-        grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
-        gap: 2px !important;
-        margin: 0 0 2px !important;
-        overflow: hidden !important;
-    }
+  .kz-logo {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(22px, 8vw, 34px) !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
 
-    .kz-stat {
-        width: 100% !important;
-        min-width: 0 !important;
-        height: 48px !important;
-        padding: 3px 5px !important;
-        border-radius: 8px !important;
-        overflow: hidden !important;
-    }
+  /* Header */
+  .kz-top {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+    gap: 2px !important;
+    margin: 0 0 2px !important;
+    overflow: hidden !important;
+  }
 
-    .kz-stat-value {
-        font-size: clamp(18px, 5.5vw, 25px) !important;
-        white-space: nowrap !important;
-    }
+  .kz-stat {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 49px !important;
+    padding: 3px 5px !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
 
-    /* ---------- RESULT ---------- */
-    .kz-arena {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 78px !important;
-        min-height: 78px !important;
-        max-height: 78px !important;
-        margin: 0 0 2px !important;
-        padding: 2px !important;
-        overflow: hidden !important;
-    }
+  .kz-stat-value {
+    font-size: clamp(18px, 5.7vw, 25px) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
 
-    .kz-arena .animal,
-    .kz-arena img {
-        max-width: 58px !important;
-        max-height: 58px !important;
-    }
+  /* Result */
+  .kz-arena {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+    margin: 0 0 2px !important;
+    padding: 2px !important;
+    overflow: hidden !important;
+  }
 
-    /* ---------- HISTORY: 10 TINY TILES, NEVER WIDER THAN SCREEN ---------- */
-    .kz-history {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 2px 0 3px !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-    }
+  .kz-arena .animal,
+  .kz-arena img {
+    max-width: 56px !important;
+    max-height: 56px !important;
+  }
 
-    .kz-history-list {
-        width: 100% !important;
-        max-width: 100% !important;
-        display: grid !important;
-        grid-template-columns: repeat(10, minmax(0, 1fr)) !important;
-        gap: 1px !important;
-        overflow: hidden !important;
-    }
+  /* History: exactly 10 equal tiles */
+  .kz-history {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2px 0 3px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
 
-    .kz-history-chip {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        height: 42px !important;
-        padding: 1px !important;
-        border-radius: 5px !important;
-        overflow: hidden !important;
-    }
+  .kz-history-list {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(10, minmax(0, 1fr)) !important;
+    gap: 1px !important;
+    overflow: hidden !important;
+  }
 
-    .kz-history-chip img,
-    .kz-history-chip .icon {
-        width: 18px !important;
-        height: 18px !important;
-        max-width: 18px !important;
-        max-height: 18px !important;
-    }
+  .kz-history-chip {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 43px !important;
+    padding: 1px !important;
+    border-radius: 5px !important;
+    overflow: hidden !important;
+  }
 
-    .kz-history-chip * {
-        max-width: 100% !important;
-        overflow: hidden !important;
-        text-overflow: clip !important;
-        white-space: nowrap !important;
-        font-size: 4px !important;
-        line-height: 1 !important;
-    }
+  .kz-history-chip img,
+  .kz-history-chip .icon {
+    width: 19px !important;
+    height: 19px !important;
+    max-width: 19px !important;
+    max-height: 19px !important;
+  }
 
-    /* ---------- TITLES ---------- */
-    .kz-section-title {
-        width: 100% !important;
-        margin: 2px 0 2px !important;
-        font-size: 11px !important;
-        line-height: 1 !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-    }
+  .kz-history-chip * {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    font-size: 4px !important;
+    line-height: 1 !important;
+  }
 
-    /* ---------- BET BUTTONS: 2 x 2 ---------- */
-    [data-testid="stHorizontalBlock"]:has(.st-key-bet_1),
-    [data-testid="stHorizontalBlock"]:has(.st-key-bet_10) {
-        display: grid !important;
-        grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
-        gap: 2px !important;
-        width: 100% !important;
-    }
+  /* Section titles */
+  .kz-section-title {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2px 0 2px !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
 
-    [data-testid="stHorizontalBlock"]:has(.st-key-bet_1) > [data-testid="column"],
-    [data-testid="stHorizontalBlock"]:has(.st-key-bet_10) > [data-testid="column"],
-    [data-testid="stHorizontalBlock"]:has(.st-key-bet_100) > [data-testid="column"],
-    [data-testid="stHorizontalBlock"]:has(.st-key-bet_1000) > [data-testid="column"] {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        flex: none !important;
-    }
+  /* BETS: 2 columns x 2 rows */
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_1),
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_10) {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 2px !important;
+    overflow: hidden !important;
+  }
 
-    .st-key-bet_1,
-    .st-key-bet_10,
-    .st-key-bet_100,
-    .st-key-bet_1000,
-    .st-key-bet_1 > div,
-    .st-key-bet_10 > div,
-    .st-key-bet_100 > div,
-    .st-key-bet_1000 > div {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-    }
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_1) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_10) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_100) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_1000) > [data-testid="column"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+  }
 
-    .st-key-bet_1 div.stButton > button,
-    .st-key-bet_10 div.stButton > button,
-    .st-key-bet_100 div.stButton > button,
-    .st-key-bet_1000 div.stButton > button {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        height: 34px !important;
-        min-height: 34px !important;
-        max-height: 34px !important;
-        margin: 0 !important;
-        padding: 0 2px !important;
-        font-size: 9px !important;
-        border-radius: 7px !important;
-        box-sizing: border-box !important;
-    }
+  .st-key-bet_1,
+  .st-key-bet_10,
+  .st-key-bet_100,
+  .st-key-bet_1000,
+  .st-key-bet_1 > div,
+  .st-key-bet_10 > div,
+  .st-key-bet_100 > div,
+  .st-key-bet_1000 > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
 
-    /* ---------- ANIMALS: 4 x 2, SMALLER BOXES ---------- */
-    [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey),
-    [data-testid="stHorizontalBlock"]:has(.st-key-animal_fish) {
-        display: grid !important;
-        grid-template-columns: repeat(4, minmax(0,1fr)) !important;
-        gap: 2px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow: hidden !important;
-    }
+  .st-key-bet_1 div.stButton > button,
+  .st-key-bet_10 div.stButton > button,
+  .st-key-bet_100 div.stButton > button,
+  .st-key-bet_1000 div.stButton > button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    max-height: 35px !important;
+    padding: 0 2px !important;
+    margin: 0 !important;
+    font-size: 10px !important;
+    border-radius: 7px !important;
+    box-sizing: border-box !important;
+  }
 
-    [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey) > [data-testid="column"],
-    [data-testid="stHorizontalBlock"]:has(.st-key-animal_fish) > [data-testid="column"] {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        flex: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
+  /* ANIMALS: 4 columns x 2 rows, equal width */
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey),
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_fish) {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 2px !important;
+    overflow: hidden !important;
+  }
 
-    [class*="st-key-animal-card-"],
-    [class*="st-key-animal-card-"] > div,
-    [class*="st-key-animal-card-"] div.stButton,
-    [class*="st-key-animal-card-"] div.stButton > button {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        box-sizing: border-box !important;
-    }
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_fish) > [data-testid="column"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
 
-    [class*="st-key-animal-card-"] div.stButton > button {
-        height: 82px !important;
-        min-height: 82px !important;
-        max-height: 82px !important;
-        margin: 0 !important;
-        padding: 1px !important;
-        border-radius: 7px !important;
-        overflow: hidden !important;
-        white-space: normal !important;
-    }
+  [class*="st-key-animal-card-"],
+  [class*="st-key-animal-card-"] > div,
+  [class*="st-key-animal-card-"] div.stButton,
+  [class*="st-key-animal-card-"] div.stButton > button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
 
-    [class*="st-key-animal-card-"] div.stButton > button::before {
-        font-size: clamp(30px, 10vw, 43px) !important;
-        line-height: .85 !important;
-    }
+  [class*="st-key-animal-card-"] div.stButton > button {
+    height: 84px !important;
+    min-height: 84px !important;
+    max-height: 84px !important;
+    padding: 1px !important;
+    margin: 0 !important;
+    border-radius: 7px !important;
+    overflow: hidden !important;
+    white-space: normal !important;
+  }
 
-    [class*="st-key-animal-card-"] div.stButton > button::after {
-        top: 2px !important;
-        left: 2px !important;
-        min-width: 21px !important;
-        height: 16px !important;
-        line-height: 16px !important;
-        padding: 0 2px !important;
-        font-size: 8px !important;
-        border-radius: 8px !important;
-    }
+  /* Keep icons large enough to resemble the approved screenshot */
+  [class*="st-key-animal-card-"] div.stButton > button::before {
+    font-size: clamp(31px, 10.5vw, 45px) !important;
+    line-height: .85 !important;
+  }
 
-    [class*="st-key-animal-card-"] div.stButton > button p {
-        font-size: 5px !important;
-        line-height: 1 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        max-width: 100% !important;
-    }
+  [class*="st-key-animal-card-"] div.stButton > button::after {
+    top: 2px !important;
+    left: 2px !important;
+    min-width: 21px !important;
+    height: 16px !important;
+    line-height: 16px !important;
+    padding: 0 2px !important;
+    font-size: 8px !important;
+    border-radius: 8px !important;
+  }
 
-    /* ---------- START/CLEAR ---------- */
-    .kz-action-row,
-    .kz-actions {
-        width: 100% !important;
-        max-width: 100% !important;
-        display: grid !important;
-        grid-template-columns: minmax(0,2fr) minmax(0,1fr) !important;
-        gap: 2px !important;
-        overflow: hidden !important;
-    }
+  [class*="st-key-animal-card-"] div.stButton > button p {
+    font-size: 5px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
 
-    /* ---------- FOOTER ---------- */
-    .kz-footer {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 4px 0 0 !important;
-        padding: 2px 0 !important;
-        text-align: center !important;
-        overflow: hidden !important;
-    }
+  /* START / CLEAR */
+  .kz-action-row,
+  .kz-actions {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(0,2fr) minmax(0,1fr) !important;
+    gap: 2px !important;
+    overflow: hidden !important;
+  }
 
-    .powered-by,
-    .kz-footer .powered-by {
-        width: 100% !important;
-        max-width: 100% !important;
-        display: block !important;
-        text-align: center !important;
-        white-space: nowrap !important;
-        font-size: clamp(12px, 4.2vw, 18px) !important;
-        line-height: 1 !important;
-    }
+  /* Footer */
+  .kz-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 4px 0 0 !important;
+    padding: 2px 0 !important;
+    text-align: center !important;
+    overflow: hidden !important;
+  }
+
+  .powered-by,
+  .kz-footer .powered-by {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    font-size: clamp(12px, 4.2vw, 18px) !important;
+    line-height: 1 !important;
+  }
 }
 
+/* 320–360px: same structure, even tighter */
 @media screen and (max-width: 360px) {
-    .main .block-container {
-        padding-left: 1px !important;
-        padding-right: 1px !important;
-    }
+  .kz-brand { height: 39px !important; min-height: 39px !important; }
+  .kz-logo { font-size: 21px !important; }
 
-    .kz-brand {
-        height: 40px !important;
-        min-height: 40px !important;
-    }
+  .kz-stat { height: 43px !important; }
+  .kz-arena {
+    height: 68px !important;
+    min-height: 68px !important;
+    max-height: 68px !important;
+  }
 
-    .kz-logo {
-        font-size: 22px !important;
-    }
+  .kz-history-chip { height: 37px !important; }
+  .kz-history-chip img,
+  .kz-history-chip .icon {
+    width: 16px !important;
+    height: 16px !important;
+  }
 
-    .kz-stat {
-        height: 44px !important;
-    }
+  .st-key-bet_1 div.stButton > button,
+  .st-key-bet_10 div.stButton > button,
+  .st-key-bet_100 div.stButton > button,
+  .st-key-bet_1000 div.stButton > button {
+    height: 32px !important;
+    min-height: 32px !important;
+  }
 
-    .kz-arena {
-        height: 70px !important;
-        min-height: 70px !important;
-        max-height: 70px !important;
-    }
+  [class*="st-key-animal-card-"] div.stButton > button {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+  }
 
-    .kz-history-chip {
-        height: 38px !important;
-    }
+  [class*="st-key-animal-card-"] div.stButton > button::before {
+    font-size: 29px !important;
+  }
 
-    .kz-history-chip img,
-    .kz-history-chip .icon {
-        width: 16px !important;
-        height: 16px !important;
-    }
-
-    [class*="st-key-animal-card-"] div.stButton > button {
-        height: 75px !important;
-        min-height: 75px !important;
-        max-height: 75px !important;
-    }
-
-    [class*="st-key-animal-card-"] div.stButton > button::before {
-        font-size: 30px !important;
-    }
-
-    .powered-by,
-    .kz-footer .powered-by {
-        font-size: 12px !important;
-    }
+  .powered-by,
+  .kz-footer .powered-by {
+    font-size: 12px !important;
+  }
 }
 
 </style>
