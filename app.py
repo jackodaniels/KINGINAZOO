@@ -12,19 +12,6 @@ import threading
 import time
 
 
-st.markdown("""
-<style>
-#final-result {
-    visibility: hidden !important;
-    opacity: 0 !important;
-}
-#final-result.revealed {
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
 try:
     from streamlit_autorefresh import st_autorefresh
 except ImportError:
@@ -865,15 +852,27 @@ else:
 
 # Main arena
 winner = st.session_state.winner
-winner_emoji = winner["emoji"] if winner else "❓"
-display_round = st.session_state.last_result_round if winner and st.session_state.last_result_round is not None else st.session_state.round
+is_flashing = bool(st.session_state.show_reveal and winner)
+
+if is_flashing:
+    arena_emoji = "❓"
+    arena_status = "🎰 Drawing • Flashing..."
+    display_round = st.session_state.last_result_round or st.session_state.round
+else:
+    arena_emoji = winner["emoji"] if winner else "❓"
+    arena_status = st.session_state.status
+    display_round = (
+        st.session_state.last_result_round
+        if winner and st.session_state.last_result_round is not None
+        else st.session_state.round
+    )
 
 st.markdown(
     f"""
 <div class="kz-arena">
   <div class="kz-arena-round">KINGINAZOO • ROUND #{display_round}</div>
-  <div class="kz-winner">{winner_emoji}</div>
-  <div class="kz-status">{st.session_state.status}</div>
+  <div class="kz-winner">{arena_emoji}</div>
+  <div class="kz-status">{arena_status}</div>
 </div>
 """,
     unsafe_allow_html=True,
@@ -900,7 +899,8 @@ st.markdown('<div class="kz-history">', unsafe_allow_html=True)
 st.markdown('<div class="kz-history-title">🏆 LAST 10 WINNING RESULTS</div>', unsafe_allow_html=True)
 
 chips = []
-for item in st.session_state.history[:10]:
+history_for_display = st.session_state.history[1:] if is_flashing else st.session_state.history
+for item in history_for_display[:10]:
     w = item["winner"]
     chips.append(
         f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
@@ -977,6 +977,9 @@ function next() {{
   }} else {{
     status.textContent="🎉 " + winner.name + " — WINNER!";
     el.className="animal win";
+    setTimeout(() => {{
+      window.parent.postMessage({{type:"KINGINAZOO_FLASH_COMPLETE"}}, "*");
+    }}, 350);
   }}
 
   if(i < sequence.length-1) {{
@@ -1186,9 +1189,8 @@ st.markdown("</div>", unsafe_allow_html=True)
 st.markdown("""
 <script>
 window.addEventListener("message", function(event) {
-    if (event.data && event.data.type === "KINGINAZOO_REVEAL_RESULT") {
-        const el = document.getElementById("final-result");
-        if (el) el.classList.add("revealed");
+    if (event.data && event.data.type === "KINGINAZOO_FLASH_COMPLETE") {
+        window.location.reload();
     }
 });
 </script>
