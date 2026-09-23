@@ -39,7 +39,7 @@ ANIMALS = [
     {"id": "fish", "name": "Fish", "emoji": "🐟", "multiplier": 10, "category": "Ocean"},
     {"id": "crab", "name": "Crab", "emoji": "🦀", "multiplier": 15, "category": "Ocean"},
     {"id": "jelly", "name": "Jellyfish", "emoji": "🪼", "multiplier": 25, "category": "Ocean"},
-    {"id": "turtle", "name": "Turtle", "emoji": "🐢", "multiplier": 50, "category": "Ocean"},
+    {"id": "shell_pearl", "name": "Shell Pearl", "emoji": "🐚", "multiplier": 50, "category": "Ocean"},
 ]
 BET_OPTIONS = [1, 10, 100, 1000]
 
@@ -385,7 +385,7 @@ div.stButton > button:hover {
 .st-key-animal-card-fish div.stButton > button::before { content: "🐟"; }
 .st-key-animal-card-crab div.stButton > button::before { content: "🦀"; }
 .st-key-animal-card-jelly div.stButton > button::before { content: "🪼"; }
-.st-key-animal-card-turtle div.stButton > button::before { content: "🐢"; }
+.st-key-animal-card-turtle div.stButton > button::before { content: "🐚"; }
 [class*="st-key-animal-card-"] div.stButton > button::before {
     display: block !important;
     font-size: clamp(64px, 7vw, 86px) !important;
