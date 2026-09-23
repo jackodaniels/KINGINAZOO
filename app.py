@@ -851,6 +851,18 @@ iframe[title="streamlit.components.v1.html"] {
 .kz-arena { background: linear-gradient(180deg, rgba(6,61,32,.38), rgba(2,29,16,.22)) !important; }
 .kz-history { border: none !important; box-shadow: none !important; }
 
+/* Clear payout multiplier inside every animal card. */
+[class*="st-key-animal-card-"] div.stButton > button p {
+    font-weight: 1000 !important;
+    letter-spacing: .15px !important;
+}
+@media (max-width: 650px) {
+    [class*="st-key-animal-card-"] div.stButton > button p {
+        font-size: 8.5px !important;
+        line-height: 1.02 !important;
+    }
+}
+
 /* Performance: keep touch interactions cheap on phones. */
 @media (hover: none) and (pointer: coarse) {
     .kz-bet:hover, .kz-animal:hover, div.stButton > button:hover { transform: none !important; }
@@ -1054,8 +1066,13 @@ iframe[title="streamlit.components.v1.html"] {
     line-height: .82 !important;
 }
 [class*="st-key-animal-card-"] div.stButton > button p {
-    font-size: 11px !important;
+    font-size: 10.5px !important;
+    line-height: 1.08 !important;
 }
+[class*="st-key-animal-card-"] div.stButton > button {
+    white-space: pre-line !important;
+}
+
 
 /* Start/Clear */
 .kz-actions {
@@ -1535,7 +1552,8 @@ for index, animal in enumerate(ANIMALS):
         amount = st.session_state.bets.get(animal["id"], 0)
         with st.container(key=f"animal-card-{animal['id']}"):
             label = (
-                f"{animal['name']} x{animal['multiplier']}\n"
+                f"{animal['name']}\n"
+                f"💰 PAYOUT ×{animal['multiplier']}\n"
                 f"💎 {fmt(amount)} • +💎 {fmt(st.session_state.selected_bet)}"
             )
             st.button(
