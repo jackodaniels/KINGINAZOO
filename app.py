@@ -852,40 +852,11 @@ else:
 
 # Main arena
 
-st.markdown("""
-<style>
-.kz-result-delayed {
-    animation: kzRevealWinner 0.18s ease-out 2.65s forwards !important;
-}
-.kz-result-delayed .kz-winner,
-.kz-result-delayed .kz-status {
-    opacity: 0 !important;
-}
-@keyframes kzRevealWinner {
-    from { opacity: 1; }
-    to   { opacity: 1; }
-}
-.kz-result-delayed::after {
-    content: "";
-}
-.kz-result-delayed .kz-winner,
-.kz-result-delayed .kz-status {
-    animation: kzRevealInner 0.18s ease-out 2.65s forwards !important;
-}
-@keyframes kzRevealInner {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-</style>
-""", unsafe_allow_html=True)
-
 winner = st.session_state.winner
 is_flashing = bool(st.session_state.show_reveal and winner)
 
-# The winner is rendered in the result section immediately, but while the
-# drawing iframe is flashing it is visually hidden. CSS reveals it at the same
-# time the final animation frame is reached. This is more reliable than trying
-# to communicate from the iframe back into the Streamlit DOM.
+# The result is rendered now but remains invisible during the drawing.
+# The CSS reveal is timed to the exact duration of the browser animation.
 display_round = (
     st.session_state.last_result_round
     if winner and st.session_state.last_result_round is not None
@@ -893,8 +864,7 @@ display_round = (
 )
 arena_emoji = winner["emoji"] if winner else "❓"
 arena_status = st.session_state.status if winner else "Choose your bet and animals"
-
-result_class = "kz-result-delayed" if is_flashing else ""
+result_class = "kz-result-hidden-during-draw" if is_flashing else ""
 
 st.markdown(
     f"""
@@ -906,6 +876,22 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
+
+st.markdown("""
+<style>
+/* Result stays hidden while the flashing iframe is running.
+   The animation reaches its final frame at roughly 3.2 seconds. */
+.kz-result-hidden-during-draw .kz-winner,
+.kz-result-hidden-during-draw .kz-status {
+    opacity: 0 !important;
+    animation: kzShowFinalResult 0.12s linear 3.30s forwards !important;
+}
+@keyframes kzShowFinalResult {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Realtime betting countdown.
 if st.session_state.bet_timer_active and timer_remaining > 0:
@@ -928,11 +914,12 @@ st.markdown('<div class="kz-history">', unsafe_allow_html=True)
 st.markdown('<div class="kz-history-title">🏆 LAST 10 WINNING RESULTS</div>', unsafe_allow_html=True)
 
 chips = []
-history_for_display = st.session_state.history[1:] if is_flashing else st.session_state.history
-for item in history_for_display[:10]:
+history_for_display = st.session_state.history[:10]
+for idx, item in enumerate(history_for_display):
     w = item["winner"]
+    current_class = " kz-current-history" if is_flashing and idx == 0 else ""
     chips.append(
-        f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
+        f'<div class="kz-history-chip{current_class}"><span class="animal">{w["emoji"]}</span>'
         f'<span>{w["name"]}</span><span class="round">#{item["round"]}</span></div>'
     )
 
@@ -943,6 +930,20 @@ else:
     st.markdown('<div class="kz-history-empty">No completed rounds yet</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
+
+
+st.markdown("""
+<style>
+.kz-current-history {
+    opacity: 0 !important;
+    animation: kzShowHistory 0.12s linear 3.30s forwards !important;
+}
+@keyframes kzShowHistory {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Flashing winner animation.
 # The winner is already selected server-side by secrets.choice().
