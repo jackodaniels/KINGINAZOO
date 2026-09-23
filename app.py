@@ -228,49 +228,6 @@ html, body, [data-testid="stAppViewContainer"],
     font-weight: 1000;
 }
 
-
-/* Compact last-five history inside the main yellow arena */
-.kz-arena-history {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-    margin-top:5px;
-    min-height:24px;
-    padding:3px 8px;
-    border-radius:999px;
-    background:rgba(0,25,12,.45);
-    border:1px solid rgba(255,216,77,.35);
-    box-shadow:inset 0 0 10px rgba(0,0,0,.2);
-}
-.kz-arena-history-label {
-    color:#ffe87e;
-    font-size:9px;
-    font-weight:1000;
-    letter-spacing:1px;
-}
-.kz-arena-history-item {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:25px;
-    height:25px;
-    border-radius:50%;
-    background:linear-gradient(180deg,#0a542b,#06361e);
-    border:1px solid rgba(255,216,77,.6);
-    font-size:17px;
-    line-height:1;
-}
-.kz-arena-history-empty {
-    color:#a9b28d;
-    font-size:9px;
-}
-@media (max-width:650px) {
-    .kz-arena-history { gap:5px; margin-top:3px; padding:2px 6px; min-height:20px; }
-    .kz-arena-history-label { font-size:7px; }
-    .kz-arena-history-item { width:21px; height:21px; font-size:14px; }
-}
-
 /* Section */
 .kz-section-title {
     position: relative;
@@ -373,7 +330,7 @@ div.stButton > button:hover {
 .st-key-animal-card-turtle div.stButton > button::before { content: "🐢"; }
 [class*="st-key-animal-card-"] div.stButton > button::before {
     display: block !important;
-    font-size: clamp(52px, 6vw, 72px) !important;
+    font-size: clamp(64px, 7vw, 86px) !important;
     line-height: .82 !important;
     margin-bottom: 3px !important;
     filter: drop-shadow(0 5px 4px rgba(0,0,0,.5));
@@ -491,83 +448,59 @@ div.stButton > button:hover {
     border: 2px solid #b28a22;
 }
 
-/* History */
+/* Winning history — always above the drawing */
 .kz-history {
     display: block !important;
     position: relative;
-    z-index: 2;
-    margin-top: 18px;
-    background: linear-gradient(180deg,#063a20,#022715);
-    border: 2px solid #d5ae31;
-    border-radius: 20px;
-    padding: 13px;
+    z-index: 3;
+    margin: 8px 0 10px;
+    background: linear-gradient(180deg, rgba(3,58,32,.94), rgba(2,35,20,.96));
+    border: 2px solid var(--gold);
+    border-radius: 18px;
+    padding: 8px 10px 10px;
+    overflow: hidden;
+    box-shadow: 0 0 18px rgba(255,216,77,.12), inset 0 0 16px rgba(0,0,0,.25);
 }
 .kz-history-title {
     color: #ffe87e;
     font-size: 16px;
     font-weight: 1000;
-}
-.kz-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 8px 2px;
-    border-bottom: 1px solid rgba(255,216,77,.15);
-    color: #fff5bf;
-    font-size: 12px;
-    font-weight: 900;
-}
-.kz-row:last-child { border-bottom: 0; }
-.kz-win { color: #72e69a; }
-.kz-loss { color: #ff8d8d; }
-
-/* Winning history */
-.kz-history {
-    margin-top: 10px;
-    background: rgba(2,39,21,.82);
-    border: 2px solid #d5ae31;
-    border-radius: 14px;
-    padding: 8px 10px;
-    overflow: hidden;
-}
-.kz-history-title {
-    color: #ffe87e;
-    font-size: 13px;
-    font-weight: 1000;
     letter-spacing: 1px;
-    margin-bottom: 5px;
+    text-align: center;
+    margin-bottom: 7px;
+    text-shadow: 0 2px 4px #000;
 }
 .kz-history-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
     gap: 6px;
-    overflow: hidden;
-    flex-wrap: nowrap;
 }
 .kz-history-chip {
-    flex: 0 0 auto;
-    min-width: 72px;
-    padding: 4px 7px;
-    border-radius: 9px;
+    min-width: 0;
+    min-height: 78px;
+    padding: 5px 3px;
+    border-radius: 11px;
     background: linear-gradient(180deg,#0a542b,#06361e);
-    border: 1px solid rgba(255,216,77,.55);
+    border: 1px solid rgba(255,216,77,.58);
     text-align: center;
     color: #fff5bf;
     font-size: 10px;
     font-weight: 900;
+    overflow: hidden;
 }
 .kz-history-chip .animal {
     display: block;
-    font-size: 22px;
-    line-height: 1;
+    font-size: 40px;
+    line-height: .95;
+    filter: drop-shadow(0 5px 4px rgba(0,0,0,.5));
 }
 .kz-history-chip .round {
     display: block;
-    color: #d9ce8b;
-    font-size: 8px;
-    margin-top: 2px;
+    color: #ffe87e;
+    font-size: 9px;
+    margin-top: 3px;
+    font-weight: 1000;
 }
-
 /* Footer */
 .kz-footer {
     display: block !important;
@@ -699,7 +632,7 @@ iframe[title="streamlit.components.v1.html"] {
         padding: 3px 4px !important;
     }
     [class*="st-key-animal-card-"] div.stButton > button::before {
-        font-size: clamp(42px, 13vw, 52px) !important;
+        font-size: clamp(52px, 16vw, 68px) !important;
         line-height: .78 !important;
         margin-bottom: 2px !important;
     }
@@ -710,7 +643,12 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-actions { gap: 5px; margin-top: 4px; }
     .kz-action { min-height: 36px; font-size: 10px; border-radius: 10px; }
     div.stButton > button { min-height: 34px !important; font-size: 10px !important; }
-    .kz-history { display: block !important; margin-top: 7px !important; padding: 7px 8px !important; border-radius: 12px !important; }
+    .kz-history { display: block !important; margin: 6px 0 7px !important; padding: 6px 5px 7px !important; border-radius: 12px !important; }
+    .kz-history-title { font-size: 11px !important; margin-bottom: 5px !important; }
+    .kz-history-list { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 4px !important; }
+    .kz-history-chip { min-height: 52px !important; padding: 3px 1px !important; border-radius: 8px !important; font-size: 7px !important; }
+    .kz-history-chip .animal { font-size: 28px !important; }
+    .kz-history-chip .round { font-size: 6px !important; margin-top: 1px !important; }
     .kz-footer { display: block !important; margin-top: 18px !important; padding: 8px 0 18px !important; font-size: 28px !important; }
     .kz-footer .powered-by { font-size: 28px !important; font-weight: 900 !important; letter-spacing: 1.5px !important; }
 }
@@ -740,7 +678,11 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-section-title { margin: 3px 1px 2px; }
     .kz-bet { min-height: 31px; }
     [class*="st-key-animal-card-"] div.stButton > button { min-height: 68px !important; }
-    [class*="st-key-animal-card-"] div.stButton > button::before { font-size: 42px !important; }
+    [class*="st-key-animal-card-"] div.stButton > button::before { font-size: 58px !important; }
+    .kz-history { margin: 4px 0 5px !important; padding: 4px !important; }
+    .kz-history-title { font-size: 9px !important; }
+    .kz-history-chip { min-height: 45px !important; }
+    .kz-history-chip .animal { font-size: 23px !important; }
     .kz-actions { margin-top: 3px; }
     .kz-action { min-height: 32px; }
 }
@@ -789,10 +731,6 @@ st.markdown(
   <div class="kz-arena-round">KINGINAZOO • ROUND #{st.session_state.round}</div>
   <div class="kz-winner">{winner_emoji}</div>
   <div class="kz-status">{st.session_state.status}</div>
-  <div class="kz-arena-history">
-    <span class="kz-arena-history-label">LAST 5:</span>
-    {"".join(f'<span class="kz-arena-history-item" title="Round #{item["round"]}">{item["winner"]["emoji"]}</span>' for item in st.session_state.history[:5]) or '<span class="kz-arena-history-empty">No results yet</span>'}
-  </div>
 </div>
 """,
     unsafe_allow_html=True,
@@ -800,6 +738,24 @@ st.markdown(
 
 # Random category is chosen automatically when a round starts.
 # There is intentionally NO jackpot selector shown to the player.
+
+# Winning history — shown above the drawing so players can see recent results.
+st.markdown('<div class="kz-history">', unsafe_allow_html=True)
+st.markdown('<div class="kz-history-title">🏆 LAST 10 WINNING RESULTS</div>', unsafe_allow_html=True)
+
+if not st.session_state.history:
+    st.markdown('<div style="color:#9e9f76;font-size:10px;text-align:center">No winning rounds yet.</div>', unsafe_allow_html=True)
+else:
+    chips = []
+    for item in st.session_state.history[:10]:
+        w = item["winner"]
+        chips.append(
+            f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
+            f'<span>{w["name"]}</span><span class="round">#{item["round"]}</span></div>'
+        )
+    st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Flashing winner animation.
 # Winner is already selected server-side. The browser only reveals it through
@@ -822,7 +778,7 @@ if st.session_state.show_reveal and st.session_state.winner:
 <style>
 body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
 .box{{margin-top:8px;background:#032715;border:3px solid #ffd84d;border-radius:22px;
-padding:7px;text-align:center;box-shadow:0 0 22px rgba(255,216,77,.18);box-sizing:border-box;height:132px;overflow:hidden}}
+padding:7px;text-align:center;box-shadow:0 0 22px rgba(255,216,77,.18);box-sizing:border-box;height:150px;overflow:hidden}}
 .label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
 .animal{{height:82px;display:flex;align-items:center;justify-content:center;font-size:68px;
 filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
@@ -875,7 +831,7 @@ next();
 </body>
 </html>
 """,
-        height=138,
+        height=156,
         scrolling=False,
     )
 
@@ -949,7 +905,7 @@ def start_round():
             "won": won,
         },
     )
-    st.session_state.history = st.session_state.history[:5]
+    st.session_state.history = st.session_state.history[:10]
     st.session_state.bets = {}
     st.session_state.winner = winner
     st.session_state.status = result
@@ -1015,25 +971,6 @@ with action_cols[1]:
         use_container_width=True,
         on_click=clear_bets,
     )
-
-# History is displayed inside the main arena above.
-# Keep the dedicated bottom history hidden to preserve the one-screen layout.
-st.markdown('<div class="kz-history" style="display:none !important;">', unsafe_allow_html=True)
-st.markdown('<div class="kz-history-title">🏆 LAST 5 WINNING RESULTS</div>', unsafe_allow_html=True)
-
-if not st.session_state.history:
-    st.markdown('<div style="color:#9e9f76;font-size:10px">No winning rounds yet.</div>', unsafe_allow_html=True)
-else:
-    chips = []
-    for item in st.session_state.history[:5]:
-        w = item["winner"]
-        chips.append(
-            f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
-            f'{w["name"]}<span class="round">Round #{item["round"]}</span></div>'
-        )
-    st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
-
-st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown(
     '<div class="kz-footer">'
