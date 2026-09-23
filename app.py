@@ -27,7 +27,7 @@ BG_DATA_URI = get_bg_data_uri()
 st.set_page_config(
     page_title="KINGINAZOO",
     page_icon="👑",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="collapsed",
 )
 
@@ -1585,6 +1585,498 @@ html,body,#root,[data-testid="stApp"],[data-testid="stAppViewContainer"],[data-t
 
 st.markdown(CSS.replace("__BG_DATA_URI__", BG_DATA_URI), unsafe_allow_html=True)
 
+
+# DEFINITIVE PHONE LAYOUT
+st.markdown("""
+<style>
+/* Desktop remains constrained normally. */
+.kz-page {
+  width: min(1080px, 100%) !important;
+  max-width: 1080px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* =========================================================
+   PHONE: 320–430px PORTRAIT
+   This is deliberately written as a complete mobile layout,
+   not a scaled desktop layout.
+   ========================================================= */
+@media only screen and (max-width: 650px) {
+
+  /* Viewport hard lock */
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  #root,
+  [data-testid="stApp"],
+  [data-testid="stAppViewContainer"],
+  [data-testid="stAppViewContainer"] > .main,
+  [data-testid="stMain"],
+  section[data-testid="stMain"],
+  .main,
+  .main > div,
+  .block-container,
+  .kz-page {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .block-container {
+    padding: 2px 2px 6px !important;
+  }
+
+  /* Remove any desktop max-width/padding inherited from earlier CSS. */
+  .kz-page {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* ---------- BRAND ---------- */
+  .kz-brand {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 43px !important;
+    min-height: 43px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .kz-logo {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: clamp(23px, 8vw, 32px) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .kz-tag {
+    font-size: 7px !important;
+    line-height: 1 !important;
+    margin-top: 1px !important;
+  }
+
+  /* ---------- ROUND / COINS ---------- */
+  .kz-top {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important;
+    gap: 2px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 2px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .kz-stat {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 48px !important;
+    padding: 3px 5px !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .kz-stat-label {
+    font-size: 7px !important;
+    letter-spacing: 1px !important;
+  }
+
+  .kz-stat-value {
+    font-size: clamp(17px, 5.5vw, 24px) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  /* ---------- RESULT ---------- */
+  .kz-arena {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: 70px !important;
+    min-height: 70px !important;
+    max-height: 70px !important;
+    margin: 0 !important;
+    padding: 2px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .kz-arena-round {
+    font-size: 6px !important;
+  }
+
+  .kz-winner {
+    font-size: 35px !important;
+    line-height: 1 !important;
+  }
+
+  .kz-status {
+    font-size: 9px !important;
+    line-height: 1 !important;
+  }
+
+  .kz-timer-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 15px !important;
+    min-height: 15px !important;
+    margin: 1px 0 !important;
+    padding: 0 !important;
+    font-size: 7px !important;
+    line-height: 15px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ---------- HISTORY: TEN EQUAL CELLS ---------- */
+  .kz-history {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 1px 0 3px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .kz-history-title {
+    width: 100% !important;
+    height: 13px !important;
+    line-height: 13px !important;
+    font-size: 8px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  .kz-history-list {
+    display: grid !important;
+    grid-template-columns: repeat(10, minmax(0,1fr)) !important;
+    gap: 1px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .kz-history-chip {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 42px !important;
+    padding: 1px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .kz-history-chip .animal {
+    display: block !important;
+    font-size: 16px !important;
+    line-height: 18px !important;
+  }
+
+  .kz-history-chip .history-name,
+  .kz-history-chip .round,
+  .kz-history-chip .latest-badge {
+    display: block !important;
+    max-width: 100% !important;
+    font-size: 4px !important;
+    line-height: 5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  .kz-history-empty {
+    height: 25px !important;
+    font-size: 6px !important;
+    line-height: 25px !important;
+  }
+
+  /* ---------- TITLES ---------- */
+  .kz-section-title {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 14px !important;
+    min-height: 14px !important;
+    margin: 2px 0 1px !important;
+    padding: 0 !important;
+    font-size: 9px !important;
+    line-height: 14px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  /* ---------- ALL STREAMLIT COLUMNS: NEVER DESKTOP WIDTH ---------- */
+  [data-testid="stHorizontalBlock"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 2px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    flex: 1 1 0 !important;
+    width: 0 !important;
+  }
+
+  /* ---------- BET BUTTONS: 2 x 2 ---------- */
+  .st-key-mobile-bets,
+  .st-key-mobile-bets > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .st-key-mobile-bets [data-testid="stHorizontalBlock"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    gap: 2px !important;
+  }
+
+  .st-key-mobile-bets [data-testid="column"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+  }
+
+  .st-key-mobile-bets button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 9px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ---------- ANIMALS: 4 x 2 ---------- */
+  .st-key-mobile-animals,
+  .st-key-mobile-animals > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .st-key-mobile-animals [data-testid="stHorizontalBlock"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+    gap: 2px !important;
+  }
+
+  .st-key-mobile-animals [data-testid="column"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .st-key-mobile-animals [class*="st-key-animal-card-"],
+  .st-key-mobile-animals [class*="st-key-animal-card-"] > div,
+  .st-key-mobile-animals .stButton,
+  .st-key-mobile-animals button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .st-key-mobile-animals button {
+    height: 82px !important;
+    min-height: 82px !important;
+    max-height: 82px !important;
+    margin: 0 !important;
+    padding: 1px !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    white-space: normal !important;
+  }
+
+  .st-key-mobile-animals button::before {
+    font-size: clamp(28px, 9vw, 42px) !important;
+    line-height: .82 !important;
+  }
+
+  .st-key-mobile-animals button::after {
+    top: 2px !important;
+    left: 2px !important;
+    min-width: 20px !important;
+    height: 15px !important;
+    line-height: 15px !important;
+    padding: 0 2px !important;
+    font-size: 7px !important;
+    border-radius: 8px !important;
+  }
+
+  .st-key-mobile-animals button p {
+    font-size: 5px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ---------- ACTIONS ---------- */
+  .st-key-mobile-actions,
+  .st-key-mobile-actions > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .st-key-mobile-actions [data-testid="stHorizontalBlock"] {
+    display: grid !important;
+    grid-template-columns: minmax(0,2fr) minmax(0,1fr) !important;
+    gap: 2px !important;
+  }
+
+  .st-key-mobile-actions [data-testid="column"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+  }
+
+  .st-key-mobile-actions button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    max-height: 35px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Footer */
+  .kz-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 3px 0 0 !important;
+    padding: 2px 0 !important;
+    text-align: center !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    font-size: clamp(12px, 4vw, 16px) !important;
+    line-height: 1 !important;
+  }
+}
+
+/* Extra-small Android */
+@media only screen and (max-width: 360px) {
+  .kz-brand {
+    height: 39px !important;
+    min-height: 39px !important;
+  }
+
+  .kz-logo {
+    font-size: 21px !important;
+  }
+
+  .kz-stat {
+    height: 44px !important;
+  }
+
+  .kz-arena {
+    height: 64px !important;
+    min-height: 64px !important;
+    max-height: 64px !important;
+  }
+
+  .st-key-mobile-bets button {
+    height: 31px !important;
+    min-height: 31px !important;
+    max-height: 31px !important;
+  }
+
+  .st-key-mobile-animals button {
+    height: 75px !important;
+    min-height: 75px !important;
+    max-height: 75px !important;
+  }
+
+  .st-key-mobile-animals button::before {
+    font-size: 28px !important;
+  }
+
+  .kz-history-chip {
+    height: 36px !important;
+  }
+
+  .kz-history-chip .animal {
+    font-size: 14px !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    font-size: 11px !important;
+  }
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown('<div class="kz-page">', unsafe_allow_html=True)
 
 # Brand
@@ -2002,17 +2494,18 @@ if st.session_state.bet_timer_active and not st.session_state.show_reveal and st
 
 # Bet buttons — native Streamlit buttons keep the user on the same page.
 st.markdown('<div class="kz-section-title">💎 CHOOSE YOUR BET</div>', unsafe_allow_html=True)
-bet_cols = st.columns(4, gap="small")
-for col, amount in zip(bet_cols, BET_OPTIONS):
-    with col:
-        label = f"💎 {fmt(amount)}" + (" ✓" if amount == st.session_state.selected_bet else "")
-        st.button(
-            label,
-            key=f"bet_{amount}",
-            use_container_width=True,
-            on_click=choose_bet,
-            args=(amount,),
-        )
+with st.container(key="mobile-bets"):
+    bet_cols = st.columns(4, gap="small")
+    for col, amount in zip(bet_cols, BET_OPTIONS):
+        with col:
+            label = f"💎 {fmt(amount)}" + (" ✓" if amount == st.session_state.selected_bet else "")
+            st.button(
+                label,
+                key=f"bet_{amount}",
+                use_container_width=True,
+                on_click=choose_bet,
+                args=(amount,),
+            )
 
 st.markdown(
     f"""
@@ -2026,25 +2519,26 @@ st.markdown(
 
 # Animal cards — the entire visible button/card is clickable and adds the selected bet.
 st.markdown('<div class="kz-section-title">🐾 TAP AN ANIMAL TO BET</div>', unsafe_allow_html=True)
-animal_cols = st.columns(4, gap="small")
-for index, animal in enumerate(ANIMALS):
-    with animal_cols[index % 4]:
-        amount = st.session_state.bets.get(animal["id"], 0)
-        with st.container(key=f"animal-card-{animal['id']}"):
-            label = (
-                f"{animal['name']}\n"
-                f"💎 {fmt(amount)} • +💎 {fmt(st.session_state.selected_bet)}"
-            )
-            st.button(
-                label,
-                key=f"animal_{animal['id']}",
-                use_container_width=True,
-                on_click=add_animal_bet,
-                args=(animal["id"],),
-            )
+with st.container(key="mobile-animals"):
+    animal_cols = st.columns(4, gap="small")
+    for index, animal in enumerate(ANIMALS):
+        with animal_cols[index % 4]:
+            amount = st.session_state.bets.get(animal["id"], 0)
+            with st.container(key=f"animal-card-{animal['id']}"):
+                label = (
+                    f"{animal['name']}\n"
+                    f"💎 {fmt(amount)} • +💎 {fmt(st.session_state.selected_bet)}"
+                )
+                st.button(
+                    label,
+                    key=f"animal_{animal['id']}",
+                    use_container_width=True,
+                    on_click=add_animal_bet,
+                    args=(animal["id"],),
+                )
+
 
 # Actions
-action_cols = st.columns([3, 1], gap="small")
 def begin_betting_window():
     if total_bet() <= 0:
         st.session_state.status = "⚠️ Tap an animal to place a bet first"
@@ -2054,28 +2548,30 @@ def begin_betting_window():
         st.session_state.bet_timer_end = time.time() + 10
         st.session_state.status = "⏳ Betting is open for 10 seconds"
 
-with action_cols[0]:
-    if st.session_state.bet_timer_active:
+with st.container(key="mobile-actions"):
+    action_cols = st.columns([3, 1], gap="small")
+    with action_cols[0]:
+        if st.session_state.bet_timer_active:
+            st.button(
+                f"⏳ BETTING OPEN • {timer_remaining}s",
+                key="start_round",
+                use_container_width=True,
+                disabled=True,
+            )
+        else:
+            st.button(
+                "▶ START 10s BETTING",
+                key="start_round",
+                use_container_width=True,
+                on_click=begin_betting_window,
+            )
+    with action_cols[1]:
         st.button(
-            f"⏳ BETTING OPEN • {timer_remaining}s",
-            key="start_round",
+            "CLEAR",
+            key="clear_bets",
             use_container_width=True,
-            disabled=True,
+            on_click=clear_bets,
         )
-    else:
-        st.button(
-            "▶ START 10s BETTING",
-            key="start_round",
-            use_container_width=True,
-            on_click=begin_betting_window,
-        )
-with action_cols[1]:
-    st.button(
-        "CLEAR",
-        key="clear_bets",
-        use_container_width=True,
-        on_click=clear_bets,
-    )
 
 st.markdown(
     '<div class="kz-footer">'
