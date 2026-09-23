@@ -1711,9 +1711,9 @@ st.markdown("""
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
-    height: 70px !important;
-    min-height: 70px !important;
-    max-height: 70px !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    max-height: 72px !important;
     margin: 0 !important;
     padding: 2px !important;
     box-sizing: border-box !important;
@@ -1753,7 +1753,7 @@ st.markdown("""
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
-    margin: 1px 0 3px !important;
+    margin: 2px auto 3px !important;
     padding: 0 !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
@@ -1772,6 +1772,7 @@ st.markdown("""
   .kz-history-list {
     display: grid !important;
     grid-template-columns: repeat(10, minmax(0,1fr)) !important;
+    justify-content: center !important;
     gap: 1px !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -1786,7 +1787,7 @@ st.markdown("""
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
-    height: 42px !important;
+    height: 40px !important;
     padding: 1px !important;
     margin: 0 !important;
     box-sizing: border-box !important;
@@ -1820,7 +1821,7 @@ st.markdown("""
   .kz-section-title {
     width: 100% !important;
     max-width: 100% !important;
-    height: 14px !important;
+    height: 13px !important;
     min-height: 14px !important;
     margin: 2px 0 1px !important;
     padding: 0 !important;
@@ -2077,6 +2078,37 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown("""
+<style>
+@media only screen and (max-width:650px) {
+  .kz-page,
+  .kz-page * {
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+  .kz-page {
+    width:100vw !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    overflow-x:hidden !important;
+  }
+  .kz-history-title,
+  .kz-section-title,
+  .kz-summary {
+    text-align:center !important;
+  }
+  .kz-summary {
+    padding-left:3px !important;
+    padding-right:3px !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+}
+</style>
+""", unsafe_allow_html=True)
 st.markdown('<div class="kz-page">', unsafe_allow_html=True)
 
 # Brand
@@ -2192,7 +2224,7 @@ st.markdown("""
 .kz-result-hidden-during-draw .kz-winner,
 .kz-result-hidden-during-draw .kz-status {
     opacity: 0 !important;
-    animation: kzShowFinalResult .12s linear 3.05s forwards !important;
+    animation: kzShowFinalResult .12s linear 3.20s forwards !important;
 }
 .kz-current-history {
     opacity: 1 !important;
@@ -2205,190 +2237,171 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Flashing winner animation.
-# The winner is already selected server-side by secrets.choice().
-# Browser Math.random() is used ONLY for the visual flashing sequence;
-# it cannot change the server-selected winner.
+# The winner is selected server-side, independently of the player's bets.
+# This iframe is ONLY the visual reveal: it cycles through real animals,
+# slows down, then stops exactly on the already-selected winner.
 if st.session_state.show_reveal and st.session_state.winner:
     winner = st.session_state.winner
     animals_json = json.dumps(
-        [{"emoji": a["emoji"], "name": a["name"]} for a in ANIMALS]
+        [{"emoji": a["emoji"], "name": a["name"]} for a in ANIMALS],
+        ensure_ascii=False,
     )
     winner_json = json.dumps(
-        {"emoji": winner["emoji"], "name": winner["name"]}
+        {"emoji": winner["emoji"], "name": winner["name"]},
+        ensure_ascii=False,
     )
-    # First visual frame is an actual random animal, not a slot-machine icon.
-    flash_start = secrets.choice(ANIMALS)
 
-    flash_payload = {
-        "flash": {"emoji": flash_start["emoji"], "name": flash_start["name"]},
-    }
-
-    flash_html = """
+    flash_html = f"""
 <!doctype html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <style>
-body{margin:0;background:transparent;font-family:Arial,sans-serif}
-.box{margin-top:8px;background:#032715;border:0;border-radius:0;padding:7px;text-align:center;
-box-shadow:none;box-sizing:border-box;height:150px;overflow:hidden}
-.label{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}
-.kz-live-indicator{color:#7dffb2;font-size:9px;font-weight:900;letter-spacing:1px;margin-left:6px}
-.animal{height:92px;display:flex;align-items:center;justify-content:center;font-size:82px;
-will-change:transform,opacity;filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}
-.status{color:#fff1a4;font-size:13px;font-weight:900;line-height:1.05}
-@keyframes winpop{0%{transform:scale(.75)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
-.win{animation:winpop .5s ease}
+*{{box-sizing:border-box}}
+html,body{{
+  margin:0!important;
+  padding:0!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  font-family:Arial,sans-serif;
+}}
+.reveal{{
+  width:100%;
+  height:100%;
+  min-height:96px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  text-align:center;
+  background:rgba(1,42,23,.92);
+}}
+.label{{
+  height:14px;
+  line-height:14px;
+  color:#e9dc92;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  white-space:nowrap;
+}}
+.animal{{
+  height:58px;
+  line-height:58px;
+  font-size:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  filter:drop-shadow(0 5px 4px rgba(0,0,0,.55));
+  transform:scale(1);
+}}
+.name{{
+  height:17px;
+  line-height:17px;
+  color:#fff1a4;
+  font-size:11px;
+  font-weight:900;
+  white-space:nowrap;
+}}
+.final .animal{{
+  animation:pop .45s ease-out;
+}}
+.final .name{{
+  color:#fff6bd;
+}}
+@keyframes pop{{
+  0%{{transform:scale(.72)}}
+  65%{{transform:scale(1.18)}}
+  100%{{transform:scale(1)}}
+}}
+@media(max-width:380px){{
+  .reveal{{min-height:88px}}
+  .label{{font-size:8px}}
+  .animal{{height:52px;line-height:52px;font-size:46px}}
+  .name{{font-size:10px}}
+}}
+</style>
+</head>
+<body>
+<div class="reveal" id="reveal">
+  <div class="label" id="label">⚡ DRAWING • FLASHING • LIVE</div>
+  <div class="animal" id="animal">❓</div>
+  <div class="name" id="name">Drawing...</div>
+</div>
 
-/* FINAL MOBILE WIDTH FIX */
-@media (max-width: 650px) {
-  html, body,
-  [data-testid="stApp"],
-  [data-testid="stAppViewContainer"],
-  [data-testid="stAppViewContainer"] > .main,
-  section.main,
-  .block-container {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-  }
+<script>
+(function(){{
+  const animals = {animals_json};
+  const winner = {winner_json};
 
-  .block-container {
-    padding: 0 3px 8px !important;
-    margin: 0 !important;
-  }
+  const animalEl = document.getElementById("animal");
+  const nameEl = document.getElementById("name");
+  const revealEl = document.getElementById("reveal");
+  const labelEl = document.getElementById("label");
 
-  [data-testid="stHorizontalBlock"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    gap: 3px !important;
-    box-sizing: border-box !important;
-  }
+  let step = 0;
+  const sequence = [];
 
-  [data-testid="stHorizontalBlock"] > [data-testid="column"] {
-    min-width: 0 !important;
-    width: 0 !important;
-    flex-basis: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-  }
+  // Build a visual sequence with genuine random animal order.
+  // The final item is ALWAYS the server-selected winner.
+  for (let i = 0; i < 26; i++) {{
+    sequence.push(animals[Math.floor(Math.random() * animals.length)]);
+  }}
+  sequence.push(winner);
 
-  [data-testid="stHorizontalBlock"]:has(.st-key-bet_1) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-bet_10) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-bet_100) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-bet_1000) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_koala) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_panda) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_lion) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_fish) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_crab) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_jelly) > [data-testid="column"],
-  [data-testid="stHorizontalBlock"]:has(.st-key-animal_shell_pearl) > [data-testid="column"] {
-    flex: 1 1 0 !important;
-    min-width: 0 !important;
-    width: 0 !important;
-  }
+  function show(a) {{
+    animalEl.textContent = a.emoji;
+    nameEl.textContent = a.name;
+  }}
 
-  [class*="st-key-animal-card-"],
-  [class*="st-key-animal-card-"] > div,
-  [class*="st-key-animal-card-"] div.stButton,
-  [class*="st-key-animal-card-"] div.stButton > button {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-  }
+  function tick() {{
+    if (step < sequence.length - 1) {{
+      show(sequence[step]);
+      step++;
 
-  [class*="st-key-animal-card-"] div.stButton > button {
-    height: 82px !important;
-    min-height: 82px !important;
-    max-height: 82px !important;
-    padding: 1px !important;
-    overflow: hidden !important;
-  }
+      // Fast -> medium -> slow, creating a clear "stopping" effect.
+      let delay;
+      if (step < 13) delay = 65;
+      else if (step < 20) delay = 105;
+      else if (step < 24) delay = 170;
+      else delay = 280;
 
-  [class*="st-key-animal-card-"] div.stButton > button::before {
-    font-size: clamp(30px, 10vw, 48px) !important;
-  }
+      setTimeout(tick, delay);
+      return;
+    }}
 
-  [class*="st-key-animal-card-"] div.stButton > button p {
-    font-size: 6px !important;
-    line-height: 1 !important;
-    margin: 0 !important;
-  }
+    // Final frame: reveal the actual winner.
+    show(winner);
+    labelEl.textContent = "🏆 RESULT";
+    nameEl.textContent = "🎉 " + winner.name + " — WINNER!";
+    revealEl.classList.add("final");
 
-  .st-key-bet_1 div.stButton > button,
-  .st-key-bet_10 div.stButton > button,
-  .st-key-bet_100 div.stButton > button,
-  .st-key-bet_1000 div.stButton > button {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    height: 34px !important;
-    min-height: 34px !important;
-    padding: 0 2px !important;
-    font-size: 8px !important;
-    white-space: nowrap !important;
-  }
+    // Tell the parent page that the visual reveal has completed.
+    try {{
+      window.parent.postMessage(
+        {{type:"KINGINAZOO_FLASH_COMPLETE"}},
+        "*"
+      );
+    }} catch(e) {{}}
+  }}
 
-  .kz-brand, .kz-top, .kz-arena, .kz-history,
-  .kz-section-title, .kz-summary, .kz-footer {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-  .kz-logo {
-    max-width: 100% !important;
-    overflow: hidden !important;
-    font-size: clamp(27px, 9vw, 42px) !important;
-    white-space: nowrap !important;
-  }
-
-  .kz-footer .powered-by {
-    width: 100% !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-    font-size: clamp(15px, 5vw, 22px) !important;
-  }
-}
-
-@media (max-width: 380px) {
-  .kz-logo { font-size: 26px !important; }
-  [class*="st-key-animal-card-"] div.stButton > button {
-    height: 76px !important;
-    min-height: 76px !important;
-  }
-  [class*="st-key-animal-card-"] div.stButton > button::before {
-    font-size: 34px !important;
-  }
-}
-
-
-
+  // Start immediately; no waiting and no placeholder icon.
+  show(animals[Math.floor(Math.random() * animals.length)]);
+  setTimeout(tick, 80);
+}})();
+</script>
+</body>
+</html>
 """
-
-    flash_html = (
-        flash_html
-        .replace("__ANIMALS__", animals_json)
-        .replace("__WINNER__", winner_json)
-        .replace("__FLASH_START__", json.dumps(flash_payload["flash"]))
-        .replace("__FLASH_EMOJI__", flash_start["emoji"])
-    )
 
     components.html(
         flash_html,
-        height=156,
+        height=104,
         scrolling=False,
     )
-
 
 
 def choose_bet(amount):
@@ -2582,18 +2595,3 @@ st.markdown(
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-st.markdown("""
-<script>
-let kinginazooFlashComplete = false;
-window.addEventListener("message", function(event) {
-    if (
-        !kinginazooFlashComplete &&
-        event.data &&
-        event.data.type === "KINGINAZOO_FLASH_COMPLETE"
-    ) {
-        kinginazooFlashComplete = true;
-        window.location.reload();
-    }
-});
-</script>
-""", unsafe_allow_html=True)
