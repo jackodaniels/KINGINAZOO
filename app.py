@@ -1240,6 +1240,274 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-footer .powered-by { font-size: 24px !important; }
 }
 
+
+/* ============================
+   PHONE-FIT FINAL OVERRIDES
+   ============================ */
+@media (max-width: 650px) {
+    html, body,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stAppViewContainer"] > .main,
+    [data-testid="stApp"], .stApp, section.main {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    .block-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        padding: 2px 6px 10px !important;
+        margin: 0 !important;
+    }
+
+    /* Header fits without clipping. */
+    .kz-brand {
+        width: 100% !important;
+        height: 55px !important;
+        margin: 0 auto 3px !important;
+        overflow: visible !important;
+    }
+    .kz-logo {
+        width: 100% !important;
+        font-size: clamp(30px, 9.8vw, 48px) !important;
+        line-height: .9 !important;
+        letter-spacing: 0 !important;
+        white-space: nowrap !important;
+    }
+    .kz-tag {
+        font-size: 6px !important;
+        letter-spacing: 2px !important;
+    }
+
+    /* Round / coins. */
+    .kz-top {
+        width: 100% !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 5px !important;
+        margin: 0 0 4px !important;
+    }
+    .kz-stat {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 57px !important;
+        padding: 5px 7px !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+    }
+    .kz-stat-label { font-size: 6px !important; }
+    .kz-stat-value {
+        font-size: clamp(17px, 5.5vw, 25px) !important;
+        line-height: 1 !important;
+    }
+
+    /* Winner panel. */
+    .kz-arena {
+        width: 100% !important;
+        min-height: 82px !important;
+        height: 82px !important;
+        box-sizing: border-box !important;
+        margin: 0 0 3px !important;
+        padding: 3px !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+    }
+    .kz-arena-round { font-size: 6px !important; }
+    .kz-winner {
+        height: 39px !important;
+        font-size: 40px !important;
+        line-height: 1 !important;
+    }
+    .kz-status {
+        font-size: 10px !important;
+        line-height: 1 !important;
+    }
+
+    .kz-timer-wrap {
+        width: 100% !important;
+        min-height: 17px !important;
+        margin: 2px 0 3px !important;
+        font-size: 8px !important;
+        line-height: 1 !important;
+        text-align: center !important;
+    }
+
+    /* Exactly 10 history boxes: 5 + 5. */
+    .kz-history {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 2px 0 4px !important;
+        padding: 3px !important;
+        border-radius: 10px !important;
+        overflow: hidden !important;
+    }
+    .kz-history-title {
+        font-size: 9px !important;
+        line-height: 1 !important;
+        margin: 0 0 3px !important;
+    }
+    .kz-history-list {
+        width: 100% !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 3px !important;
+    }
+    .kz-history-chip {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 49px !important;
+        padding: 2px 1px !important;
+        border-radius: 7px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    .kz-history-chip .animal {
+        font-size: 25px !important;
+        line-height: .9 !important;
+    }
+    .kz-history-chip .history-name {
+        font-size: 6px !important;
+        line-height: .95 !important;
+        max-width: 100% !important;
+    }
+    .kz-history-chip .round {
+        font-size: 5px !important;
+        line-height: 1 !important;
+    }
+    .latest-badge {
+        font-size: 4px !important;
+        padding: 1px 3px !important;
+    }
+
+    /* Four equal bet buttons. */
+    .kz-section-title {
+        font-size: 11px !important;
+        line-height: 1 !important;
+        margin: 4px 1px 3px !important;
+    }
+    .kz-bets {
+        width: 100% !important;
+        grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+        gap: 4px !important;
+    }
+    .kz-bet {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 34px !important;
+        padding: 3px !important;
+        border-radius: 8px !important;
+        font-size: 10px !important;
+        box-sizing: border-box !important;
+    }
+    .kz-summary {
+        font-size: 8px !important;
+        margin: 3px 2px 4px !important;
+        line-height: 1 !important;
+    }
+
+    /* Two-column animal cards. */
+    .kz-animals {
+        width: 100% !important;
+        grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+        gap: 5px !important;
+    }
+    [class*="st-key-animal-card-"] {
+        min-width: 0 !important;
+        width: 100% !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton,
+    [class*="st-key-animal-card-"] div.stButton > button {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button {
+        min-height: 99px !important;
+        height: 99px !important;
+        padding: 4px !important;
+        border-radius: 10px !important;
+        overflow: hidden !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button::before {
+        font-size: clamp(53px, 15vw, 68px) !important;
+        line-height: .78 !important;
+        margin-bottom: 2px !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button::after {
+        top: 5px !important;
+        left: 5px !important;
+        min-width: 31px !important;
+        height: 23px !important;
+        padding: 1px 5px 0 !important;
+        font-size: 13px !important;
+        border-width: 1.5px !important;
+        border-radius: 12px !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button p {
+        font-size: 8px !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+    }
+
+    .kz-actions {
+        width: 100% !important;
+        gap: 5px !important;
+        margin-top: 5px !important;
+    }
+    .kz-action {
+        min-height: 36px !important;
+        height: 36px !important;
+        font-size: 10px !important;
+        border-radius: 9px !important;
+    }
+
+    .kz-footer {
+        width: 100% !important;
+        margin: 7px 0 2px !important;
+        padding: 4px 0 7px !important;
+    }
+    .kz-footer .powered-by {
+        width: 100% !important;
+        font-size: clamp(18px, 6.2vw, 26px) !important;
+        line-height: 1 !important;
+        letter-spacing: .8px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+    }
+
+    [data-testid="column"] {
+        min-width: 0 !important;
+        width: auto !important;
+        flex: 1 1 0 !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .block-container { padding-left: 4px !important; padding-right: 4px !important; }
+    .kz-brand { height: 49px !important; }
+    .kz-logo { font-size: 30px !important; }
+    .kz-stat { min-height: 52px !important; }
+    .kz-stat-value { font-size: 17px !important; }
+    .kz-arena { height: 75px !important; min-height: 75px !important; }
+    .kz-winner { height: 34px !important; font-size: 34px !important; }
+    .kz-history-chip { min-height: 45px !important; }
+    .kz-history-chip .animal { font-size: 22px !important; }
+    [class*="st-key-animal-card-"] div.stButton > button {
+        height: 92px !important;
+        min-height: 92px !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button::before {
+        font-size: 51px !important;
+    }
+    [class*="st-key-animal-card-"] div.stButton > button::after {
+        min-width: 29px !important;
+        height: 21px !important;
+        font-size: 12px !important;
+    }
+}
+
 </style>
 """
 
