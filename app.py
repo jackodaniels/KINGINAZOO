@@ -450,7 +450,7 @@ div.stButton > button:hover {
 
 /* History */
 .kz-history {
-    display: none !important;
+    display: block !important;
     position: relative;
     z-index: 2;
     margin-top: 18px;
@@ -478,6 +478,52 @@ div.stButton > button:hover {
 .kz-row:last-child { border-bottom: 0; }
 .kz-win { color: #72e69a; }
 .kz-loss { color: #ff8d8d; }
+
+/* Winning history */
+.kz-history {
+    margin-top: 10px;
+    background: rgba(2,39,21,.82);
+    border: 2px solid #d5ae31;
+    border-radius: 14px;
+    padding: 8px 10px;
+    overflow: hidden;
+}
+.kz-history-title {
+    color: #ffe87e;
+    font-size: 13px;
+    font-weight: 1000;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+.kz-history-list {
+    display: flex;
+    gap: 6px;
+    overflow: hidden;
+    flex-wrap: nowrap;
+}
+.kz-history-chip {
+    flex: 0 0 auto;
+    min-width: 72px;
+    padding: 4px 7px;
+    border-radius: 9px;
+    background: linear-gradient(180deg,#0a542b,#06361e);
+    border: 1px solid rgba(255,216,77,.55);
+    text-align: center;
+    color: #fff5bf;
+    font-size: 10px;
+    font-weight: 900;
+}
+.kz-history-chip .animal {
+    display: block;
+    font-size: 22px;
+    line-height: 1;
+}
+.kz-history-chip .round {
+    display: block;
+    color: #d9ce8b;
+    font-size: 8px;
+    margin-top: 2px;
+}
 
 /* Footer */
 .kz-footer {
@@ -621,7 +667,7 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-actions { gap: 5px; margin-top: 4px; }
     .kz-action { min-height: 36px; font-size: 10px; border-radius: 10px; }
     div.stButton > button { min-height: 34px !important; font-size: 10px !important; }
-    .kz-history { display: none !important; }
+    .kz-history { display: block !important; margin-top: 7px !important; padding: 7px 8px !important; border-radius: 12px !important; }
     .kz-footer { display: block !important; margin-top: 18px !important; padding: 8px 0 18px !important; font-size: 28px !important; }
     .kz-footer .powered-by { font-size: 28px !important; font-weight: 900 !important; letter-spacing: 1.5px !important; }
 }
@@ -924,31 +970,19 @@ with action_cols[1]:
 
 # History
 st.markdown('<div class="kz-history">', unsafe_allow_html=True)
-st.markdown('<div class="kz-history-title">🕘 RECENT ROUNDS</div>', unsafe_allow_html=True)
+st.markdown('<div class="kz-history-title">🏆 WINNING HISTORY</div>', unsafe_allow_html=True)
 
 if not st.session_state.history:
-    st.markdown(
-        '<div style="color:#9e9f76;font-size:11px">No rounds yet.</div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div style="color:#9e9f76;font-size:10px">No winning rounds yet.</div>', unsafe_allow_html=True)
 else:
-    for item in st.session_state.history:
+    chips = []
+    for item in st.session_state.history[:8]:
         w = item["winner"]
-        result = (
-            f'+💎 {fmt(item["payout"])}'
-            if item["won"]
-            else f'−💎 {fmt(item["stake"])}'
+        chips.append(
+            f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
+            f'{w["name"]}<span class="round">Round #{item["round"]}</span></div>'
         )
-        cls = "kz-win" if item["won"] else "kz-loss"
-        st.markdown(
-            f"""
-<div class="kz-row">
-  <span>#{item["round"]} &nbsp; {w["emoji"]} {w["name"]} ×{w["multiplier"]}</span>
-  <span class="{cls}">{result}</span>
-</div>
-""",
-            unsafe_allow_html=True,
-        )
+    st.markdown('<div class="kz-history-list">' + ''.join(chips) + '</div>', unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
 
