@@ -471,14 +471,23 @@ div.stButton > button:hover {
 
 /* Footer */
 .kz-footer {
-    display: none !important;
+    display: block !important;
     position: relative;
     z-index: 2;
     text-align: center;
-    color: #8d956e;
+    color: #ffe87e;
     font-size: 10px;
-    letter-spacing: 3px;
-    margin-top: 18px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin: 12px 0 4px;
+    padding: 6px 0;
+}
+.kz-footer .powered-by {
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    opacity: .9;
 }
 
 /* Streamlit iframe animation should blend in */
@@ -603,7 +612,8 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-action { min-height: 36px; font-size: 10px; border-radius: 10px; }
     div.stButton > button { min-height: 34px !important; font-size: 10px !important; }
     .kz-history { display: none !important; }
-    .kz-footer { display: none !important; }
+    .kz-footer { display: block !important; margin-top: 6px; padding: 4px 0; font-size: 8px; }
+    .kz-footer .powered-by { font-size: 8px; }
 }
 
 /* Very short phone screens */
@@ -695,12 +705,12 @@ if st.session_state.show_reveal and st.session_state.winner:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
-.box{{margin-top:12px;background:#032715;border:3px solid #ffd84d;border-radius:22px;
-padding:9px;text-align:center;box-shadow:0 0 22px rgba(255,216,77,.18)}}
+.box{{margin-top:8px;background:#032715;border:3px solid #ffd84d;border-radius:22px;
+padding:7px;text-align:center;box-shadow:0 0 22px rgba(255,216,77,.18);box-sizing:border-box;height:132px;overflow:hidden}}
 .label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
-.animal{{height:105px;display:flex;align-items:center;justify-content:center;font-size:78px;
+.animal{{height:82px;display:flex;align-items:center;justify-content:center;font-size:68px;
 filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
-.status{{color:#fff1a4;font-size:14px;font-weight:900}}
+.status{{color:#fff1a4;font-size:13px;font-weight:900;line-height:1.05}}
 @keyframes winpop{{0%{{transform:scale(.75)}}60%{{transform:scale(1.18)}}100%{{transform:scale(1)}}}}
 .win{{animation:winpop .5s ease}}
 </style>
@@ -749,7 +759,7 @@ next();
 </body>
 </html>
 """,
-        height=118,
+        height=138,
         scrolling=False,
     )
 
@@ -917,8 +927,9 @@ else:
 st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown(
-    '<div class="kz-footer">👑 &nbsp; KINGINAZOO &nbsp; 👑<br>'
-    '<span style="font-size:8px">PLAY RESPONSIBLY • HAVE FUN!</span></div>',
+    '<div class="kz-footer">'
+    '<span class="powered-by">POWERED BY MARGAUX Technology</span>'
+    '</div>',
     unsafe_allow_html=True,
 )
 
