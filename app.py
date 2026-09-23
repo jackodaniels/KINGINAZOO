@@ -851,25 +851,54 @@ else:
     start_round_pending = False
 
 # Main arena
+
+st.markdown("""
+<style>
+.kz-result-delayed {
+    animation: kzRevealWinner 0.18s ease-out 2.65s forwards !important;
+}
+.kz-result-delayed .kz-winner,
+.kz-result-delayed .kz-status {
+    opacity: 0 !important;
+}
+@keyframes kzRevealWinner {
+    from { opacity: 1; }
+    to   { opacity: 1; }
+}
+.kz-result-delayed::after {
+    content: "";
+}
+.kz-result-delayed .kz-winner,
+.kz-result-delayed .kz-status {
+    animation: kzRevealInner 0.18s ease-out 2.65s forwards !important;
+}
+@keyframes kzRevealInner {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+</style>
+""", unsafe_allow_html=True)
+
 winner = st.session_state.winner
 is_flashing = bool(st.session_state.show_reveal and winner)
 
-if is_flashing:
-    arena_emoji = "❓"
-    arena_status = "🎰 Drawing • Flashing..."
-    display_round = st.session_state.last_result_round or st.session_state.round
-else:
-    arena_emoji = winner["emoji"] if winner else "❓"
-    arena_status = st.session_state.status
-    display_round = (
-        st.session_state.last_result_round
-        if winner and st.session_state.last_result_round is not None
-        else st.session_state.round
-    )
+# The winner is rendered in the result section immediately, but while the
+# drawing iframe is flashing it is visually hidden. CSS reveals it at the same
+# time the final animation frame is reached. This is more reliable than trying
+# to communicate from the iframe back into the Streamlit DOM.
+display_round = (
+    st.session_state.last_result_round
+    if winner and st.session_state.last_result_round is not None
+    else st.session_state.round
+)
+arena_emoji = winner["emoji"] if winner else "❓"
+arena_status = st.session_state.status if winner else "Choose your bet and animals"
+
+result_class = "kz-result-delayed" if is_flashing else ""
 
 st.markdown(
     f"""
-<div class="kz-arena">
+<div class="kz-arena {result_class}">
   <div class="kz-arena-round">KINGINAZOO • ROUND #{display_round}</div>
   <div class="kz-winner">{arena_emoji}</div>
   <div class="kz-status">{arena_status}</div>
@@ -978,9 +1007,7 @@ function next() {{
     status.textContent="🎉 " + winner.name + " — WINNER!";
     el.className="animal win";
     // Final frame is the winner. Refresh the parent immediately so the
-    // main RESULT section shows the same winner at the same moment.
-    window.parent.postMessage({{type:"KINGINAZOO_FLASH_COMPLETE"}}, "*");
-  }}
+    // main RESULT section shows the same winner at the same moment.}}
 
   if(i < sequence.length-1) {{
     i++;
