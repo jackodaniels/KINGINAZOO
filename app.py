@@ -1,3 +1,8 @@
+
+<style>
+.margaux-footer { width:100%; text-align:center !important; font-size:32px !important; line-height:1.15 !important; font-weight:900 !important; letter-spacing:2px !important; margin:28px 0 18px 0 !important; padding:10px 0 18px 0 !important; color:#FFD84D !important; text-shadow:0 2px 8px rgba(0,0,0,.9) !important; }
+@media (max-width:650px){ .margaux-footer{font-size:24px !important; letter-spacing:1px !important; margin-top:20px !important; padding-bottom:14px !important;} }
+</style>
 # KINGINAZOO v2 — embedded jungle background (no relative asset URL)
 # KINGINAZOO — generated jungle background is loaded from assets/zoobg.png
 import json
@@ -612,8 +617,8 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-action { min-height: 36px; font-size: 10px; border-radius: 10px; }
     div.stButton > button { min-height: 34px !important; font-size: 10px !important; }
     .kz-history { display: none !important; }
-    .kz-footer { display: block !important; margin-top: 6px; padding: 4px 0; font-size: 8px; }
-    .kz-footer .powered-by { font-size: 8px; }
+    .kz-footer { display: block !important; margin-top: 18px !important; padding: 8px 0 18px !important; font-size: 25px !important; }
+    .kz-footer .powered-by { font-size: 25px !important; letter-spacing: 1px !important; }
 }
 
 /* Very short phone screens */
