@@ -3047,6 +3047,328 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown("""
+<style>
+/* ============================================================
+   FINAL TRUE MOBILE LAYOUT
+   The section wrappers, not loose HTML siblings, control spacing.
+   ============================================================ */
+.kz-page {
+  width:100% !important;
+  max-width:1180px !important;
+  margin:0 auto !important;
+  box-sizing:border-box !important;
+  overflow-x:hidden !important;
+}
+
+@media only screen and (max-width:650px) {
+
+  .kz-page {
+    width:100vw !important;
+    max-width:100vw !important;
+    margin:0 !important;
+    padding:0 3px 8px !important;
+    overflow-x:hidden !important;
+  }
+
+  /* Remove Streamlit's default vertical gaps from our controlled sections. */
+  .kz-page [data-testid="stVerticalBlock"] {
+    gap:0 !important;
+  }
+
+  /* -------- BET SECTION -------- */
+  .st-key-bet-section {
+    width:100% !important;
+    max-width:100% !important;
+    margin:5px auto 0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    text-align:center !important;
+  }
+
+  .st-key-bet-section > div {
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+
+  .kz-mobile-title {
+    width:100% !important;
+    height:22px !important;
+    min-height:22px !important;
+    max-height:22px !important;
+    margin:0 auto 4px !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    font-size:12px !important;
+    line-height:22px !important;
+    font-weight:1000 !important;
+    letter-spacing:.5px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-bets {
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 auto !important;
+    padding:0 !important;
+  }
+
+  .st-key-mobile-bets [data-testid="stHorizontalBlock"] {
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:4px !important;
+    margin:0 0 4px !important;
+    padding:0 !important;
+  }
+
+  .st-key-mobile-bets [data-testid="column"] {
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-bets button {
+    width:100% !important;
+    height:36px !important;
+    min-height:36px !important;
+    max-height:36px !important;
+    margin:0 !important;
+    padding:0 !important;
+    font-size:10px !important;
+    line-height:1 !important;
+    border-radius:9px !important;
+    box-sizing:border-box !important;
+  }
+
+  .kz-summary-centered {
+    width:100% !important;
+    height:18px !important;
+    min-height:18px !important;
+    max-height:18px !important;
+    margin:2px auto 3px !important;
+    padding:0 4px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    text-align:center !important;
+    font-size:8px !important;
+    line-height:18px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
+
+  /* -------- ANIMAL SECTION -------- */
+  .st-key-animal-section {
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    text-align:center !important;
+  }
+
+  .st-key-animal-section > div {
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-animals {
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-animals [data-testid="stHorizontalBlock"] {
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:3px !important;
+    margin:0 auto 3px !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-animals [data-testid="column"] {
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  [class*="st-key-animal-card-"] {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .st-key-mobile-animals button {
+    width:100% !important;
+    height:84px !important;
+    min-height:84px !important;
+    max-height:84px !important;
+    margin:0 !important;
+    padding:1px !important;
+    border-radius:8px !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+    font-size:8px !important;
+    line-height:10px !important;
+  }
+
+  /* Hide the raw emoji text from the button when the card already uses
+     the card's visual styling; this keeps the layout compact. */
+  .st-key-mobile-animals button p {
+    margin:0 !important;
+    padding:0 !important;
+    line-height:10px !important;
+    font-size:8px !important;
+  }
+
+  /* -------- ACTIONS -------- */
+  .st-key-mobile-actions {
+    width:100% !important;
+    max-width:100% !important;
+    margin:3px auto 0 !important;
+    padding:0 !important;
+  }
+
+  .st-key-mobile-actions [data-testid="stHorizontalBlock"] {
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,3fr) minmax(0,1fr) !important;
+    gap:4px !important;
+    margin:0 auto !important;
+  }
+
+  .st-key-mobile-actions [data-testid="column"] {
+    min-width:0 !important;
+    width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+
+  .st-key-mobile-actions button {
+    width:100% !important;
+    height:38px !important;
+    min-height:38px !important;
+    max-height:38px !important;
+    margin:0 !important;
+    padding:0 3px !important;
+    font-size:9px !important;
+    line-height:1 !important;
+    border-radius:9px !important;
+    white-space:nowrap !important;
+  }
+
+  /* -------- FOOTER -------- */
+  .kz-footer {
+    width:100% !important;
+    max-width:100% !important;
+    height:48px !important;
+    min-height:48px !important;
+    max-height:48px !important;
+    margin:8px auto 0 !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    overflow:hidden !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    display:block !important;
+    width:100% !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    text-align:center !important;
+    white-space:nowrap !important;
+    font-size:clamp(14px,4.7vw,20px) !important;
+    line-height:30px !important;
+    font-weight:1000 !important;
+    letter-spacing:.6px !important;
+    color:#FFD84D !important;
+    text-shadow:0 2px 6px #000,0 0 10px rgba(255,216,77,.55) !important;
+    opacity:1 !important;
+  }
+
+  /* Absolute guarantee against horizontal panning. */
+  html, body,
+  [data-testid="stAppViewContainer"],
+  [data-testid="stAppViewBlockContainer"],
+  [data-testid="stMain"],
+  [data-testid="stMainBlockContainer"] {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    overflow-x:hidden !important;
+  }
+
+  [data-testid="stHorizontalBlock"],
+  [data-testid="column"] {
+    min-width:0 !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+}
+
+@media only screen and (max-width:360px) {
+  .kz-page {
+    padding-left:2px !important;
+    padding-right:2px !important;
+  }
+
+  .kz-mobile-title {
+    height:20px !important;
+    min-height:20px !important;
+    line-height:20px !important;
+    font-size:10px !important;
+    margin-bottom:3px !important;
+  }
+
+  .st-key-mobile-bets button {
+    height:33px !important;
+    min-height:33px !important;
+  }
+
+  .st-key-mobile-animals button {
+    height:74px !important;
+    min-height:74px !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    font-size:13px !important;
+  }
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown('<div class="kz-page">', unsafe_allow_html=True)
 
 # Brand
@@ -3443,51 +3765,86 @@ if start_round_pending:
 if st.session_state.bet_timer_active and not st.session_state.show_reveal and st_autorefresh is not None:
     st_autorefresh(interval=1000, key="kinginazoo_bet_timer")
 
-# Bet buttons — native Streamlit buttons keep the user on the same page.
-st.markdown('<div class="kz-section-title kz-bet-title">💎 CHOOSE YOUR BET</div>', unsafe_allow_html=True)
-with st.container(key="mobile-bets"):
-    bet_cols = st.columns(4, gap="small")
-    for col, amount in zip(bet_cols, BET_OPTIONS):
-        with col:
-            label = f"💎 {fmt(amount)}" + (" ✓" if amount == st.session_state.selected_bet else "")
-            st.button(
-                label,
-                key=f"bet_{amount}",
-                use_container_width=True,
-                on_click=choose_bet,
-                args=(amount,),
-            )
+# ============================================================
+# MOBILE-FIRST BETTING + ANIMAL SECTIONS
+# Each section owns its title and controls in ONE Streamlit
+# container. This prevents the raw HTML title from overlapping
+# the next Streamlit block on mobile.
+# ============================================================
 
-st.markdown(
-    f"""
-<div class="kz-summary">
-  <span>Total Bet: 💎 {fmt(total_bet())}</span>
-  <span>Available: 💎 {fmt(st.session_state.balance - total_bet())}</span>
-</div>
-""",
-    unsafe_allow_html=True,
-)
+with st.container(key="bet-section"):
+    st.markdown(
+        '<div class="kz-mobile-title">💎 CHOOSE YOUR BET</div>',
+        unsafe_allow_html=True,
+    )
 
-# Animal cards — the entire visible button/card is clickable and adds the selected bet.
-st.markdown('<div class="kz-section-title kz-animal-title">🐾 TAP AN ANIMAL TO BET</div>', unsafe_allow_html=True)
-with st.container(key="mobile-animals"):
-    animal_cols = st.columns(4, gap="small")
-    for index, animal in enumerate(ANIMALS):
-        with animal_cols[index % 4]:
-            amount = st.session_state.bets.get(animal["id"], 0)
-            with st.container(key=f"animal-card-{animal['id']}"):
-                label = (
-                    f"{animal['name']}\n"
-                    f"💎 {fmt(amount)} • +💎 {fmt(st.session_state.selected_bet)}"
+    with st.container(key="mobile-bets"):
+        bet_cols = st.columns(2, gap="small")
+        for col, amount in zip(bet_cols, BET_OPTIONS[:2]):
+            with col:
+                label = f"💎 {fmt(amount)}" + (
+                    " ✓" if amount == st.session_state.selected_bet else ""
                 )
                 st.button(
                     label,
-                    key=f"animal_{animal['id']}",
+                    key=f"bet_{amount}",
                     use_container_width=True,
-                    on_click=add_animal_bet,
-                    args=(animal["id"],),
+                    on_click=choose_bet,
+                    args=(amount,),
                 )
 
+        bet_cols2 = st.columns(2, gap="small")
+        for col, amount in zip(bet_cols2, BET_OPTIONS[2:]):
+            with col:
+                label = f"💎 {fmt(amount)}" + (
+                    " ✓" if amount == st.session_state.selected_bet else ""
+                )
+                st.button(
+                    label,
+                    key=f"bet_{amount}",
+                    use_container_width=True,
+                    on_click=choose_bet,
+                    args=(amount,),
+                )
+
+    st.markdown(
+        f"""
+        <div class="kz-summary kz-summary-centered">
+          <span>Total Bet: 💎 {fmt(total_bet())}</span>
+          <span>Available: 💎 {fmt(st.session_state.balance - total_bet())}</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with st.container(key="animal-section"):
+    st.markdown(
+        '<div class="kz-mobile-title">🐾 TAP AN ANIMAL TO BET</div>',
+        unsafe_allow_html=True,
+    )
+
+    with st.container(key="mobile-animals"):
+        # Explicitly create 4 columns per row. This is more reliable on
+        # narrow phones than depending on a single flex row wrapping.
+        for row_start in range(0, len(ANIMALS), 4):
+            row = ANIMALS[row_start:row_start + 4]
+            animal_cols = st.columns(4, gap="small")
+            for col, animal in zip(animal_cols, row):
+                with col:
+                    amount = st.session_state.bets.get(animal["id"], 0)
+                    with st.container(key=f"animal-card-{animal['id']}"):
+                        # Multiplier is included directly in the label.
+                        label = (
+                            f"{animal['emoji']}  {animal['name']} • x{animal['multiplier']}\n"
+                            f"💎 {fmt(amount)} • +💎 {fmt(st.session_state.selected_bet)}"
+                        )
+                        st.button(
+                            label,
+                            key=f"animal_{animal['id']}",
+                            use_container_width=True,
+                            on_click=add_animal_bet,
+                            args=(animal["id"],),
+                        )
 
 # Actions
 def begin_betting_window():
