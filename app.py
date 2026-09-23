@@ -2622,6 +2622,431 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+st.markdown("""
+<style>
+/* ==========================================================
+   KINGINAZOO FINAL MOBILE ALIGNMENT
+   Every major section gets its own vertical lane.
+   ========================================================== */
+@media only screen and (max-width: 650px) {
+
+  /* ---- BRAND: isolated at the very top ---- */
+  .kz-brand {
+    width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+    margin: 0 auto 5px !important;
+    padding: 2px 0 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    position: relative !important;
+    z-index: 50 !important;
+    overflow: visible !important;
+  }
+
+  .kz-logo {
+    width: 100% !important;
+    font-size: clamp(27px, 8.5vw, 40px) !important;
+    line-height: 31px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  .kz-tag {
+    height: 12px !important;
+    line-height: 12px !important;
+    margin: 0 !important;
+    font-size: 6px !important;
+    letter-spacing: 2px !important;
+    text-align: center !important;
+  }
+
+  /* ---- ROUND / COINS: their own row ---- */
+  .kz-top {
+    width: 100% !important;
+    height: 55px !important;
+    min-height: 55px !important;
+    max-height: 55px !important;
+    margin: 0 auto 5px !important;
+    padding: 0 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4px !important;
+    position: relative !important;
+    z-index: 40 !important;
+  }
+
+  .kz-stat {
+    height: 55px !important;
+    min-height: 55px !important;
+    max-height: 55px !important;
+    padding: 5px 7px !important;
+    margin: 0 !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+
+  .kz-stat-label {
+    font-size: 7px !important;
+    line-height: 9px !important;
+    height: 9px !important;
+  }
+
+  .kz-stat-value {
+    font-size: 18px !important;
+    line-height: 22px !important;
+    height: 22px !important;
+  }
+
+  /* ---- RESULT / DRAWING: fixed lane, never spills into betting ---- */
+  .kz-arena {
+    width: 100% !important;
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+    margin: 0 auto 3px !important;
+    padding: 3px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 30 !important;
+  }
+
+  .kz-arena-round {
+    height: 9px !important;
+    line-height: 9px !important;
+    font-size: 6px !important;
+  }
+
+  .kz-winner {
+    height: 38px !important;
+    line-height: 38px !important;
+    font-size: 37px !important;
+    margin: 0 !important;
+  }
+
+  .kz-status {
+    height: 13px !important;
+    line-height: 13px !important;
+    font-size: 9px !important;
+    margin: 0 !important;
+  }
+
+  /* ---- TIMER: own lane ---- */
+  .kz-timer-wrap {
+    width: 100% !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    max-height: 18px !important;
+    margin: 2px auto 3px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 8px !important;
+    line-height: 18px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+  /* ---- HISTORY: centered, fixed lane ---- */
+  .kz-history {
+    width: 100% !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    margin: 2px auto 5px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 20 !important;
+  }
+
+  .kz-history-title {
+    width: 100% !important;
+    height: 14px !important;
+    line-height: 14px !important;
+    margin: 0 0 2px !important;
+    padding: 0 !important;
+    text-align: center !important;
+    font-size: 9px !important;
+    white-space: nowrap !important;
+  }
+
+  .kz-history-list {
+    width: 100% !important;
+    height: 36px !important;
+    display: grid !important;
+    grid-template-columns: repeat(10, minmax(0, 1fr)) !important;
+    gap: 2px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .kz-history-chip {
+    width: 100% !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 1px 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border-radius: 5px !important;
+    text-align: center !important;
+  }
+
+  .kz-history-chip .animal {
+    font-size: 18px !important;
+    line-height: 18px !important;
+  }
+
+  /* ---- TITLES: centered, dedicated rows ---- */
+  .kz-bet-title,
+  .kz-animal-title {
+    position: relative !important;
+    width: 100% !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    max-height: 20px !important;
+    margin: 5px auto 3px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 20px !important;
+    font-size: 11px !important;
+    letter-spacing: .4px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    z-index: 50 !important;
+    clear: both !important;
+  }
+
+  /* Bet title → buttons */
+  .kz-bet-title + div {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-bets {
+    width: 100% !important;
+    margin: 0 auto 3px !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-bets [data-testid="stHorizontalBlock"] {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-bets [data-testid="column"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-bets button {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    border-radius: 8px !important;
+  }
+
+  /* Summary: completely separate from the animal title */
+  .kz-summary {
+    width: 100% !important;
+    height: 17px !important;
+    min-height: 17px !important;
+    max-height: 17px !important;
+    margin: 2px auto 2px !important;
+    padding: 0 3px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    text-align: center !important;
+    font-size: 8px !important;
+    line-height: 17px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    z-index: 30 !important;
+  }
+
+  /* Animal title → animal cards */
+  .kz-animal-title {
+    margin: 3px auto 3px !important;
+  }
+
+  .kz-animal-title + div {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-animals {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-animals [data-testid="stHorizontalBlock"] {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-animals [data-testid="column"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .st-key-mobile-animals button {
+    width: 100% !important;
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+    margin: 0 !important;
+    padding: 1px !important;
+    border-radius: 7px !important;
+    overflow: hidden !important;
+  }
+
+  /* ---- FOOTER: centered and much more visible ---- */
+  .kz-footer {
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    margin: 7px auto 0 !important;
+    padding: 2px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    width: 100% !important;
+    display: block !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    font-size: clamp(14px, 4.5vw, 20px) !important;
+    line-height: 28px !important;
+    letter-spacing: .8px !important;
+    font-weight: 1000 !important;
+    color: #FFD84D !important;
+    text-shadow: 0 2px 6px #000, 0 0 10px rgba(255,216,77,.45) !important;
+    opacity: 1 !important;
+  }
+
+  /* Never allow Streamlit generated blocks to introduce a hidden
+     desktop minimum width. */
+  .kz-page,
+  .kz-page > div,
+  [data-testid="stHorizontalBlock"],
+  [data-testid="column"] {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .kz-brand {
+    height: 54px !important;
+    min-height: 54px !important;
+  }
+
+  .kz-logo {
+    font-size: 27px !important;
+    line-height: 29px !important;
+  }
+
+  .kz-top,
+  .kz-stat {
+    height: 52px !important;
+    min-height: 52px !important;
+  }
+
+  .kz-arena {
+    height: 70px !important;
+    min-height: 70px !important;
+  }
+
+  .kz-history {
+    height: 49px !important;
+    min-height: 49px !important;
+  }
+
+  .kz-bet-title,
+  .kz-animal-title {
+    height: 19px !important;
+    min-height: 19px !important;
+    line-height: 19px !important;
+    font-size: 10px !important;
+  }
+
+  .st-key-mobile-bets button {
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  .st-key-mobile-animals button {
+    height: 72px !important;
+    min-height: 72px !important;
+  }
+
+  .kz-footer {
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+
+  .kz-footer .powered-by,
+  .powered-by {
+    font-size: 13px !important;
+    letter-spacing: .4px !important;
+  }
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown('<div class="kz-page">', unsafe_allow_html=True)
 
 # Brand
