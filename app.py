@@ -176,9 +176,32 @@ html, body, [data-testid="stAppViewContainer"],
 
 .kz-page {
     position: relative;
+    z-index: 0;
+    width: min(1080px, 100%);
     max-width: 1080px;
     margin: auto;
     overflow: hidden;
+}
+
+/* Mask the oversized KINGINAZOO artwork baked into the jungle background.
+   The real foreground wordmark remains above this layer. */
+.kz-page::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: -2%;
+    right: -2%;
+    top: 48px;
+    height: 365px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(1, 38, 20, .96) 0%,
+            rgba(1, 38, 20, .92) 48%,
+            rgba(1, 38, 20, .72) 82%,
+            rgba(1, 38, 20, .18) 100%
+        );
+    pointer-events: none;
 }
 
 
@@ -186,7 +209,7 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-brand {
     position: relative;
     z-index: 4;
-    height: clamp(64px, 7vw, 88px);
+    height: clamp(58px, 6vw, 76px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -197,7 +220,7 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-logo {
     display: block !important;
     color: #ffe66b;
-    font-size: clamp(38px, 5vw, 64px);
+    font-size: clamp(36px, 4.7vw, 60px);
     line-height: .95;
     font-weight: 1000;
     letter-spacing: clamp(1px, .4vw, 5px);
@@ -236,14 +259,14 @@ html, body, [data-testid="stAppViewContainer"],
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 .kz-stat {
     background: linear-gradient(180deg, rgba(6,59,32,.88), rgba(2,41,20,.90));
     border: 2px solid var(--gold);
     border-radius: 16px;
-    padding: 6px 12px;
+    padding: 5px 10px;
     box-shadow:
       0 0 0 2px rgba(255,216,77,.08),
       0 7px 18px rgba(0,0,0,.35);
@@ -266,7 +289,7 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-arena {
     position: relative;
     z-index: 2;
-    min-height: 82px;
+    min-height: 68px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -277,7 +300,7 @@ html, body, [data-testid="stAppViewContainer"],
     border: none !important;
     border-radius: 0;
     box-shadow: none;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
 }
 .kz-arena-round {
     color: #d8cf93;
@@ -286,11 +309,11 @@ html, body, [data-testid="stAppViewContainer"],
     letter-spacing: 2px;
 }
 .kz-winner {
-    height: 48px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(46px, 6vw, 72px);
+    font-size: clamp(42px, 5.5vw, 68px);
     line-height: 1;
     filter: drop-shadow(0 8px 7px rgba(0,0,0,.5));
 }
@@ -525,21 +548,21 @@ div.stButton > button:hover {
     display: block !important;
     position: relative;
     z-index: 3;
-    margin: 8px 0 10px;
+    margin: 3px 0 4px;
     background: linear-gradient(180deg, rgba(3,58,32,.52), rgba(2,35,20,.38));
     border: none !important;
     border-radius: 12px;
-    padding: 6px 4px 8px;
+    padding: 2px 2px 3px;
     overflow: hidden;
     box-shadow: none;
 }
 .kz-history-title {
     color: #ffe87e;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 1000;
     letter-spacing: 1px;
     text-align: center;
-    margin-bottom: 7px;
+    margin-bottom: 3px;
     text-shadow: 0 2px 4px #000;
 }
 .kz-history-list {
@@ -550,7 +573,7 @@ div.stButton > button:hover {
 }
 .kz-history-chip {
     min-width: 0;
-    min-height: 82px;
+    min-height: 62px;
     padding: 5px 3px;
     border-radius: 11px;
     background: linear-gradient(180deg,#0a542b,#06361e);
@@ -572,7 +595,7 @@ div.stButton > button:hover {
 }
 .kz-history-chip .animal {
     display: block;
-    font-size: 40px;
+    font-size: 34px;
     line-height: .95;
     filter: drop-shadow(0 5px 4px rgba(0,0,0,.5));
 }
@@ -612,6 +635,25 @@ div.stButton > button:hover {
     border-color: #ff6b5f;
 }
 @media (max-width: 650px) {
+    .kz-page::before {
+        top: 38px;
+        height: 300px;
+        background: linear-gradient(
+            180deg,
+            rgba(1, 38, 20, .97) 0%,
+            rgba(1, 38, 20, .93) 55%,
+            rgba(1, 38, 20, .55) 100%
+        );
+    }
+    .kz-brand { height: 48px !important; }
+    .kz-logo { font-size: clamp(34px, 10vw, 48px) !important; }
+    .kz-top { gap: 4px !important; margin-bottom: 2px !important; }
+    .kz-stat { padding: 4px 6px !important; }
+    .kz-arena { min-height: 58px !important; }
+    .kz-winner { height: 30px !important; font-size: 38px !important; }
+    .kz-history { margin: 2px 0 3px !important; padding: 2px !important; }
+}
+
     .kz-timer-wrap { margin: 3px 0 5px; gap: 6px; }
     .kz-timer { min-width: 55px; padding: 4px 8px; font-size: 16px; border-width: 1.5px; }
 }
