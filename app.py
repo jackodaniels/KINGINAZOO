@@ -870,12 +870,13 @@ def start_round():
 
     placed = dict(st.session_state.bets)
 
-    # FAIR DRAW: winner is selected independently of the player's bets.
-    # secrets.choice uses the operating system's secure random source.
-    # Every animal currently has exactly the same 1/8 chance.
-    # The category is derived from the already-selected winner, so there is
-    # no separate category draw that could introduce weighting.
-    winner = secrets.choice(ANIMALS)
+    # FAIR DRAW: select exactly one animal index independently of all bets.
+    # secrets.randbelow(n) uses the OS-backed cryptographic RNG and gives each
+    # index an equal probability. With 8 animals, each animal is 1/8 per round.
+    # Bets, stake size, payout multiplier, and previous results are NOT inputs
+    # to the draw. Repeated winners are therefore possible in true randomness.
+    winner_index = secrets.randbelow(len(ANIMALS))
+    winner = ANIMALS[winner_index]
     category = winner["category"]
 
     st.session_state.balance -= stake
@@ -901,7 +902,7 @@ def start_round():
             "won": won,
         },
     )
-    st.session_state.history = st.session_state.history[:12]
+    st.session_state.history = st.session_state.history[:5]
     st.session_state.bets = {}
     st.session_state.winner = winner
     st.session_state.status = result
@@ -970,13 +971,13 @@ with action_cols[1]:
 
 # History
 st.markdown('<div class="kz-history">', unsafe_allow_html=True)
-st.markdown('<div class="kz-history-title">🏆 WINNING HISTORY</div>', unsafe_allow_html=True)
+st.markdown('<div class="kz-history-title">🏆 LAST 5 WINNING RESULTS</div>', unsafe_allow_html=True)
 
 if not st.session_state.history:
     st.markdown('<div style="color:#9e9f76;font-size:10px">No winning rounds yet.</div>', unsafe_allow_html=True)
 else:
     chips = []
-    for item in st.session_state.history[:8]:
+    for item in st.session_state.history[:5]:
         w = item["winner"]
         chips.append(
             f'<div class="kz-history-chip"><span class="animal">{w["emoji"]}</span>'
