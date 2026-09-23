@@ -977,9 +977,9 @@ function next() {{
   }} else {{
     status.textContent="🎉 " + winner.name + " — WINNER!";
     el.className="animal win";
-    setTimeout(() => {{
-      window.parent.postMessage({{type:"KINGINAZOO_FLASH_COMPLETE"}}, "*");
-    }}, 350);
+    // Final frame is the winner. Refresh the parent immediately so the
+    // main RESULT section shows the same winner at the same moment.
+    window.parent.postMessage({{type:"KINGINAZOO_FLASH_COMPLETE"}}, "*");
   }}
 
   if(i < sequence.length-1) {{
@@ -1188,8 +1188,14 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("""
 <script>
+let kinginazooFlashComplete = false;
 window.addEventListener("message", function(event) {
-    if (event.data && event.data.type === "KINGINAZOO_FLASH_COMPLETE") {
+    if (
+        !kinginazooFlashComplete &&
+        event.data &&
+        event.data.type === "KINGINAZOO_FLASH_COMPLETE"
+    ) {
+        kinginazooFlashComplete = true;
         window.location.reload();
     }
 });
