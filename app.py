@@ -1708,81 +1708,213 @@ if st.session_state.show_reveal and st.session_state.winner:
     # First visual frame is an actual random animal, not a slot-machine icon.
     flash_start = secrets.choice(ANIMALS)
 
-    components.html(
-        f"""
+    flash_payload = {
+        "flash": {"emoji": flash_start["emoji"], "name": flash_start["name"]},
+    }
+
+    flash_html = """
 <!doctype html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
-.box{{margin-top:8px;background:#032715;border:0;border-radius:0;
-padding:7px;text-align:center;box-shadow:none;box-sizing:border-box;height:150px;overflow:hidden}}
-.label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
-.kz-live-indicator{{color:#7dffb2;font-size:9px;font-weight:900;letter-spacing:1px;margin-left:6px}}
-.animal{{height:92px;display:flex;align-items:center;justify-content:center;font-size:82px;will-change:transform,opacity;
-filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
-.status{{color:#fff1a4;font-size:13px;font-weight:900;line-height:1.05}}
-@keyframes winpop{{0%{{transform:scale(.75)}}60%{{transform:scale(1.18)}}100%{{transform:scale(1)}}}}
-.win{{animation:winpop .5s ease}}
+body{margin:0;background:transparent;font-family:Arial,sans-serif}
+.box{margin-top:8px;background:#032715;border:0;border-radius:0;padding:7px;text-align:center;
+box-shadow:none;box-sizing:border-box;height:150px;overflow:hidden}
+.label{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}
+.kz-live-indicator{color:#7dffb2;font-size:9px;font-weight:900;letter-spacing:1px;margin-left:6px}
+.animal{height:92px;display:flex;align-items:center;justify-content:center;font-size:82px;
+will-change:transform,opacity;filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}
+.status{color:#fff1a4;font-size:13px;font-weight:900;line-height:1.05}
+@keyframes winpop{0%{transform:scale(.75)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+.win{animation:winpop .5s ease}
+
+/* FINAL MOBILE WIDTH FIX */
+@media (max-width: 650px) {
+  html, body,
+  [data-testid="stApp"],
+  [data-testid="stAppViewContainer"],
+  [data-testid="stAppViewContainer"] > .main,
+  section.main,
+  .block-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .block-container {
+    padding: 0 3px 8px !important;
+    margin: 0 !important;
+  }
+
+  [data-testid="stHorizontalBlock"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 3px !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+    min-width: 0 !important;
+    width: 0 !important;
+    flex-basis: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_1) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_10) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_100) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-bet_1000) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_monkey) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_koala) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_panda) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_lion) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_fish) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_crab) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_jelly) > [data-testid="column"],
+  [data-testid="stHorizontalBlock"]:has(.st-key-animal_shell_pearl) > [data-testid="column"] {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: 0 !important;
+  }
+
+  [class*="st-key-animal-card-"],
+  [class*="st-key-animal-card-"] > div,
+  [class*="st-key-animal-card-"] div.stButton,
+  [class*="st-key-animal-card-"] div.stButton > button {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  [class*="st-key-animal-card-"] div.stButton > button {
+    height: 82px !important;
+    min-height: 82px !important;
+    max-height: 82px !important;
+    padding: 1px !important;
+    overflow: hidden !important;
+  }
+
+  [class*="st-key-animal-card-"] div.stButton > button::before {
+    font-size: clamp(30px, 10vw, 48px) !important;
+  }
+
+  [class*="st-key-animal-card-"] div.stButton > button p {
+    font-size: 6px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+
+  .st-key-bet_1 div.stButton > button,
+  .st-key-bet_10 div.stButton > button,
+  .st-key-bet_100 div.stButton > button,
+  .st-key-bet_1000 div.stButton > button {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 2px !important;
+    font-size: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .kz-brand, .kz-top, .kz-arena, .kz-history,
+  .kz-section-title, .kz-summary, .kz-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .kz-logo {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    font-size: clamp(27px, 9vw, 42px) !important;
+    white-space: nowrap !important;
+  }
+
+  .kz-footer .powered-by {
+    width: 100% !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    font-size: clamp(15px, 5vw, 22px) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .kz-logo { font-size: 26px !important; }
+  [class*="st-key-animal-card-"] div.stButton > button {
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+  [class*="st-key-animal-card-"] div.stButton > button::before {
+    font-size: 34px !important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="box">
  <div class="label">🐾 DRAWING • FLASHING <span class="kz-live-indicator">● LIVE</span></div>
- <div id="animal" class="animal">{flash_start["emoji"]}</div>
+ <div id="animal" class="animal">__FLASH_EMOJI__</div>
  <div id="status" class="status">Flashing...</div>
 </div>
 <script>
-const animals={animals_json};
-const winner={winner_json};
+const animals=__ANIMALS__;
+const winner=__WINNER__;
+const flashStart=__FLASH_START__;
 const el=document.getElementById("animal");
 const status=document.getElementById("status");
 
 const sequence=[];
-sequence.push({json.dumps({"emoji": flash_start["emoji"], "name": flash_start["name"]})});
-for(let n=1;n<28;n++){{
+sequence.push(flashStart);
+for(let n=1;n<28;n++){
   sequence.push(animals[Math.floor(Math.random()*animals.length)]);
-}}
+}
 sequence.push(winner,winner,winner);
 
 let index=0;
 let lastFrame=performance.now();
 let finished=false;
 
-function frameDelay(n){{
+function frameDelay(n){
   if(n < 10) return 70;
   if(n < 19) return 105;
   if(n < 27) return 170;
   return 280;
-}}
+}
 
-function draw(now){{
+function draw(now){
   if(finished) return;
-
-  if(now-lastFrame >= frameDelay(index)){{
+  if(now-lastFrame >= frameDelay(index)){
     const item=sequence[index];
     el.textContent=item.emoji;
     el.className="animal";
-
-    if(index < 19){{
+    if(index < 19){
       status.textContent="🐾 Flashing...";
-    }} else if(index < sequence.length-1){{
+    } else if(index < sequence.length-1){
       status.textContent="⏳ Slowing down...";
-    }} else {{
+    } else {
       el.textContent=winner.emoji;
       el.className="animal win";
       status.textContent="🎉 " + winner.name + " — WINNER!";
       finished=true;
       return;
-    }}
-
+    }
     index++;
     lastFrame=now;
-  }}
-
+  }
   requestAnimationFrame(draw);
-}}
+}
 
 el.textContent=sequence[0].emoji;
 status.textContent="🐾 Flashing...";
@@ -1790,7 +1922,18 @@ requestAnimationFrame(draw);
 </script>
 </body>
 </html>
-""",
+"""
+
+    flash_html = (
+        flash_html
+        .replace("__ANIMALS__", animals_json)
+        .replace("__WINNER__", winner_json)
+        .replace("__FLASH_START__", json.dumps(flash_payload["flash"]))
+        .replace("__FLASH_EMOJI__", flash_start["emoji"])
+    )
+
+    components.html(
+        flash_html,
         height=156,
         scrolling=False,
     )
