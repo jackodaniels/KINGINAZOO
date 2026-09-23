@@ -73,7 +73,7 @@ def load_history(limit=10):
     return [
         {
             "round": r[0],
-            "winner": {"id": r[1], "name": r[2], "emoji": r[3], "category": r[4]},
+            "winner": {"id": ("shell_pearl" if r[1] == "turtle" else r[1]), "name": ("Shell Pearl" if r[2] == "Turtle" else r[2]), "emoji": ("🐚" if r[3] == "🐢" else r[3]), "category": r[4]},
         }
         for r in rows
     ]
@@ -385,7 +385,7 @@ div.stButton > button:hover {
 .st-key-animal-card-fish div.stButton > button::before { content: "🐟"; }
 .st-key-animal-card-crab div.stButton > button::before { content: "🦀"; }
 .st-key-animal-card-jelly div.stButton > button::before { content: "🪼"; }
-.st-key-animal-card-turtle div.stButton > button::before { content: "🐚"; }
+.st-key-animal-card-shell_pearl div.stButton > button::before { content: "🐚"; }
 [class*="st-key-animal-card-"] div.stButton > button::before {
     display: block !important;
     font-size: clamp(64px, 7vw, 86px) !important;
