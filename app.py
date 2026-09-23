@@ -243,7 +243,7 @@ html, body, [data-testid="stAppViewContainer"],
     background: linear-gradient(180deg, rgba(6,59,32,.88), rgba(2,41,20,.90));
     border: 2px solid var(--gold);
     border-radius: 16px;
-    padding: 8px 14px;
+    padding: 6px 12px;
     box-shadow:
       0 0 0 2px rgba(255,216,77,.08),
       0 7px 18px rgba(0,0,0,.35);
@@ -266,7 +266,7 @@ html, body, [data-testid="stAppViewContainer"],
 .kz-arena {
     position: relative;
     z-index: 2;
-    min-height: 112px;
+    min-height: 82px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -277,7 +277,7 @@ html, body, [data-testid="stAppViewContainer"],
     border: none !important;
     border-radius: 0;
     box-shadow: none;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 }
 .kz-arena-round {
     color: #d8cf93;
@@ -286,11 +286,11 @@ html, body, [data-testid="stAppViewContainer"],
     letter-spacing: 2px;
 }
 .kz-winner {
-    height: 64px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(58px, 7vw, 88px);
+    font-size: clamp(46px, 6vw, 72px);
     line-height: 1;
     filter: drop-shadow(0 8px 7px rgba(0,0,0,.5));
 }
@@ -308,7 +308,7 @@ html, body, [data-testid="stAppViewContainer"],
     font-size: 17px;
     font-weight: 1000;
     letter-spacing: 1px;
-    margin: 8px 2px 5px;
+    margin: 5px 2px 3px;
     text-shadow: 0 2px 4px #000;
 }
 
