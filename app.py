@@ -431,6 +431,44 @@ div.stButton > button:hover {
     filter: drop-shadow(0 5px 4px rgba(0,0,0,.5));
 }
 
+/* Prominent multiplier badge — like the reference game UI. */
+[class*="st-key-animal-card-"] div.stButton > button {
+    position: relative !important;
+}
+.st-key-animal-card-monkey div.stButton > button::after { content: "×5"; }
+.st-key-animal-card-koala div.stButton > button::after { content: "×5"; }
+.st-key-animal-card-panda div.stButton > button::after { content: "×5"; }
+.st-key-animal-card-lion div.stButton > button::after { content: "×5"; }
+.st-key-animal-card-fish div.stButton > button::after { content: "×10"; }
+.st-key-animal-card-crab div.stButton > button::after { content: "×15"; }
+.st-key-animal-card-jelly div.stButton > button::after { content: "×25"; }
+.st-key-animal-card-shell_pearl div.stButton > button::after { content: "×50"; }
+
+[class*="st-key-animal-card-"] div.stButton > button::after {
+    position: absolute !important;
+    top: 7px !important;
+    left: 8px !important;
+    z-index: 5 !important;
+    min-width: 38px !important;
+    height: 29px !important;
+    padding: 1px 7px 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 15px !important;
+    border: 2px solid #ffe16b !important;
+    background: linear-gradient(180deg, #ff7436 0%, #e52d16 100%) !important;
+    color: #fff !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    font-weight: 1000 !important;
+    font-style: italic !important;
+    text-shadow: 0 2px 2px rgba(0,0,0,.65) !important;
+    box-shadow: 0 3px 5px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.35) !important;
+    pointer-events: none !important;
+}
+
 /* Animal grid */
 .kz-animals {
     position: relative;
@@ -1177,6 +1215,15 @@ iframe[title="streamlit.components.v1.html"] {
     [class*="st-key-animal-card-"] div.stButton > button::before {
         font-size: clamp(54px, 17vw, 72px) !important;
     }
+    [class*="st-key-animal-card-"] div.stButton > button::after {
+        top: 5px !important;
+        left: 6px !important;
+        min-width: 32px !important;
+        height: 24px !important;
+        padding: 1px 5px 0 !important;
+        border-radius: 13px !important;
+        font-size: 14px !important;
+    }
     .kz-actions { gap: 5px !important; margin-top: 6px !important; }
     .kz-action { min-height: 38px !important; font-size: 11px !important; }
     .kz-footer { margin-top: 10px !important; }
@@ -1553,7 +1600,6 @@ for index, animal in enumerate(ANIMALS):
         with st.container(key=f"animal-card-{animal['id']}"):
             label = (
                 f"{animal['name']}\n"
-                f"💰 PAYOUT ×{animal['multiplier']}\n"
                 f"💎 {fmt(amount)} • +💎 {fmt(st.session_state.selected_bet)}"
             )
             st.button(
