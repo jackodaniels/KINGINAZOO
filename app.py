@@ -294,8 +294,8 @@ div.stButton > button:hover {
 
 /* Large animal icons: native buttons + per-animal pseudo-element. */
 [class*="st-key-animal-card-"] div.stButton > button {
-    min-height: 94px !important;
-    padding: 7px 6px 6px !important;
+    min-height: 118px !important;
+    padding: 8px 6px 7px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -320,8 +320,8 @@ div.stButton > button:hover {
 .st-key-animal-card-turtle div.stButton > button::before { content: "🐢"; }
 [class*="st-key-animal-card-"] div.stButton > button::before {
     display: block !important;
-    font-size: clamp(42px, 5vw, 62px) !important;
-    line-height: .85 !important;
+    font-size: clamp(52px, 6vw, 72px) !important;
+    line-height: .82 !important;
     margin-bottom: 3px !important;
     filter: drop-shadow(0 5px 4px rgba(0,0,0,.5));
 }
@@ -569,13 +569,13 @@ iframe[title="streamlit.components.v1.html"] {
     }
     .block-container { padding: 4px 6px 6px !important; }
     .kz-brand { height: 45px; margin-bottom: 2px; }
-    .kz-logo { font-size: clamp(27px, 8vw, 38px); letter-spacing: 1px; }
+    .kz-logo { font-size: clamp(30px, 9vw, 42px); letter-spacing: 1px; }
     .kz-tag { font-size: 7px; letter-spacing: 2px; margin-top: 2px; }
     .kz-top { gap: 5px; margin-bottom: 5px; }
     .kz-stat { padding: 6px 8px; border-radius: 12px; }
     .kz-stat-label { font-size: 7px; letter-spacing: 1px; }
     .kz-stat-value { font-size: 16px; }
-    .kz-arena { min-height: 82px; border-radius: 15px; margin-bottom: 6px; }
+    .kz-arena { min-height: 78px; border-radius: 15px; margin-bottom: 5px; }
     .kz-arena-round { font-size: 7px; letter-spacing: 1px; }
     .kz-winner { height: 40px; font-size: 38px; }
     .kz-status { font-size: 10px; }
@@ -585,13 +585,13 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-summary { font-size: 9px; margin: 4px 2px; }
     .kz-animals { grid-template-columns: repeat(2, 1fr); gap: 5px; }
     [class*="st-key-animal-card-"] div.stButton > button {
-        min-height: 61px !important;
+        min-height: 78px !important;
         border-radius: 11px !important;
         border-width: 1.5px !important;
         padding: 3px 4px !important;
     }
     [class*="st-key-animal-card-"] div.stButton > button::before {
-        font-size: clamp(34px, 10vw, 44px) !important;
+        font-size: clamp(42px, 13vw, 52px) !important;
         line-height: .78 !important;
         margin-bottom: 2px !important;
     }
@@ -599,9 +599,11 @@ iframe[title="streamlit.components.v1.html"] {
         font-size: 9px !important;
         line-height: 1 !important;
     }
-    .kz-actions { gap: 5px; margin-top: 5px; }
-    .kz-action { min-height: 37px; font-size: 10px; border-radius: 10px; }
-    div.stButton > button { min-height: 35px !important; font-size: 10px !important; }
+    .kz-actions { gap: 5px; margin-top: 4px; }
+    .kz-action { min-height: 36px; font-size: 10px; border-radius: 10px; }
+    div.stButton > button { min-height: 34px !important; font-size: 10px !important; }
+    .kz-history { display: none !important; }
+    .kz-footer { display: none !important; }
 }
 
 /* Very short phone screens */
@@ -615,8 +617,8 @@ iframe[title="streamlit.components.v1.html"] {
     .kz-winner { height: 32px; font-size: 31px; }
     .kz-section-title { margin: 3px 1px 2px; }
     .kz-bet { min-height: 31px; }
-    [class*="st-key-animal-card-"] div.stButton > button { min-height: 53px !important; }
-    [class*="st-key-animal-card-"] div.stButton > button::before { font-size: 34px !important; }
+    [class*="st-key-animal-card-"] div.stButton > button { min-height: 68px !important; }
+    [class*="st-key-animal-card-"] div.stButton > button::before { font-size: 42px !important; }
     .kz-actions { margin-top: 3px; }
     .kz-action { min-height: 32px; }
 }
@@ -672,6 +674,86 @@ st.markdown(
 
 # Random category is chosen automatically when a round starts.
 # There is intentionally NO jackpot selector shown to the player.
+
+# Flashing winner animation.
+# Winner is already selected server-side. The browser only reveals it through
+# a rapid random sequence that slows down before stopping.
+if st.session_state.show_reveal and st.session_state.winner:
+    winner = st.session_state.winner
+    animals_json = json.dumps(
+        [{"emoji": a["emoji"], "name": a["name"]} for a in ANIMALS]
+    )
+    winner_json = json.dumps(
+        {"emoji": winner["emoji"], "name": winner["name"]}
+    )
+
+    components.html(
+        f"""
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
+.box{{margin-top:12px;background:#032715;border:3px solid #ffd84d;border-radius:22px;
+padding:9px;text-align:center;box-shadow:0 0 22px rgba(255,216,77,.18)}}
+.label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
+.animal{{height:105px;display:flex;align-items:center;justify-content:center;font-size:78px;
+filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
+.status{{color:#fff1a4;font-size:14px;font-weight:900}}
+@keyframes winpop{{0%{{transform:scale(.75)}}60%{{transform:scale(1.18)}}100%{{transform:scale(1)}}}}
+.win{{animation:winpop .5s ease}}
+</style>
+</head>
+<body>
+<div class="box">
+ <div class="label">🎰 DRAWING • FLASHING</div>
+ <div id="animal" class="animal">❓</div>
+ <div id="status" class="status">Selecting...</div>
+</div>
+<script>
+const animals={animals_json};
+const winner={winner_json};
+const el=document.getElementById("animal");
+const status=document.getElementById("status");
+
+let i=0;
+const sequence=[];
+for(let n=0;n<28;n++) {{
+  sequence.push(animals[Math.floor(Math.random()*animals.length)]);
+}}
+sequence.push(winner,winner,winner);
+
+function next() {{
+  const item=sequence[i];
+  el.className="animal";
+  el.textContent=item.emoji;
+
+  if(i < 24) {{
+    status.textContent="Flashing...";
+  }} else if(i < sequence.length-1) {{
+    status.textContent="Slowing down...";
+  }} else {{
+    status.textContent="🎉 " + winner.name + " — WINNER!";
+    el.className="animal win";
+  }}
+
+  if(i < sequence.length-1) {{
+    i++;
+    const delay = i < 10 ? 55 : (i < 19 ? 80 : (i < 27 ? 130 : 240));
+    setTimeout(next,delay);
+  }}
+}}
+next();
+</script>
+</body>
+</html>
+""",
+        height=118,
+        scrolling=False,
+    )
+
+
 
 def choose_bet(amount):
     st.session_state.selected_bet = amount
@@ -802,84 +884,6 @@ with action_cols[1]:
         key="clear_bets",
         use_container_width=True,
         on_click=clear_bets,
-    )
-
-# Flashing winner animation.
-# Winner is already selected server-side. The browser only reveals it through
-# a rapid random sequence that slows down before stopping.
-if st.session_state.show_reveal and st.session_state.winner:
-    winner = st.session_state.winner
-    animals_json = json.dumps(
-        [{"emoji": a["emoji"], "name": a["name"]} for a in ANIMALS]
-    )
-    winner_json = json.dumps(
-        {"emoji": winner["emoji"], "name": winner["name"]}
-    )
-
-    components.html(
-        f"""
-<!doctype html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-body{{margin:0;background:transparent;font-family:Arial,sans-serif}}
-.box{{margin-top:12px;background:#032715;border:3px solid #ffd84d;border-radius:22px;
-padding:9px;text-align:center;box-shadow:0 0 22px rgba(255,216,77,.18)}}
-.label{{color:#e5d68b;font-size:10px;font-weight:900;letter-spacing:2px}}
-.animal{{height:105px;display:flex;align-items:center;justify-content:center;font-size:78px;
-filter:drop-shadow(0 8px 6px rgba(0,0,0,.5))}}
-.status{{color:#fff1a4;font-size:14px;font-weight:900}}
-@keyframes winpop{{0%{{transform:scale(.75)}}60%{{transform:scale(1.18)}}100%{{transform:scale(1)}}}}
-.win{{animation:winpop .5s ease}}
-</style>
-</head>
-<body>
-<div class="box">
- <div class="label">🎰 DRAWING • FLASHING</div>
- <div id="animal" class="animal">❓</div>
- <div id="status" class="status">Selecting...</div>
-</div>
-<script>
-const animals={animals_json};
-const winner={winner_json};
-const el=document.getElementById("animal");
-const status=document.getElementById("status");
-
-let i=0;
-const sequence=[];
-for(let n=0;n<28;n++) {{
-  sequence.push(animals[Math.floor(Math.random()*animals.length)]);
-}}
-sequence.push(winner,winner,winner);
-
-function next() {{
-  const item=sequence[i];
-  el.className="animal";
-  el.textContent=item.emoji;
-
-  if(i < 24) {{
-    status.textContent="Flashing...";
-  }} else if(i < sequence.length-1) {{
-    status.textContent="Slowing down...";
-  }} else {{
-    status.textContent="🎉 " + winner.name + " — WINNER!";
-    el.className="animal win";
-  }}
-
-  if(i < sequence.length-1) {{
-    i++;
-    const delay = i < 10 ? 55 : (i < 19 ? 80 : (i < 27 ? 130 : 240));
-    setTimeout(next,delay);
-  }}
-}}
-next();
-</script>
-</body>
-</html>
-""",
-        height=112,
-        scrolling=False,
     )
 
 # History
