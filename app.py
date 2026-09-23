@@ -9,6 +9,12 @@ from pathlib import Path
 import base64
 import sqlite3
 import threading
+import time
+
+try:
+    from streamlit_autorefresh import st_autorefresh
+except ImportError:
+    st_autorefresh = None
 
 @st.cache_data(show_spinner=False)
 def get_bg_data_uri():
@@ -91,6 +97,8 @@ DEFAULTS = {
     "history": [],
     "show_reveal": False,
     "last_result_round": None,
+    "bet_timer_active": False,
+    "bet_timer_end": None,
 }
 
 for key, value in DEFAULTS.items():
@@ -559,6 +567,39 @@ div.stButton > button:hover {
     margin-top: 3px;
     font-weight: 1000;
 }
+/* 10-second betting timer */
+.kz-timer-wrap {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 5px 0 8px;
+    color: #fff5bf;
+    font-weight: 1000;
+    text-align: center;
+}
+.kz-timer {
+    min-width: 74px;
+    padding: 5px 12px;
+    border: 2px solid #ffd84d;
+    border-radius: 999px;
+    background: rgba(2,39,20,.85);
+    color: #ffe45c;
+    font-size: 22px;
+    line-height: 1;
+    text-shadow: 0 2px 5px #000;
+}
+.kz-timer.hot {
+    color: #ff6b5f;
+    border-color: #ff6b5f;
+}
+@media (max-width: 650px) {
+    .kz-timer-wrap { margin: 3px 0 5px; gap: 6px; }
+    .kz-timer { min-width: 55px; padding: 4px 8px; font-size: 16px; border-width: 1.5px; }
+}
+
 /* Footer */
 .kz-footer {
     display: block !important;
@@ -784,6 +825,23 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# 10-second betting timer. The first animal bet starts the timer.
+# streamlit-autorefresh keeps the countdown realtime without blocking the app.
+timer_remaining = 0
+if st.session_state.bet_timer_active and st.session_state.bet_timer_end:
+    timer_remaining = max(0, int(st.session_state.bet_timer_end - time.time() + 0.999))
+    if timer_remaining <= 0:
+        st.session_state.bet_timer_active = False
+        st.session_state.bet_timer_end = None
+        if total_bet() > 0:
+            start_round_pending = True
+        else:
+            start_round_pending = False
+    else:
+        start_round_pending = False
+else:
+    start_round_pending = False
+
 # Main arena
 winner = st.session_state.winner
 winner_emoji = winner["emoji"] if winner else "❓"
@@ -799,6 +857,19 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
+
+# Realtime betting countdown.
+if st.session_state.bet_timer_active and timer_remaining > 0:
+    timer_class = "kz-timer hot" if timer_remaining <= 3 else "kz-timer"
+    st.markdown(
+        f'<div class="kz-timer-wrap">⏳ BETTING OPEN <span class="{timer_class}">{timer_remaining}s</span></div>',
+        unsafe_allow_html=True,
+    )
+elif not st.session_state.bet_timer_active and total_bet() == 0:
+    st.markdown(
+        '<div class="kz-timer-wrap">⏱️ <span>10-second betting window starts with your first animal bet</span></div>',
+        unsafe_allow_html=True,
+    )
 
 # Random category is chosen automatically when a round starts.
 # There is intentionally NO jackpot selector shown to the player.
@@ -921,6 +992,9 @@ def add_animal_bet(animal_id):
             f'{animal["emoji"]} {animal["name"]} • 💎 {fmt(st.session_state.bets[animal_id])}'
         )
         st.session_state.show_reveal = False
+        if not st.session_state.bet_timer_active:
+            st.session_state.bet_timer_active = True
+            st.session_state.bet_timer_end = time.time() + 10
     else:
         st.session_state.status = "⚠️ Not enough coins"
 
@@ -928,6 +1002,8 @@ def clear_bets():
     st.session_state.bets = {}
     st.session_state.status = "Choose your bet and animals"
     st.session_state.show_reveal = False
+    st.session_state.bet_timer_active = False
+    st.session_state.bet_timer_end = None
 
 def start_round():
     stake = total_bet()
@@ -988,6 +1064,17 @@ def start_round():
     st.session_state.status = result
     st.session_state.round = result_round + 1
     st.session_state.show_reveal = True
+    st.session_state.bet_timer_active = False
+    st.session_state.bet_timer_end = None
+
+# Auto-draw when the 10-second betting window expires.
+if start_round_pending:
+    start_round()
+    st.rerun()
+
+# Refresh once per second only while the betting timer is active.
+if st.session_state.bet_timer_active and st_autorefresh is not None:
+    st_autorefresh(interval=1000, key="kinginazoo_bet_timer")
 
 # Bet buttons — native Streamlit buttons keep the user on the same page.
 st.markdown('<div class="kz-section-title">💎 CHOOSE YOUR BET</div>', unsafe_allow_html=True)
@@ -1034,13 +1121,30 @@ for index, animal in enumerate(ANIMALS):
 
 # Actions
 action_cols = st.columns([3, 1], gap="small")
+def begin_betting_window():
+    if total_bet() <= 0:
+        st.session_state.status = "⚠️ Tap an animal to place a bet first"
+        return
+    if not st.session_state.bet_timer_active:
+        st.session_state.bet_timer_active = True
+        st.session_state.bet_timer_end = time.time() + 10
+        st.session_state.status = "⏳ Betting is open for 10 seconds"
+
 with action_cols[0]:
-    st.button(
-        "▶ START ROUND",
-        key="start_round",
-        use_container_width=True,
-        on_click=start_round,
-    )
+    if st.session_state.bet_timer_active:
+        st.button(
+            f"⏳ BETTING OPEN • {timer_remaining}s",
+            key="start_round",
+            use_container_width=True,
+            disabled=True,
+        )
+    else:
+        st.button(
+            "▶ START 10s BETTING",
+            key="start_round",
+            use_container_width=True,
+            on_click=begin_betting_window,
+        )
 with action_cols[1]:
     st.button(
         "CLEAR",
