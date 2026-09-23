@@ -33,9 +33,6 @@ DEFAULTS = {
     "status": "Choose your bet and animals",
     "history": [],
     "show_reveal": False,
-    "land_jackpot": 25000,
-    "ocean_jackpot": 25000,
-    "jackpot_category": "Land",
 }
 
 for key, value in DEFAULTS.items():
@@ -53,104 +50,6 @@ def total_bet():
 
 def get_animal(animal_id):
     return next((a for a in ANIMALS if a["id"] == animal_id), None)
-
-
-# ---------------------------------------------------------------------
-# Handle URL actions. HTML cards are real links, so the WHOLE animal
-# card is clickable on mobile and desktop.
-# ---------------------------------------------------------------------
-params = st.query_params
-action = params.get("action")
-value = params.get("value")
-
-if action:
-    st.query_params.clear()
-
-    if action == "bet":
-        try:
-            amount = int(value)
-        except (TypeError, ValueError):
-            amount = 1
-
-        if amount in BET_OPTIONS:
-            st.session_state.selected_bet = amount
-            st.session_state.status = f"💎 {fmt(amount)} bet selected"
-            st.session_state.show_reveal = False
-
-    elif action == "animal":
-        animal = get_animal(value)
-        if animal:
-            current = st.session_state.bets.get(animal["id"], 0)
-            new_total = total_bet() + st.session_state.selected_bet
-
-            if new_total <= st.session_state.balance:
-                st.session_state.bets[animal["id"]] = (
-                    current + st.session_state.selected_bet
-                )
-                st.session_state.status = (
-                    f'{animal["emoji"]} {animal["name"]} • '
-                    f'💎 {fmt(st.session_state.bets[animal["id"]])}'
-                )
-                st.session_state.show_reveal = False
-            else:
-                st.session_state.status = "⚠️ Not enough coins"
-
-    elif action == "jackpot":
-        if value in ("Land", "Ocean"):
-            st.session_state.jackpot_category = value
-            st.session_state.status = f"💰 {value} Jackpot selected"
-
-    elif action == "clear":
-        st.session_state.bets = {}
-        st.session_state.status = "Choose your bet and animals"
-        st.session_state.show_reveal = False
-
-    elif action == "start":
-        stake = total_bet()
-
-        if stake <= 0:
-            st.session_state.status = "⚠️ Tap an animal to place a bet first"
-        elif stake > st.session_state.balance:
-            st.session_state.status = "⚠️ Not enough coins"
-        else:
-            placed = dict(st.session_state.bets)
-            pool = [a for a in ANIMALS if a["category"] == st.session_state.jackpot_category]
-            winner = random.choice(pool)
-
-            st.session_state.balance -= stake
-
-            winning_bet = placed.get(winner["id"], 0)
-            payout = winning_bet * winner["multiplier"]
-            won = winning_bet > 0
-
-            if won:
-                st.session_state.balance += payout
-                if winner["category"] == "Land":
-                    st.session_state.land_jackpot += max(1, stake // 100)
-                else:
-                    st.session_state.ocean_jackpot += max(1, stake // 100)
-                result = f"🎉 {winner['name']} WON! +💎 {fmt(payout)}"
-            else:
-                result = f"{winner['name']} WON — no winning bet"
-
-            st.session_state.history.insert(
-                0,
-                {
-                    "round": st.session_state.round,
-                    "winner": winner,
-                    "stake": stake,
-                    "winning_bet": winning_bet,
-                    "payout": payout,
-                    "won": won,
-                },
-            )
-            st.session_state.history = st.session_state.history[:12]
-
-            st.session_state.bets = {}
-            st.session_state.winner = winner
-            st.session_state.status = result
-            st.session_state.round += 1
-            st.session_state.show_reveal = True
 
 
 # ---------------------------------------------------------------------
@@ -351,6 +250,23 @@ html, body, [data-testid="stAppViewContainer"],
     margin: 9px 5px;
 }
 
+/* Native Streamlit buttons are used for betting so taps never open a new page. */
+div.stButton > button {
+    width: 100% !important;
+    min-height: 52px !important;
+    border-radius: 14px !important;
+    border: 2px solid rgba(255,216,77,.78) !important;
+    background: linear-gradient(180deg, rgba(7,88,43,.96), rgba(2,45,24,.98)) !important;
+    color: #fff7cf !important;
+    font-weight: 800 !important;
+    box-shadow: 0 5px 14px rgba(0,0,0,.22) !important;
+    white-space: pre-line !important;
+}
+div.stButton > button:hover {
+    border-color: #ffe994 !important;
+    transform: translateY(-1px);
+}
+
 /* Animal grid */
 .kz-animals {
     position: relative;
@@ -514,6 +430,8 @@ iframe[title="streamlit.components.v1.html"] {
 
 /* Jackpot selector */
 .kz-jackpot-wrap {
+    display:none !important;
+
     position: relative;
     z-index: 2;
     margin: 15px 0 5px;
@@ -656,45 +574,93 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Jackpot selector
-land_active = "active" if st.session_state.jackpot_category == "Land" else ""
-ocean_active = "active" if st.session_state.jackpot_category == "Ocean" else ""
+# Random category is chosen automatically when a round starts.
+# There is intentionally NO jackpot selector shown to the player.
 
-st.markdown(
-    f"""
-<div class="kz-jackpot-wrap">
-  <div class="kz-jackpot-title">💰 JACKPOT</div>
-  <div class="kz-jackpots">
-    <a class="kz-jackpot {land_active}" href="?action=jackpot&value=Land">
-      <div class="kz-jackpot-icon">🌿</div>
-      <div class="kz-jackpot-name">LAND</div>
-      <div class="kz-jackpot-value">💎 {fmt(st.session_state.land_jackpot)}</div>
-      <div class="kz-jackpot-sub">Monkey • Koala • Panda • Lion</div>
-    </a>
-    <a class="kz-jackpot {ocean_active}" href="?action=jackpot&value=Ocean">
-      <div class="kz-jackpot-icon">🌊</div>
-      <div class="kz-jackpot-name">OCEAN</div>
-      <div class="kz-jackpot-value">💎 {fmt(st.session_state.ocean_jackpot)}</div>
-      <div class="kz-jackpot-sub">Fish • Crab • Jellyfish • Turtle</div>
-    </a>
-  </div>
-</div>
-""",
-    unsafe_allow_html=True,
-)
+def choose_bet(amount):
+    st.session_state.selected_bet = amount
+    st.session_state.status = f"💎 {fmt(amount)} bet selected"
+    st.session_state.show_reveal = False
 
-# Bet buttons
-st.markdown('<div class="kz-section-title">💎 CHOOSE YOUR BET</div>', unsafe_allow_html=True)
+def add_animal_bet(animal_id):
+    animal = get_animal(animal_id)
+    if not animal:
+        return
+    current = st.session_state.bets.get(animal_id, 0)
+    new_total = total_bet() + st.session_state.selected_bet
+    if new_total <= st.session_state.balance:
+        st.session_state.bets[animal_id] = current + st.session_state.selected_bet
+        st.session_state.status = (
+            f'{animal["emoji"]} {animal["name"]} • 💎 {fmt(st.session_state.bets[animal_id])}'
+        )
+        st.session_state.show_reveal = False
+    else:
+        st.session_state.status = "⚠️ Not enough coins"
 
-bet_html = '<div class="kz-bets">'
-for amount in BET_OPTIONS:
-    active = "active" if amount == st.session_state.selected_bet else ""
-    bet_html += (
-        f'<a class="kz-bet {active}" '
-        f'href="?action=bet&value={amount}">💎 {fmt(amount)}</a>'
+def clear_bets():
+    st.session_state.bets = {}
+    st.session_state.status = "Choose your bet and animals"
+    st.session_state.show_reveal = False
+
+def start_round():
+    stake = total_bet()
+    if stake <= 0:
+        st.session_state.status = "⚠️ Tap an animal to place a bet first"
+        return
+    if stake > st.session_state.balance:
+        st.session_state.status = "⚠️ Not enough coins"
+        return
+
+    placed = dict(st.session_state.bets)
+
+    # RANDOMLY choose Land or Ocean for every round.
+    category = random.choice(["Land", "Ocean"])
+    pool = [a for a in ANIMALS if a["category"] == category]
+    winner = random.choice(pool)
+
+    st.session_state.balance -= stake
+    winning_bet = placed.get(winner["id"], 0)
+    payout = winning_bet * winner["multiplier"]
+    won = winning_bet > 0
+
+    if won:
+        st.session_state.balance += payout
+        result = f"🎉 {winner['name']} WON! +💎 {fmt(payout)}"
+    else:
+        result = f"{winner['name']} WON — no winning bet"
+
+    st.session_state.history.insert(
+        0,
+        {
+            "round": st.session_state.round,
+            "winner": winner,
+            "category": category,
+            "stake": stake,
+            "winning_bet": winning_bet,
+            "payout": payout,
+            "won": won,
+        },
     )
-bet_html += "</div>"
-st.markdown(bet_html, unsafe_allow_html=True)
+    st.session_state.history = st.session_state.history[:12]
+    st.session_state.bets = {}
+    st.session_state.winner = winner
+    st.session_state.status = result
+    st.session_state.round += 1
+    st.session_state.show_reveal = True
+
+# Bet buttons — native Streamlit buttons keep the user on the same page.
+st.markdown('<div class="kz-section-title">💎 CHOOSE YOUR BET</div>', unsafe_allow_html=True)
+bet_cols = st.columns(4, gap="small")
+for col, amount in zip(bet_cols, BET_OPTIONS):
+    with col:
+        label = f"💎 {fmt(amount)}" + (" ✓" if amount == st.session_state.selected_bet else "")
+        st.button(
+            label,
+            key=f"bet_{amount}",
+            use_container_width=True,
+            on_click=choose_bet,
+            args=(amount,),
+        )
 
 st.markdown(
     f"""
@@ -706,35 +672,41 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Animal cards
+# Animal cards — the entire visible button/card is clickable and adds the selected bet.
 st.markdown('<div class="kz-section-title">🐾 TAP AN ANIMAL TO BET</div>', unsafe_allow_html=True)
-
-animal_html = '<div class="kz-animals">'
-for animal in ANIMALS:
-    amount = st.session_state.bets.get(animal["id"], 0)
-    active = "hasbet" if amount else ""
-    animal_html += f"""
-<a class="kz-animal {active}" href="?action=animal&value={animal['id']}">
-  <div class="kz-animal-emoji">{animal['emoji']}</div>
-  <div class="kz-animal-name">{animal['name']}</div>
-  <div class="kz-multi">x{animal['multiplier']}</div>
-  <div class="kz-amount">💎 {fmt(amount)}</div>
-  <div class="kz-add">TAP +💎 {fmt(st.session_state.selected_bet)}</div>
-</a>
-"""
-animal_html += "</div>"
-st.markdown(animal_html, unsafe_allow_html=True)
+animal_cols = st.columns(4, gap="small")
+for index, animal in enumerate(ANIMALS):
+    with animal_cols[index % 4]:
+        amount = st.session_state.bets.get(animal["id"], 0)
+        label = (
+            f"{animal['emoji']}\n{animal['name']}  x{animal['multiplier']}\n"
+            f"💎 {fmt(amount)}\n"
+            f"TAP +💎 {fmt(st.session_state.selected_bet)}"
+        )
+        st.button(
+            label,
+            key=f"animal_{animal['id']}",
+            use_container_width=True,
+            on_click=add_animal_bet,
+            args=(animal["id"],),
+        )
 
 # Actions
-st.markdown(
-    """
-<div class="kz-actions">
-  <a class="kz-action kz-start" href="?action=start">▶ START ROUND</a>
-  <a class="kz-action kz-clear" href="?action=clear">CLEAR</a>
-</div>
-""",
-    unsafe_allow_html=True,
-)
+action_cols = st.columns([3, 1], gap="small")
+with action_cols[0]:
+    st.button(
+        "▶ START ROUND",
+        key="start_round",
+        use_container_width=True,
+        on_click=start_round,
+    )
+with action_cols[1]:
+    st.button(
+        "CLEAR",
+        key="clear_bets",
+        use_container_width=True,
+        on_click=clear_bets,
+    )
 
 # Flashing winner animation.
 # Winner is already selected server-side. The browser only reveals it through
